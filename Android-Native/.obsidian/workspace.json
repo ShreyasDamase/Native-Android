@@ -1,0 +1,235 @@
+{
+  "main": {
+    "id": "4a8b426918fe7b40",
+    "type": "split",
+    "children": [
+      {
+        "id": "5741a452916ced57",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6bbb1c0b0f495127",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/ButtonOverview.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "ButtonOverview"
+            }
+          },
+          {
+            "id": "e6552ea36e468e5f",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "6fe68af0c0de0174",
+    "type": "split",
+    "children": [
+      {
+        "id": "bb61b010b699ed58",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6bcd4be369650154",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "cd3e994fa4a49967",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "tag:#Button",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "d44915c8a190fe0b",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "1ac6b40125173d0f",
+    "type": "split",
+    "children": [
+      {
+        "id": "c208c8a138300951",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cf8f9010d5de09c8",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": true,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": true,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "3b6843592cbe14a1",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "95f55f366ca6574c",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "3910a1ad9e50dd4c",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          },
+          {
+            "id": "7c23c0002f92ae06",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {},
+              "icon": "calendar-with-checkmark",
+              "title": "Calendar"
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "audio-recorder:Start/stop recording": false,
+      "workspaces:Manage workspace layouts": false,
+      "templater-obsidian:Templater": false,
+      "obsidian-kanban:Create new board": false
+    }
+  },
+  "active": "e6552ea36e468e5f",
+  "lastOpenFiles": [
+    "JetPack Compose.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/Button-Variants.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/ButtonOverview.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/TextButton.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/OutlinedButton.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/IconButton.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/FloatingActionButton.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/FilledTonalButton.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/ElevatedButton.md",
+    "Native Android/JetPack Compose/02-State-Management/02.1-Core-State/remember-mutableStateOf.md",
+    "Templates/Untitled.md",
+    "Native Android/JetPack Compose/02-State-Management/02.1-Core-State/02.1-Core-StateOverView.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Switch/SwitchOverview.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Switch/Switch-Component.md",
+    "Switch-Styling.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/03.2-Core-ComponentsOverview.md",
+    "Native Android/JetPack Compose/03-Layout-System/03-Layout-SysteOverview.md",
+    "Native Android/JetPack Compose/JetPack ComposeOverview.md",
+    "Native Android/JetPack Compose/01-Fundamentals/01-FundamentalsoverView.md",
+    "Native Android/JetPack Compose/01-Fundamentals/01.2-Composable-Functions/01.2-Composable-FunctionsOverview.md",
+    "Native Android/JetPack Compose/01-Fundamentals/01.1-Architecture/01.1-ArchitectureOverview.md",
+    "Native Android/JetPack Compose/02-State-Management/02-State-ManagementOverview.md",
+    "Native Android/JetPack Compose/02-State-Management/02.2-Side-Effects/snapshotFlow.md",
+    "Native Android/JetPack Compose/02-State-Management/02.2-Side-Effects/02.2-Side-EffectsOverview.md",
+    "Native Android/JetPack Compose/02-State-Management/02.2-Side-Effects/SideEffect-produceState.md",
+    "Native Android/JetPack Compose/02-State-Management/02.2-Side-Effects/rememberCoroutineScope.md",
+    "Native Android/JetPack Compose/02-State-Management/02.1-Core-State",
+    "Native Android/JetPack Compose/Core components/desktop.ini",
+    "Native Android/JetPack Compose/Core components/Core components/MaterialTheme",
+    "Native Android/JetPack Compose/Core components/Core components",
+    "Native Android/JetPack Compose/Core components",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/MaterialTheme",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Scaffold",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/TopAppBar/Untitled",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/TopAppBar",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Spacer",
+    "Untitled 1.canvas",
+    "Untitled.canvas"
+  ]
+}
