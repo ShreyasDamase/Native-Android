@@ -25,10 +25,28 @@
             "id": "e6552ea36e468e5f",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/Scaffold-Layout-Structure.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Scaffold-Layout-Structure"
+            }
+          },
+          {
+            "id": "0d912ed4c79e0e73",
+            "type": "leaf",
+            "state": {
+              "type": "webviewer",
+              "state": {
+                "url": "https://developer.android.com/develop/ui/compose/architecture",
+                "title": "Architecting your Compose UI  |  Jetpack Compose  |  Android Developers",
+                "mode": "webview"
+              },
+              "icon": "globe-2",
+              "title": "Architecting your Compose UI  |  Jetpack Compose  |  Android Developers"
             }
           }
         ],
@@ -89,7 +107,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 339.5
   },
   "right": {
     "id": "1ac6b40125173d0f",
@@ -151,12 +169,13 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/Scaffold-Layout-Structure.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of Scaffold-Layout-Structure"
             }
           },
           {
@@ -170,7 +189,7 @@
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -181,44 +200,44 @@
     "hiddenItems": {
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
-      "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "audio-recorder:Start/stop recording": false,
       "workspaces:Manage workspace layouts": false,
-      "templater-obsidian:Templater": false,
-      "obsidian-kanban:Create new board": false
+      "obsidian-kanban:Create new board": false,
+      "canvas:Create new canvas": false
     }
   },
   "active": "e6552ea36e468e5f",
   "lastOpenFiles": [
-    "JetPack Compose.md",
-    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/Button-Variants.md",
-    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/ButtonOverview.md",
-    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/TextButton.md",
-    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/OutlinedButton.md",
-    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/IconButton.md",
-    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/FloatingActionButton.md",
-    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/FilledTonalButton.md",
-    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/ElevatedButton.md",
-    "Native Android/JetPack Compose/02-State-Management/02.1-Core-State/remember-mutableStateOf.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/Responsibleness.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/EasyRememberNotes.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/Alignment-Arrangement.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/ConstraintLayout-Compose.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/Column-Row-Box-Layouts.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/LazyColumn-LazyRow.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/Scaffold-Layout-Structure.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/Modifier-System-Deep-Dive.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/03.1-Foundation-LayoutsOverview.md",
+    "Native Android/JetPack Compose/🚀 00-Getting-Started/First-Composable-Function.md",
+    "Native Android/JetPack Compose/🚀 00-Getting-Started/Why-Compose-vs-XML-Views.md",
+    "Native Android/JetPack Compose/🚀 00-Getting-Started/Android-Studio-Setup-for-Compose.md",
+    "Native Android/JetPack Compose/🚀 00-Getting-Started/Compose-Project-Structure.md",
+    "Native Android/JetPack Compose/🚀 00-Getting-Started/Preview-Functions-Live-Editing.md",
+    "Untitled.canvas",
     "Templates/Untitled.md",
-    "Native Android/JetPack Compose/02-State-Management/02.1-Core-State/02.1-Core-StateOverView.md",
-    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Switch/SwitchOverview.md",
-    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Switch/Switch-Component.md",
-    "Switch-Styling.md",
-    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/03.2-Core-ComponentsOverview.md",
+    "Untitled Kanban.md",
+    "Native Android/JetPack Compose/🚀 00-Getting-Started/00-Getting-StartedOverview.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/ElevatedButton.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/ButtonOverview.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/Button-Variants.md",
     "Native Android/JetPack Compose/03-Layout-System/03-Layout-SysteOverview.md",
-    "Native Android/JetPack Compose/JetPack ComposeOverview.md",
-    "Native Android/JetPack Compose/01-Fundamentals/01-FundamentalsoverView.md",
-    "Native Android/JetPack Compose/01-Fundamentals/01.2-Composable-Functions/01.2-Composable-FunctionsOverview.md",
-    "Native Android/JetPack Compose/01-Fundamentals/01.1-Architecture/01.1-ArchitectureOverview.md",
-    "Native Android/JetPack Compose/02-State-Management/02-State-ManagementOverview.md",
-    "Native Android/JetPack Compose/02-State-Management/02.2-Side-Effects/snapshotFlow.md",
-    "Native Android/JetPack Compose/02-State-Management/02.2-Side-Effects/02.2-Side-EffectsOverview.md",
+    "Native Android/JetPack Compose/02-State-Management/02.1-Core-State/Flow-with-Compose.md",
+    "Native Android/JetPack Compose/02-State-Management/02.1-Core-State/derivedStateOf-Computed-State.md",
     "Native Android/JetPack Compose/02-State-Management/02.2-Side-Effects/SideEffect-produceState.md",
     "Native Android/JetPack Compose/02-State-Management/02.2-Side-Effects/rememberCoroutineScope.md",
+    "Native Android/JetPack Compose/02-State-Management/02.2-Side-Effects/02.2-Side-EffectsOverview.md",
     "Native Android/JetPack Compose/02-State-Management/02.1-Core-State",
     "Native Android/JetPack Compose/Core components/desktop.ini",
     "Native Android/JetPack Compose/Core components/Core components/MaterialTheme",
@@ -229,7 +248,6 @@
     "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/TopAppBar/Untitled",
     "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/TopAppBar",
     "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Spacer",
-    "Untitled 1.canvas",
-    "Untitled.canvas"
+    "Untitled 1.canvas"
   ]
 }

@@ -2,5 +2,6 @@
   "promptDelete": true,
   "newFileLocation": "current",
   "alwaysUpdateLinks": true,
-  "trashOption": "local"
+  "trashOption": "local",
+  "readableLineLength": false
 }
