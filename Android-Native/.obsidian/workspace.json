@@ -8,49 +8,20 @@
         "type": "tabs",
         "children": [
           {
-            "id": "6bbb1c0b0f495127",
+            "id": "f539293bc63f2c0f",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/ButtonOverview.md",
+                "file": "Native Android/Errors/Networking/OkHttp Errors.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ButtonOverview"
-            }
-          },
-          {
-            "id": "e6552ea36e468e5f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/Scaffold-Layout-Structure.md",
-                "mode": "preview",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Scaffold-Layout-Structure"
-            }
-          },
-          {
-            "id": "0d912ed4c79e0e73",
-            "type": "leaf",
-            "state": {
-              "type": "webviewer",
-              "state": {
-                "url": "https://developer.android.com/develop/ui/compose/architecture",
-                "title": "Architecting your Compose UI  |  Jetpack Compose  |  Android Developers",
-                "mode": "webview"
-              },
-              "icon": "globe-2",
-              "title": "Architecting your Compose UI  |  Jetpack Compose  |  Android Developers"
+              "title": "OkHttp Errors"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -82,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#Button",
+                "query": "\"**Composition Principles\"",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -169,13 +140,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/Scaffold-Layout-Structure.md",
+                "file": "Native Android/JetPack Compose/01-Fundamentals/0.1.3-How To access deferent Assets.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Scaffold-Layout-Structure"
+              "title": "Outline of 0.1.3-How To access deferent Assets"
             }
           },
           {
@@ -209,45 +180,49 @@
       "canvas:Create new canvas": false
     }
   },
-  "active": "e6552ea36e468e5f",
+  "active": "f539293bc63f2c0f",
   "lastOpenFiles": [
-    "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/Responsibleness.md",
-    "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/EasyRememberNotes.md",
-    "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/Alignment-Arrangement.md",
+    "Native Android/Errors/Networking/Networking-Index.md",
+    "Native Android/Errors/Networking/OkHttp Errors.md",
+    "Native Android/Errors/System/SystemIndex.md.md",
+    "Native Android/Errors/System/Storage Permission.md",
+    "Native Android/Errors/System/Internet Permission.md",
+    "Native Android/Errors/00_Android_Errors_Index.md.md",
+    "Native Android/Errors/System",
+    "Native Android/Errors/Database",
+    "Native Android/Errors/Background",
+    "Native Android/Errors/UI",
+    "Native Android/Errors/Networking",
+    "Native Android/Errors/Intent_Flags",
+    "Pasted image 20250727231351.png",
+    "Native Android/Errors",
+    "Pasted image 20250727231349.png",
+    "Pasted image 20250727231346.png",
+    "Pasted image 20250727231340.png",
+    "Master Composable Functions.pdf",
     "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/ConstraintLayout-Compose.md",
-    "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/Column-Row-Box-Layouts.md",
     "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/LazyColumn-LazyRow.md",
-    "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/Scaffold-Layout-Structure.md",
     "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/Modifier-System-Deep-Dive.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/Scaffold-Layout-Structure.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/Responsibleness.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Text/SelectionContainer.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Text/AnnotatedString.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Text/TEXT-Component.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Text/TextOverview.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Text/Typography-System.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/EasyRememberNotes.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/Column-Row-Box-Layouts.md",
+    "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/Alignment-Arrangement.md",
     "Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/03.1-Foundation-LayoutsOverview.md",
-    "Native Android/JetPack Compose/🚀 00-Getting-Started/First-Composable-Function.md",
-    "Native Android/JetPack Compose/🚀 00-Getting-Started/Why-Compose-vs-XML-Views.md",
-    "Native Android/JetPack Compose/🚀 00-Getting-Started/Android-Studio-Setup-for-Compose.md",
-    "Native Android/JetPack Compose/🚀 00-Getting-Started/Compose-Project-Structure.md",
-    "Native Android/JetPack Compose/🚀 00-Getting-Started/Preview-Functions-Live-Editing.md",
+    "Native Android/JetPack Compose/01-Fundamentals/0.1.3-How To access deferent Assets.md",
+    "Native Android/JetPack Compose/01-Fundamentals/01-FundamentalsoverView.md",
+    "JavaScript/Master Composable Functions.md",
+    "Native Android/JetPack Compose/01-Fundamentals/test.md",
     "Untitled.canvas",
-    "Templates/Untitled.md",
-    "Untitled Kanban.md",
-    "Native Android/JetPack Compose/🚀 00-Getting-Started/00-Getting-StartedOverview.md",
-    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/ElevatedButton.md",
     "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/ButtonOverview.md",
-    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Button/Button-Variants.md",
-    "Native Android/JetPack Compose/03-Layout-System/03-Layout-SysteOverview.md",
-    "Native Android/JetPack Compose/02-State-Management/02.1-Core-State/Flow-with-Compose.md",
-    "Native Android/JetPack Compose/02-State-Management/02.1-Core-State/derivedStateOf-Computed-State.md",
-    "Native Android/JetPack Compose/02-State-Management/02.2-Side-Effects/SideEffect-produceState.md",
-    "Native Android/JetPack Compose/02-State-Management/02.2-Side-Effects/rememberCoroutineScope.md",
-    "Native Android/JetPack Compose/02-State-Management/02.2-Side-Effects/02.2-Side-EffectsOverview.md",
+    "Daily/2025-07-26.md",
+    "JavaScript",
     "Native Android/JetPack Compose/02-State-Management/02.1-Core-State",
-    "Native Android/JetPack Compose/Core components/desktop.ini",
-    "Native Android/JetPack Compose/Core components/Core components/MaterialTheme",
-    "Native Android/JetPack Compose/Core components/Core components",
-    "Native Android/JetPack Compose/Core components",
-    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/MaterialTheme",
-    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Scaffold",
-    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/TopAppBar/Untitled",
-    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/TopAppBar",
-    "Native Android/JetPack Compose/03-Layout-System/03.2-Core-Components/Spacer",
     "Untitled 1.canvas"
   ]
 }
