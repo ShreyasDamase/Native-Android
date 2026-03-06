@@ -1,0 +1,52 @@
+{
+  "cascadeColors": false,
+  "colorBackground": false,
+  "palette": [
+    {
+      "id": "ua1UgqdYrWQQakVNXV9kO",
+      "name": "",
+      "value": "#ff0000"
+    },
+    {
+      "id": "9EYCBAlAKDTeOKcyKoLn0",
+      "name": "",
+      "value": "#0f5c00"
+    },
+    {
+      "id": "5GJXuUNj2qq6_mq11sers",
+      "name": "",
+      "value": "#dbd400"
+    },
+    {
+      "id": "tO079mvZfyNAWbTtEHrYs",
+      "name": "",
+      "value": "#ffffff"
+    },
+    {
+      "id": "oaygtHlj7y7vVfLSViT6K",
+      "name": "",
+      "value": "#1b02d4"
+    },
+    {
+      "id": "aWFLXmGTpYrqHIbA6pz3q",
+      "name": "",
+      "value": "#e20aff"
+    },
+    {
+      "id": "v3RQTfwvKnaNuxCafd0xw",
+      "name": "",
+      "value": "#710af0"
+    },
+    {
+      "id": "FeMmSX1UykSvigCOEsPrq",
+      "name": "",
+      "value": "#00ff2a"
+    }
+  ],
+  "fileColors": [
+    {
+      "path": "Android-Native/Native Android/JetPack Compose/02-State-Management/DI/hiltt-notes.md",
+      "color": "v3RQTfwvKnaNuxCafd0xw"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-1. **var / let / const**.
+f1. **var / let / const**.
  
 ---
 ---
@@ -446,7 +446,7 @@ function User(name) {
 const u = new User("Alice");
 ```
 
-### Callback Function
+	### Callback Function
 
 ```js
 function greet(cb) {

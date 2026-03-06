@@ -1,0 +1,26 @@
+{
+  "palette": {
+    "seed": 0,
+    "selected": "adaptive-soft",
+    "custom": "e12729-f37324-f8cc1b-72b043-007f4e"
+  },
+  "mixColors": true,
+  "transition": true,
+  "accessibility": {
+    "highTextContrast": true
+  },
+  "knownTags": {
+    "android": 1,
+    "compose": 2,
+    "error": 3,
+    "internet": 4,
+    "jetpackmain": 5,
+    "networking": 6,
+    "okhttp": 7,
+    "permissions": 8,
+    "securityexception": 9,
+    "setcontentbasedsource": 10
+  },
+  "tagColors": {},
+  "_version": 4
+}
