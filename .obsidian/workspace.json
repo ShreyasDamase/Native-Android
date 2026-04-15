@@ -4,39 +4,67 @@
     "type": "split",
     "children": [
       {
-        "id": "5ea1563d1d07ffbe",
+        "id": "1be2c68b2f085066",
         "type": "tabs",
         "children": [
           {
-            "id": "39641eaa22932620",
+            "id": "777e37fe69cd78fb",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Android-Native/Native Android/JetPack Compose/01-Fundamentals/01.1-Architecture/Android Jetpack Compose — Folder Structure Reference.md",
+                "file": "Android-Native/Native Android/JetPack Compose/02-State-Management/02.1-Core-State/states/Compose State Fundamentals.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Compose State Fundamentals"
+            }
+          },
+          {
+            "id": "9cb59949a87a353a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "DSA/Notes/chit table.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Android Jetpack Compose — Folder Structure Reference"
+              "title": "chit table"
             }
           },
           {
-            "id": "7d5ac30485ac30e4",
+            "id": "27543f8398ef88a1",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Android-Native/Native Android/JetPack Compose/Storage/# Room Database.md",
-                "mode": "preview",
+                "file": "Android-Native/Native Android/Storage/# Room Database.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
               "title": "# Room Database"
             }
+          },
+          {
+            "id": "0bf7ec1a47abab9e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Android-Native/Native Android/JetPack Compose/02-State-Management/DI/KSP HILT ROOM.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "KSP HILT ROOM"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -93,7 +121,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 417.5
+    "width": 301.500732421875
   },
   "right": {
     "id": "c63af25f850b8f88",
@@ -109,7 +137,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Android-Native/Native Android/JetPack Compose/🚀 00-Getting-Started/Why-Compose-vs-XML-Views.md",
+                "file": "Android-Native/study-book copy/chapters/01-what-this-repository-really-is.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -119,7 +147,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Why-Compose-vs-XML-Views"
+              "title": "Backlinks for 01-what-this-repository-really-is"
             }
           },
           {
@@ -184,46 +212,48 @@
       "bases:Create new base": false
     }
   },
-  "active": "7d5ac30485ac30e4",
+  "active": "0bf7ec1a47abab9e",
   "lastOpenFiles": [
-    "Android-Native/Native Android/JetPack Compose/Storage/Room FireDB.md",
-    "Android-Native/Native Android/JetPack Compose/Storage/# Room Database.md",
+    "Android-Native/Native Android/JetPack Compose/02-State-Management/DI/Untitled.md",
+    "Android-Native/Native Android/JetPack Compose/02-State-Management/DI/KSP HILT ROOM.md",
     "Android-Native/Native Android/JetPack Compose/02-State-Management/DI/hilt-2-notes.md",
     "Android-Native/Native Android/JetPack Compose/02-State-Management/DI/hiltt-notes.md",
     "Android-Native/Native Android/JetPack Compose/02-State-Management/DI/Dagger hilt.md",
-    "Android-Native/Native Android/JetPack Compose/Network/Retrofit.md",
-    "Android-Native/Native Android/JetPack Compose/Storage",
-    "Android-Native/Native Android/JetPack Compose/Network",
     "Android-Native/Native Android/JetPack Compose/01-Fundamentals/01.1-Architecture/Android Jetpack Compose — Folder Structure Reference.md",
-    "Android-Native/Native Android/JetPack Compose/01-Fundamentals/01.1-Architecture/Thinking-in-Compose-Mental-Model.md",
-    "readable-width.css",
-    "Android-Native/Native Android/JetPack Compose/01-Fundamentals/01.1-Architecture/Declarative-vs-Imperative-UI.md",
-    "Android-Native/Native Android/JetPack Compose/01-Fundamentals/01.1-Architecture/Compose-Layered-Architecture.md",
-    "Android-Native/Native Android/JetPack Compose/01-Fundamentals/01.1-Architecture/Compose-Compiler-Runtime.md",
     "Android-Native/Native Android/JetPack Compose/01-Fundamentals/01.1-Architecture/01.1-ArchitectureOverview.md",
+    "Android-Native/Native Android/Storage/# Room Database.md",
+    "Android-Native/Native Android/Storage/SharedPreferences.md",
+    "Android-Native/Native Android/Storage/Finance tracker.md",
+    "Android-Native/Native Android/Storage/Room FireDB.md",
+    "Android-Native/Native Android/Storage/DataStore.md",
+    "Android-Native/Native Android/JetPack Compose/02-State-Management/02.1-Core-State/states/Compose State Fundamentals.md",
+    "DSA/Notes/chit table.md",
+    "DSA/Notes/DSA Lang.md",
+    "DSA/Notes/kotlin_collections_complete.md",
+    "Springboot/Chapter 10 — Testing- Unit Tests, Integration Tests & Confidence.md",
+    "Springboot/Chapter 8 — The Web Crawler.md",
+    "Springboot/Chapter 7 — RabbitMQ-Async Processing & Notifications.md",
+    "Springboot/Chapter 6 — Redis - Caching, Counters & Speed.md",
+    "Springboot/Chapter 5 — Spring Security & JWT.md",
+    "Springboot/Chapter 4 — REST Controllers, Validation & Error Handling.md",
+    "Springboot/Chapter 3 — Repositories and Queries.md",
+    "Springboot/Chapter 2 — JPA, Entities & Flyway.md",
+    "Springboot/microservices/Note3.md",
+    "Springboot/microservices/note2.md",
+    "Android-Native/Native Android/JetPack Compose/02-State-Management/02.1-Core-State/states",
+    "DSA/Problems",
+    "DSA/Notes",
     "Untitled 1.base",
-    "Android_Jetpack_Flow_StudyNotes.md",
-    "2026-03-04.md",
-    "Pasted image 20260304075342.png",
-    "UI.md",
-    "Untitled 1.canvas",
-    "Untitled 3.base",
-    "Untitled 2.base",
-    "Untitled 4.base",
     "Untitled.canvas",
-    "Untitled.base",
-    "Android-Native/Native Android/JetPack Compose/Projects/Complete Knowledge Roadmap — P2P WiFi Communication App.md",
-    "Android-Native/Native Android/JetPack Compose/Projects/Link vault.md",
-    "Android-Native/Native Android/JetPack Compose/UI guides/Theming guide/📘 Jetpack Compose Design Tokens (Figma Token Studio) — Deep Notes.md",
-    "Android-Native/Native Android/JetPack Compose/UI guides/Theming guide/Untitled.md",
-    "Android-Native/Native Android/JetPack Compose/JetPack ComposeOverview.md",
-    "Android-Native/Master Composable Functions.pdf",
-    "Android-Native/Modern Android & iOS Development Learning Checklist.md",
-    "Android-Native/Native Android/SOLID.md",
-    "Android-Native/Native Android/Jetpack Compose Project Structure Guide.md",
-    "Android-Native/Native Android/JetPack Compose/Projects/codepet.md",
-    "Android-Native/Native Android/JetPack Compose/🏔️ Goal.md",
-    "Android-Native/Native Android/TODO/Jetpack Compose Learning Roadmap & Tracker.md",
+    "Android-Native/study-book copy/chapters",
+    "Android-Native/study-book copy/appendices",
+    "Android-Native/study-book copy",
+    "DSA",
+    "Android-Native/Native Android/Projects/Hire story",
+    "Android-Native/Native Android/Android Basis/MainActivity.canvas",
+    "Springboot/microservices",
+    "Pasted image 20260304075342.png",
+    "Untitled 1.canvas",
     "Android-Native/docs/components/assets/badge/large-badge-hero.png",
     "Android-Native/docs/components/assets/badge/badges-anatomy.png",
     "Android-Native/docs/adaptive/assets/canonical_layouts/list_view_landscape.png",
@@ -233,8 +263,6 @@
     "Android-Native/docs/adaptive/assets/canonical_layouts/supporting_panel_portrait.png",
     "Android-Native/docs/adaptive/assets/canonical_layouts/supporting_panel_landscape.png",
     "Android-Native/docs/adaptive/assets/canonical_layouts/list_view_portrait.png",
-    "Android-Native/docs/adaptive/assets/canonical_layouts",
-    "Android-Native/Native Android/Android Basis/MainActivity.canvas",
     "Android-Native/Untitled.canvas"
   ]
 }
