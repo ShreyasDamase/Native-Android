@@ -1,4 +1,4 @@
-# Hilt Dependency Injection — Exhaustive Mastery Guide
+		# Hilt Dependency Injection — Exhaustive Mastery Guide
 ### Every Concept. Every Example. Every Error. Root-First.
 
 ---
@@ -462,7 +462,7 @@ class MyApplication : Application() {
 - All the generated factory classes
 - The base application class that connects to Hilt
 
-**Without `@HiltAndroidApp`:**
+Without `@HiltAndroidApp`:*
 - Nothing works
 - All `@Inject` fields will crash with `UninitializedPropertyAccessException`
 - You'll get compile errors everywhere
