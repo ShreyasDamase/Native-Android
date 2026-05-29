@@ -1926,6 +1926,16 @@ Third-party SDK uses SharedPreferences:
 - You want proper error handling
 - You need reactive UI updates
 
+### Kotlin Multiplatform (KMP) Support in DataStore
+
+Starting with modern releases, Jetpack DataStore officially supports Kotlin Multiplatform (KMP). 
+
+*   **Platform Unification:** You can write a single key-value preferences class in `commonMain` that compiles and runs on Android, iOS, and Desktop.
+*   **Storage Backends:**
+    *   **Android:** Persists data inside the application sandbox database folders.
+    *   **iOS:** Leverages Kotlin/Native and Okio to write preferences to the iOS Document Directory, completely eliminating the need to write custom Swift/Kotlin bridges to `UserDefaults`.
+*   **Reactive Flow:** Exposes data reactively using standard `Flow<Preferences>` in shared common repositories.
+
 ---
 
 ## Chapter 27: Migrating From SharedPreferences to DataStore

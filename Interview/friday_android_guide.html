@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FRIDAY — Android Mission Briefing | Stark Industries</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #e63946;
+    --gold: #f4a500;
+    --gold-dim: #a36e00;
+    --dark: #050810;
+    --panel: #090e1a;
+    --panel2: #0c1220;
+    --blue-glow: #1a3a6e;
+    --text: #c9d6f0;
+    --text-dim: #5a6a8a;
+    --border: #1e2d4a;
+    --green: #00f5a0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* Scanline overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.07) 2px,
+      rgba(0,0,0,0.07) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* Grid background */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image:
+      linear-gradient(rgba(26,58,110,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26,58,110,0.08) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  .hud-header {
+    position: relative;
+    padding: 40px 60px 30px;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .hud-header::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--red), transparent);
+    animation: scanH 3s ease-in-out infinite;
+  }
+
+  @keyframes scanH {
+    0%, 100% { opacity: 0.3; transform: scaleX(0.7); }
+    50% { opacity: 1; transform: scaleX(1); }
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .stark-logo {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: var(--gold);
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+  .status-bar {
+    display: flex;
+    gap: 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+
+  .status-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    margin-right: 5px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 4px var(--green); }
+    50% { opacity: 0.3; box-shadow: none; }
+  }
+
+  .mission-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: clamp(22px, 4vw, 42px);
+    letter-spacing: 4px;
+    margin-top: 20px;
+    line-height: 1.2;
+  }
+
+  .mission-title span.red { color: var(--red); }
+  .mission-title span.gold { color: var(--gold); }
+
+  .subtitle {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-top: 8px;
+    letter-spacing: 2px;
+  }
+
+  .friday-quote {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--gold);
+    margin-top: 16px;
+    padding: 10px 16px;
+    border-left: 2px solid var(--gold);
+    background: rgba(244,165,0,0.05);
+    max-width: 700px;
+    opacity: 0;
+    animation: fadeIn 1s ease 0.5s forwards;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  /* ── LAYOUT ── */
+  .main {
+    position: relative;
+    z-index: 1;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 40px 40px 80px;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .sec-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    margin-top: 50px;
+  }
+
+  .sec-number {
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--red);
+    letter-spacing: 2px;
+    border: 1px solid var(--red);
+    padding: 3px 8px;
+    opacity: 0.8;
+  }
+
+  .sec-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .sec-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold-dim), transparent);
+  }
+
+  /* ── GRID LAYOUTS ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .grid-auto { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+
+  @media (max-width: 800px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .main { padding: 20px 20px 60px; }
+    .hud-header { padding: 24px; }
+  }
+
+  /* ── PANELS ── */
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 22px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .panel:hover {
+    border-color: var(--gold-dim);
+    box-shadow: 0 0 20px rgba(244,165,0,0.08);
+  }
+
+  .panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--red);
+  }
+
+  .panel.gold::before { background: var(--gold); }
+  .panel.green::before { background: var(--green); }
+  .panel.blue::before { background: #4a9eff; }
+
+  .panel-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .panel-title .icon { font-size: 14px; }
+
+  /* ── TOPIC CARDS ── */
+  .topic-card {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    padding: 20px;
+    position: relative;
+    transition: all 0.3s;
+    cursor: default;
+  }
+
+  .topic-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--red);
+    box-shadow: 0 4px 24px rgba(230,57,70,0.15);
+  }
+
+  .topic-card .priority-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 3px 7px;
+    border: 1px solid;
+  }
+
+  .priority-badge.critical { color: var(--red); border-color: var(--red); background: rgba(230,57,70,0.1); }
+  .priority-badge.high { color: var(--gold); border-color: var(--gold); background: rgba(244,165,0,0.1); }
+  .priority-badge.medium { color: #4a9eff; border-color: #4a9eff; background: rgba(74,158,255,0.1); }
+  .priority-badge.standard { color: var(--green); border-color: var(--green); background: rgba(0,245,160,0.08); }
+
+  .topic-card h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--text);
+    margin-bottom: 10px;
+    padding-right: 80px;
+  }
+
+  .topic-card p {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    padding: 2px 8px;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    letter-spacing: 1px;
+  }
+
+  .tag.hot { border-color: var(--red); color: var(--red); }
+  .tag.warm { border-color: var(--gold); color: var(--gold); }
+
+  /* ── SCORE BAR ── */
+  .score-bar-wrap {
+    margin-top: 12px;
+  }
+
+  .score-label {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-bottom: 5px;
+  }
+
+  .score-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .score-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 1.5s cubic-bezier(0.4,0,0.2,1);
+    width: 0;
+  }
+
+  .score-fill.critical { background: linear-gradient(90deg, var(--red), #ff6b6b); }
+  .score-fill.high { background: linear-gradient(90deg, var(--gold), #ffd700); }
+  .score-fill.medium { background: linear-gradient(90deg, #4a9eff, #74b9ff); }
+  .score-fill.standard { background: linear-gradient(90deg, var(--green), #55efc4); }
+
+  /* ── CODE BLOCKS ── */
+  .code-block {
+    background: #020509;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    padding: 16px 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: #a8c7fa;
+    line-height: 1.8;
+    overflow-x: auto;
+    margin: 10px 0;
+  }
+
+  .code-block .kw { color: #ff7eb6; }
+  .code-block .fn { color: var(--gold); }
+  .code-block .cm { color: var(--text-dim); }
+  .code-block .str { color: var(--green); }
+  .code-block .ann { color: #f4a500; }
+
+  /* ── CHECKLIST ── */
+  .checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 10px 14px;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .checklist li:hover { border-color: var(--gold-dim); }
+
+  .checklist li.done {
+    opacity: 0.5;
+    text-decoration: line-through;
+    border-color: var(--border);
+  }
+
+  .check-box {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--gold);
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--gold);
+    transition: all 0.2s;
+  }
+
+  .checklist li.done .check-box {
+    background: rgba(0,245,160,0.2);
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  /* ── COMPANY GRID ── */
+  .company-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    text-align: center;
+    transition: all 0.3s;
+    gap: 8px;
+    cursor: default;
+  }
+
+  .company-badge:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  }
+
+  .company-badge .co-icon { font-size: 22px; }
+  .company-badge .co-name {
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--text);
+  }
+  .company-badge .co-focus {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* ── THREAT DISPLAY ── */
+  .threat-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    margin-bottom: 8px;
+    transition: all 0.2s;
+  }
+
+  .threat-row:hover { border-color: var(--red); }
+
+  .threat-name {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+    width: 220px;
+    flex-shrink: 0;
+  }
+
+  .threat-bar-wrap { flex: 1; }
+
+  .threat-score {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold);
+    width: 40px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 24px;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, var(--red), var(--gold), var(--green));
+  }
+
+  .tl-item {
+    display: flex;
+    gap: 24px;
+    padding: 16px 0 16px 64px;
+    position: relative;
+  }
+
+  .tl-dot {
+    position: absolute;
+    left: 17px;
+    top: 22px;
+    width: 15px; height: 15px;
+    border: 2px solid var(--gold);
+    background: var(--dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 7px;
+    font-family: 'Orbitron', monospace;
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  .tl-content {
+    flex: 1;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    padding: 16px;
+  }
+
+  .tl-week {
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--red);
+    margin-bottom: 6px;
+  }
+
+  .tl-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .tl-tasks {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .tl-tasks li {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    padding-left: 14px;
+    position: relative;
+  }
+
+  .tl-tasks li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+  }
+
+  /* ── ALERT BOXES ── */
+  .alert {
+    padding: 14px 18px;
+    border: 1px solid;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 8px 0;
+    position: relative;
+  }
+
+  .alert.danger { border-color: var(--red); color: var(--red); background: rgba(230,57,70,0.07); }
+  .alert.warning { border-color: var(--gold); color: var(--gold); background: rgba(244,165,0,0.07); }
+  .alert.success { border-color: var(--green); color: var(--green); background: rgba(0,245,160,0.07); }
+
+  .alert::before {
+    font-weight: 700;
+    margin-right: 10px;
+  }
+
+  .alert.danger::before { content: '⚠ WARNING:'; }
+  .alert.warning::before { content: '⚡ INTEL:'; }
+  .alert.success::before { content: '✓ ADVANTAGE:'; }
+
+  /* ── DIVIDER ── */
+  .hud-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--border) 20%, var(--border) 80%, transparent 100%);
+    margin: 10px 0;
+    position: relative;
+  }
+
+  /* ── FOOTER ── */
+  .hud-footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 24px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+  }
+
+  .footer-text {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+  }
+
+  .arc-reactor {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .arc-reactor::before {
+    content: '';
+    position: absolute;
+    width: 60px; height: 60px;
+    border: 1px solid var(--gold-dim);
+    border-radius: 50%;
+    animation: arcSpin 3s linear infinite;
+    opacity: 0.3;
+  }
+
+  @keyframes arcSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .arc-inner {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #74b9ff, #4a9eff);
+    box-shadow: 0 0 12px #4a9eff, 0 0 24px rgba(74,158,255,0.4);
+    animation: arcPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes arcPulse {
+    0%, 100% { box-shadow: 0 0 12px #4a9eff, 0 0 24px rgba(74,158,255,0.4); }
+    50% { box-shadow: 0 0 20px #74b9ff, 0 0 40px rgba(74,158,255,0.6); }
+  }
+
+  /* ── PROGRESS TRACKER ── */
+  .progress-wrap {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 20px;
+    position: sticky;
+    top: 20px;
+  }
+
+  .progress-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .prog-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+
+  .prog-bar {
+    width: 80px;
+    height: 3px;
+    background: var(--border);
+  }
+
+  .prog-fill {
+    height: 100%;
+    background: var(--gold);
+  }
+
+  /* animate bars on load */
+  .animate-bars .score-fill { width: var(--target-width) !important; }
+
+  /* Question cards */
+  .q-item {
+    padding: 12px 16px;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--text-dim);
+    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    transition: all 0.2s;
+  }
+
+  .q-item:hover {
+    border-left-color: var(--gold);
+    color: var(--text);
+  }
+
+  .q-item.hot { border-left-color: var(--red); }
+  .q-item.warm { border-left-color: var(--gold); }
+
+  /* Role table */
+  .role-table { width: 100%; border-collapse: collapse; }
+  .role-table th {
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    background: var(--panel);
+  }
+  .role-table td {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .role-table tr:hover td { color: var(--text); background: rgba(30,45,74,0.3); }
+
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header class="hud-header">
+  <div class="header-top">
+    <div class="stark-logo">Stark Industries · AI Division · FRIDAY v4.2</div>
+    <div class="status-bar">
+      <span><span class="status-dot"></span>SYSTEM ONLINE</span>
+      <span>OPERATOR: T.STARK</span>
+      <span>MISSION: ANDROID DOMINANCE</span>
+    </div>
+  </div>
+  <h1 class="mission-title">
+    <span class="red">ANDROID</span> <span class="gold">MISSION</span><br>BRIEFING
+  </h1>
+  <div class="subtitle">// CLASSIFIED · STARK INDUSTRIES INTELLIGENCE DIVISION · CLEARANCE LEVEL 7</div>
+  <div class="friday-quote">
+    "Boss, I've run full analysis on 500+ real interview data points scraped from engineers at Google, Amazon, Cred, Ola and more. Here's everything you need to walk in and own the room."
+    <br>— F.R.I.D.A.Y
+  </div>
+</header>
+
+<!-- ═══════════════════ MAIN ═══════════════════ -->
+<main class="main">
+
+  <!-- ── SECTION 01: THREAT ASSESSMENT ── -->
+  <div class="sec-header">
+    <div class="sec-number">01</div>
+    <div class="sec-title">Threat Assessment — Topic Priority</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="panel gold" style="margin-bottom:16px;">
+    <div class="panel-title"><span class="icon">📡</span> Intelligence Summary</div>
+    <p style="font-size:13px;line-height:1.8;color:var(--text-dim);">
+      Data sourced from Blind, Stack Overflow, r/androiddev, r/experienceddevs — weighted by upvotes, recency, and interview outcome signals.
+      Insight scores indicate how often a topic appeared in real interview discussions with high engagement.
+    </p>
+  </div>
+
+  <div id="threatList">
+    <div class="threat-row">
+      <div class="threat-name">Kotlin & Coroutines</div>
+      <div class="threat-bar-wrap">
+        <div class="score-bar"><div class="score-fill critical" style="--target-width:100%;"></div></div>
+      </div>
+      <div class="threat-score">65</div>
+    </div>
+    <div class="threat-row">
+      <div class="threat-name">Jetpack Compose</div>
+      <div class="threat-bar-wrap">
+        <div class="score-bar"><div class="score-fill high" style="--target-width:66%;"></div></div>
+      </div>
+      <div class="threat-score">43</div>
+    </div>
+    <div class="threat-row">
+      <div class="threat-name">Dependency Injection (Hilt)</div>
+      <div class="threat-bar-wrap">
+        <div class="score-bar"><div class="score-fill high" style="--target-width:66%;"></div></div>
+      </div>
+      <div class="threat-score">43</div>
+    </div>
+    <div class="threat-row">
+      <div class="threat-name">Architecture & MVVM</div>
+      <div class="threat-bar-wrap">
+        <div class="score-bar"><div class="score-fill medium" style="--target-width:51%;"></div></div>
+      </div>
+      <div class="threat-score">33</div>
+    </div>
+    <div class="threat-row">
+      <div class="threat-name">Data & Storage (Room/Retrofit)</div>
+      <div class="threat-bar-wrap">
+        <div class="score-bar"><div class="score-fill medium" style="--target-width:40%;"></div></div>
+      </div>
+      <div class="threat-score">26</div>
+    </div>
+    <div class="threat-row">
+      <div class="threat-name">Testing (MockK / Espresso)</div>
+      <div class="threat-bar-wrap">
+        <div class="score-bar"><div class="score-fill standard" style="--target-width:38%;"></div></div>
+      </div>
+      <div class="threat-score">25</div>
+    </div>
+    <div class="threat-row">
+      <div class="threat-name">UI & Performance (RecyclerView/DiffUtil)</div>
+      <div class="threat-bar-wrap">
+        <div class="score-bar"><div class="score-fill standard" style="--target-width:38%;"></div></div>
+      </div>
+      <div class="threat-score">25</div>
+    </div>
+    <div class="threat-row">
+      <div class="threat-name">Android Fundamentals (Lifecycle/Intents)</div>
+      <div class="threat-bar-wrap">
+        <div class="score-bar"><div class="score-fill standard" style="--target-width:35%;"></div></div>
+      </div>
+      <div class="threat-score">23</div>
+    </div>
+    <div class="threat-row">
+      <div class="threat-name">DSA / LeetCode</div>
+      <div class="threat-bar-wrap">
+        <div class="score-bar"><div class="score-fill standard" style="--target-width:23%;"></div></div>
+      </div>
+      <div class="threat-score">15</div>
+    </div>
+  </div>
+
+
+  <!-- ── SECTION 02: DEEP DIVE TOPICS ── -->
+  <div class="sec-header">
+    <div class="sec-number">02</div>
+    <div class="sec-title">Deep Dive — Arc Reactors (Core Topics)</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="grid-2">
+
+    <!-- Kotlin Coroutines -->
+    <div class="topic-card">
+      <div class="priority-badge critical">CRITICAL</div>
+      <h3>🔵 Kotlin & Coroutines</h3>
+      <p>Highest insight score in entire dataset (65). Every company tests this. Not surface level — they go 2–3 layers deep.</p>
+      <div class="code-block">
+<span class="cm">// Know ALL of these cold:</span>
+<span class="ann">suspend</span> <span class="kw">fun</span> <span class="fn">fetchData</span>(): Result
+
+<span class="kw">val</span> job = <span class="fn">viewModelScope</span>.launch {
+  <span class="kw">val</span> a = async { <span class="fn">apiCall1</span>() }
+  <span class="kw">val</span> b = async { <span class="fn">apiCall2</span>() }
+  a.await() + b.await() <span class="cm">// parallel</span>
+}
+
+<span class="cm">// StateFlow vs LiveData</span>
+<span class="kw">private val</span> _state = MutableStateFlow&lt;UiState&gt;(...)
+<span class="kw">val</span> state: StateFlow&lt;UiState&gt; = _state.asStateFlow()
+      </div>
+      <div class="tag-list">
+        <span class="tag hot">suspend</span>
+        <span class="tag hot">Flow operators</span>
+        <span class="tag hot">viewModelScope</span>
+        <span class="tag warm">StateFlow</span>
+        <span class="tag warm">Dispatchers</span>
+        <span class="tag">Channel</span>
+        <span class="tag">structured concurrency</span>
+        <span class="tag">hot vs cold</span>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="score-label"><span>INSIGHT SCORE</span><span>65/65</span></div>
+        <div class="score-bar"><div class="score-fill critical" style="--target-width:100%;"></div></div>
+      </div>
+    </div>
+
+    <!-- Jetpack Compose -->
+    <div class="topic-card">
+      <div class="priority-badge high">HIGH</div>
+      <h3>🔴 Jetpack Compose</h3>
+      <p>The standard for all new Android roles. Interviewers test composition, state management, and recomposition deep knowledge.</p>
+      <div class="code-block">
+<span class="cm">// Hoisting pattern — must know</span>
+<span class="ann">@Composable</span>
+<span class="kw">fun</span> <span class="fn">Counter</span>(
+  count: Int,
+  onIncrement: () -> Unit
+) { ... }
+
+<span class="cm">// Side effects</span>
+<span class="fn">LaunchedEffect</span>(key) { suspend block }
+<span class="fn">SideEffect</span> { non-suspend, every recompose }
+<span class="fn">DisposableEffect</span>(key) { onDispose { } }
+      </div>
+      <div class="tag-list">
+        <span class="tag hot">state hoisting</span>
+        <span class="tag hot">remember vs rememberSaveable</span>
+        <span class="tag hot">LaunchedEffect</span>
+        <span class="tag warm">recomposition</span>
+        <span class="tag warm">stability</span>
+        <span class="tag">Modifier chain</span>
+        <span class="tag">Scaffold</span>
+        <span class="tag">Navigation</span>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="score-label"><span>INSIGHT SCORE</span><span>43/65</span></div>
+        <div class="score-bar"><div class="score-fill high" style="--target-width:66%;"></div></div>
+      </div>
+    </div>
+
+    <!-- Hilt DI -->
+    <div class="topic-card">
+      <div class="priority-badge high">HIGH</div>
+      <h3>🟡 Dependency Injection (Hilt)</h3>
+      <p>Standard across all companies. ApplicationComponent is deprecated — must know SingletonComponent and full hierarchy.</p>
+      <div class="code-block">
+<span class="cm">// Component hierarchy</span>
+SingletonComponent     → <span class="ann">@Singleton</span>
+ActivityRetainedC      → <span class="ann">@ActivityRetainedScoped</span>
+ViewModelComponent     → <span class="ann">@ViewModelScoped</span>
+ActivityComponent      → <span class="ann">@ActivityScoped</span>
+FragmentComponent      → <span class="ann">@FragmentScoped</span>
+ViewComponent          → <span class="ann">@ViewScoped</span>
+
+<span class="ann">@HiltViewModel</span>
+<span class="kw">class</span> <span class="fn">MyVM</span> <span class="ann">@Inject</span> constructor(
+  <span class="kw">private val</span> repo: MyRepository
+) : ViewModel()
+      </div>
+      <div class="tag-list">
+        <span class="tag hot">@HiltViewModel</span>
+        <span class="tag hot">@InstallIn</span>
+        <span class="tag warm">@AndroidEntryPoint</span>
+        <span class="tag warm">@Provides / @Binds</span>
+        <span class="tag">@Qualifier</span>
+        <span class="tag">WorkManager inject</span>
+        <span class="tag">multi-module</span>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="score-label"><span>INSIGHT SCORE</span><span>43/65</span></div>
+        <div class="score-bar"><div class="score-fill high" style="--target-width:66%;"></div></div>
+      </div>
+    </div>
+
+    <!-- MVVM -->
+    <div class="topic-card">
+      <div class="priority-badge medium">MEDIUM</div>
+      <h3>🟢 Architecture & MVVM</h3>
+      <p>Senior roles probe Clean Architecture layers. Know UDF, why ViewModels survive rotation, and Repository pattern deeply.</p>
+      <div class="code-block">
+<span class="cm">// Clean Architecture layers</span>
+UI Layer      → Composables + ViewModel
+Domain Layer  → UseCases (optional)
+Data Layer    → Repository + DataSources
+
+<span class="cm">// UDF — Unidirectional Data Flow</span>
+UI → <span class="fn">Events</span> → ViewModel
+ViewModel → <span class="fn">StateFlow</span> → UI
+
+<span class="cm">// Never expose MutableStateFlow</span>
+<span class="kw">private val</span> _uiState = MutableStateFlow(...)
+<span class="kw">val</span> uiState = _uiState.asStateFlow()
+      </div>
+      <div class="tag-list">
+        <span class="tag hot">UDF</span>
+        <span class="tag hot">Clean Architecture</span>
+        <span class="tag warm">ViewModel lifecycle</span>
+        <span class="tag warm">LiveData → StateFlow</span>
+        <span class="tag">MediatorLiveData</span>
+        <span class="tag">Transformations</span>
+        <span class="tag">Repository pattern</span>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="score-label"><span>INSIGHT SCORE</span><span>33/65</span></div>
+        <div class="score-bar"><div class="score-fill medium" style="--target-width:51%;"></div></div>
+      </div>
+    </div>
+
+    <!-- Room + Retrofit -->
+    <div class="topic-card">
+      <div class="priority-badge medium">MEDIUM</div>
+      <h3>🟠 Data & Storage</h3>
+      <p>Room + Retrofit combo is tested in virtually every mid-level and above role. Migrations and type converters are common trap questions.</p>
+      <div class="code-block">
+<span class="cm">// Room DAO with Flow</span>
+<span class="ann">@Dao</span>
+<span class="kw">interface</span> <span class="fn">UserDao</span> {
+  <span class="ann">@Query</span>(<span class="str">"SELECT * FROM users"</span>)
+  <span class="kw">fun</span> <span class="fn">getAll</span>(): Flow&lt;List&lt;User&gt;&gt;
+
+  <span class="ann">@Insert</span>(onConflict = REPLACE)
+  <span class="ann">suspend</span> <span class="kw">fun</span> <span class="fn">upsert</span>(user: User)
+}
+
+<span class="cm">// Retrofit with coroutines</span>
+<span class="kw">interface</span> <span class="fn">ApiService</span> {
+  <span class="ann">@GET</span>(<span class="str">"users/{id}"</span>)
+  <span class="ann">suspend</span> <span class="kw">fun</span> <span class="fn">getUser</span>(<span class="ann">@Path</span>(<span class="str">"id"</span>) id: Int): User
+}
+      </div>
+      <div class="tag-list">
+        <span class="tag hot">Room DAOs</span>
+        <span class="tag hot">Migrations</span>
+        <span class="tag warm">TypeConverters</span>
+        <span class="tag warm">Retrofit + Flow</span>
+        <span class="tag">@Transaction</span>
+        <span class="tag">ForeignKey</span>
+        <span class="tag">OkHttp Interceptor</span>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="score-label"><span>INSIGHT SCORE</span><span>26/65</span></div>
+        <div class="score-bar"><div class="score-fill medium" style="--target-width:40%;"></div></div>
+      </div>
+    </div>
+
+    <!-- Testing -->
+    <div class="topic-card">
+      <div class="priority-badge standard">STANDARD</div>
+      <h3>🔷 Testing</h3>
+      <p>SDET/QA roles require deep knowledge. All senior Android positions expect unit testing fundamentals and ViewModel test patterns.</p>
+      <div class="code-block">
+<span class="cm">// ViewModel unit test template</span>
+<span class="ann">@RunWith</span>(MockitoJUnitRunner::<span class="kw">class</span>)
+<span class="kw">class</span> <span class="fn">MyViewModelTest</span> {
+
+  <span class="ann">@get:Rule</span>
+  <span class="kw">val</span> mainRule = MainCoroutineRule()
+
+  <span class="kw">private val</span> repo = <span class="fn">mockk</span>&lt;MyRepository&gt;()
+  <span class="kw">private lateinit var</span> vm: MyViewModel
+
+  <span class="ann">@Before</span>
+  <span class="kw">fun</span> <span class="fn">setup</span>() { vm = MyViewModel(repo) }
+}
+      </div>
+      <div class="tag-list">
+        <span class="tag hot">MockK</span>
+        <span class="tag warm">Mockito</span>
+        <span class="tag warm">Espresso</span>
+        <span class="tag">Compose Testing</span>
+        <span class="tag">MainCoroutineRule</span>
+        <span class="tag">Instrumented tests</span>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="score-label"><span>INSIGHT SCORE</span><span>25/65</span></div>
+        <div class="score-bar"><div class="score-fill standard" style="--target-width:38%;"></div></div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ── SECTION 03: REAL INTERVIEW QUESTIONS ── -->
+  <div class="sec-header">
+    <div class="sec-number">03</div>
+    <div class="sec-title">Enemy Intel — Real Questions Asked in 2026</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="panel">
+      <div class="panel-title"><span class="icon">⚡</span> Kotlin / Coroutines</div>
+      <div class="q-item hot">What is the difference between launch/join and async/await?</div>
+      <div class="q-item hot">What does a suspend function mean internally — how does the state machine work?</div>
+      <div class="q-item hot">GlobalScope vs viewModelScope vs lifecycleScope — when would you use each?</div>
+      <div class="q-item warm">What is the difference between StateFlow and SharedFlow?</div>
+      <div class="q-item warm">How do coroutines work under the hood?</div>
+      <div class="q-item">What is hot flow and cold flow, and when do you use each?</div>
+      <div class="q-item">Explain structured concurrency and why it matters.</div>
+      <div class="q-item">withContext vs async/await — what's the difference?</div>
+      <div class="q-item">How do you unit test a ViewModel that uses viewModelScope.launch?</div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><span class="icon">🎨</span> Compose & Architecture</div>
+      <div class="q-item hot">What is state hoisting and why does it matter?</div>
+      <div class="q-item hot">Difference between remember and rememberSaveable?</div>
+      <div class="q-item hot">How do you navigate from ViewModel in Jetpack Compose with Hilt?</div>
+      <div class="q-item warm">How does recomposition work? What makes a composable stable?</div>
+      <div class="q-item warm">How do you inject a ViewModel into a Composable using Hilt?</div>
+      <div class="q-item">Explain the difference between map() and switchMap() in LiveData.</div>
+      <div class="q-item">Why are we moving from LiveData to StateFlow?</div>
+      <div class="q-item">What is the difference between MutableLiveData setValue vs postValue?</div>
+      <div class="q-item">How would you prevent LiveData from re-emitting the last value?</div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><span class="icon">💉</span> Dependency Injection</div>
+      <div class="q-item hot">Explain Hilt's component hierarchy and scope annotations.</div>
+      <div class="q-item hot">What replaced ApplicationComponent and why?</div>
+      <div class="q-item warm">How do you inject into a WorkManager worker with Hilt?</div>
+      <div class="q-item warm">How do you pass runtime parameters to a @HiltViewModel?</div>
+      <div class="q-item">Why would you use Hilt over Koin?</div>
+      <div class="q-item">How does multi-module Hilt work with Clean Architecture?</div>
+      <div class="q-item">How do you provide two different Retrofit clients in the same app?</div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><span class="icon">🗄️</span> Data / Storage / Android</div>
+      <div class="q-item hot">How do you handle Room database migrations?</div>
+      <div class="q-item warm">What is NetworkOnMainThreadException and how do you fix it?</div>
+      <div class="q-item warm">Explain the Android Activity/Fragment lifecycle with back stack.</div>
+      <div class="q-item">How do you pass data between Activities?</div>
+      <div class="q-item">Room upsert — how do you implement it?</div>
+      <div class="q-item">How do you use TypeConverters in Room?</div>
+      <div class="q-item">What is Context in Android and what are its types?</div>
+    </div>
+  </div>
+
+
+  <!-- ── SECTION 04: COMPANY TARGETING ── -->
+  <div class="sec-header">
+    <div class="sec-number">04</div>
+    <div class="sec-title">Target Acquisition — Company Profiles</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="grid-3">
+    <div class="company-badge" style="border-color:#4285f4;box-shadow:0 0 20px rgba(66,133,244,0.1);">
+      <div class="co-icon">🔵</div>
+      <div class="co-name">Google</div>
+      <div class="co-focus">Kotlin internals · Coroutines deep dive · Compose stability · DSA 2 mediums · System design</div>
+    </div>
+    <div class="company-badge" style="border-color:#ff9900;box-shadow:0 0 20px rgba(255,153,0,0.1);">
+      <div class="co-icon">🟠</div>
+      <div class="co-name">Amazon</div>
+      <div class="co-focus">Leadership Principles (14 of them) · 2x DSA medium · System design at scale · No HLD in phone screen</div>
+    </div>
+    <div class="company-badge" style="border-color:#00a4ef;box-shadow:0 0 20px rgba(0,164,239,0.1);">
+      <div class="co-icon">🔷</div>
+      <div class="co-name">Microsoft</div>
+      <div class="co-focus">Copilot integration awareness · Architecture · AI-assisted dev practices · Design patterns</div>
+    </div>
+    <div class="company-badge" style="border-color:#1428a0;box-shadow:0 0 20px rgba(20,40,160,0.1);">
+      <div class="co-icon">⬜</div>
+      <div class="co-name">Samsung</div>
+      <div class="co-focus">Android internals · Hardware-aware code · Performance · Memory management</div>
+    </div>
+    <div class="company-badge" style="border-color:#e63946;box-shadow:0 0 20px rgba(230,57,70,0.1);">
+      <div class="co-icon">🔴</div>
+      <div class="co-name">Cred / Razorpay</div>
+      <div class="co-focus">Kotlin · MVI architecture · StateFlow · Coroutines · Fintech scale challenges</div>
+    </div>
+    <div class="company-badge" style="border-color:#f4a500;box-shadow:0 0 20px rgba(244,165,0,0.1);">
+      <div class="co-icon">🟡</div>
+      <div class="co-name">Ola / Uber</div>
+      <div class="co-focus">Architecture · DI · Scalability · Location services · Background processing</div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;">
+    <div class="alert warning">Senior interviewers in 2026 are going 2–3 layers deep on any topic. If you say "I use viewModelScope" expect "Why not GlobalScope?" and then "What happens if the ViewModel is cleared mid-coroutine?"</div>
+    <div class="alert danger">AI-generated code detection is active at top companies. They will ask you to explain line by line. Never write code you can't defend.</div>
+    <div class="alert success">Candidates who articulate WHY they made architecture decisions outperform candidates who just know WHAT to write. Your biggest edge: explain tradeoffs.</div>
+  </div>
+
+
+  <!-- ── SECTION 05: ROLE REQUIREMENTS ── -->
+  <div class="sec-header">
+    <div class="sec-number">05</div>
+    <div class="sec-title">Role Intelligence — What Each Level Requires</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="panel gold">
+    <div class="panel-title"><span class="icon">🎯</span> Role Requirement Matrix</div>
+    <table class="role-table">
+      <thead>
+        <tr>
+          <th>ROLE</th>
+          <th>MUST KNOW</th>
+          <th>EXPECTED DEPTH</th>
+          <th>RED FLAGS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--green);">Junior Android Dev</td>
+          <td>Lifecycle, Intents, Basic Kotlin, RecyclerView</td>
+          <td>Can build a working screen</td>
+          <td>No personal projects</td>
+        </tr>
+        <tr>
+          <td style="color:var(--gold);">Android Engineer</td>
+          <td>MVVM + Hilt + Room + Coroutines + Compose</td>
+          <td>Knows why, not just how</td>
+          <td>Can't explain state hoisting</td>
+        </tr>
+        <tr>
+          <td style="color:var(--red);">Senior / Lead</td>
+          <td>Clean Architecture + Modularization + Performance</td>
+          <td>Tradeoffs, scale decisions</td>
+          <td>No system design opinion</td>
+        </tr>
+        <tr>
+          <td style="color:#a29bfe;">Android (Compose)</td>
+          <td>Recomposition + Stability + Side effects + Navigation</td>
+          <td>Can debug recomposition issues</td>
+          <td>Never used Compose professionally</td>
+        </tr>
+        <tr>
+          <td style="color:#74b9ff;">Android SDET / QA</td>
+          <td>MockK + Espresso + Compose Testing + JUnit</td>
+          <td>Can write tests independently</td>
+          <td>Only manual testing experience</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- ── SECTION 06: MISSION TIMELINE ── -->
+  <div class="sec-header">
+    <div class="sec-number">06</div>
+    <div class="sec-title">Mission Timeline — 4-Week Prep Sprint</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot">W1</div>
+      <div class="tl-content">
+        <div class="tl-week">WEEK 1 — POWER CORE</div>
+        <div class="tl-title">Kotlin & Coroutines Mastery</div>
+        <ul class="tl-tasks">
+          <li>Study suspend, async, launch, join — write them by hand</li>
+          <li>Master Flow: cold vs hot, map, filter, combine, flatMapLatest</li>
+          <li>Understand GlobalScope vs viewModelScope vs lifecycleScope</li>
+          <li>Deep dive: structured concurrency, cancellation, exception handling</li>
+          <li>Build a mini project: API + Flow + StateFlow + ViewModel</li>
+          <li>LeetCode: 15 medium problems (arrays, hashmaps, two pointers)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">W2</div>
+      <div class="tl-content">
+        <div class="tl-week">WEEK 2 — SUIT ASSEMBLY</div>
+        <div class="tl-title">Compose + Hilt Integration</div>
+        <ul class="tl-tasks">
+          <li>Build a full screen in Compose with state hoisting</li>
+          <li>Master all side effects: LaunchedEffect, SideEffect, DisposableEffect</li>
+          <li>Integrate Hilt: @HiltViewModel, @AndroidEntryPoint, @InstallIn</li>
+          <li>Practice composable ViewModel injection with hiltViewModel()</li>
+          <li>Understand Compose Navigation with Hilt</li>
+          <li>LeetCode: 15 medium problems (trees, graphs, BFS/DFS)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">W3</div>
+      <div class="tl-content">
+        <div class="tl-week">WEEK 3 — FULL ARMOR</div>
+        <div class="tl-title">Architecture + Data Layer</div>
+        <ul class="tl-tasks">
+          <li>Implement Clean Architecture: UI → Domain → Data layers</li>
+          <li>Room: entities, DAOs, migrations, TypeConverters, foreign keys</li>
+          <li>Retrofit: coroutine support, OkHttp interceptors, error handling</li>
+          <li>Write unit tests: MockK + MainCoroutineRule + Turbine for flows</li>
+          <li>Build a full CRUD app: Room + Retrofit + Hilt + Compose</li>
+          <li>LeetCode: 10 medium problems (dynamic programming basics)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">W4</div>
+      <div class="tl-content">
+        <div class="tl-week">WEEK 4 — MISSION READY</div>
+        <div class="tl-title">Mock Interviews + Behavioral</div>
+        <ul class="tl-tasks">
+          <li>Do 3+ mock technical interviews — explain your code out loud</li>
+          <li>Prepare 5 STAR behavioral stories (challenge, teamwork, failure, success, growth)</li>
+          <li>Practice system design: News Feed app, Chat app, Offline-first app</li>
+          <li>Review all Hilt component hierarchy from memory</li>
+          <li>Research each target company's tech stack from their engineering blog</li>
+          <li>Prepare questions to ask interviewers (shows seniority)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── SECTION 07: MISSION CHECKLIST ── -->
+  <div class="sec-header">
+    <div class="sec-number">07</div>
+    <div class="sec-title">Pre-Launch Checklist — Click to Mark Complete</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <div class="panel-title" style="margin-bottom:14px;font-family:'Orbitron',monospace;font-size:11px;color:var(--gold);letter-spacing:3px;">⚡ TECHNICAL</div>
+      <ul class="checklist" id="techList">
+        <li onclick="toggle(this)"><div class="check-box">□</div>Can explain coroutine state machine without notes</li>
+        <li onclick="toggle(this)"><div class="check-box">□</div>Built a Compose screen with full state hoisting</li>
+        <li onclick="toggle(this)"><div class="check-box">□</div>Know ALL Hilt component hierarchy annotations</li>
+        <li onclick="toggle(this)"><div class="check-box">□</div>Implemented Room migration from scratch</li>
+        <li onclick="toggle(this)"><div class="check-box">□</div>Written MockK unit tests for a ViewModel</li>
+        <li onclick="toggle(this)"><div class="check-box">□</div>Understand StateFlow vs LiveData tradeoffs</li>
+        <li onclick="toggle(this)"><div class="check-box">□</div>Know difference between remember and rememberSaveable</li>
+        <li onclick="toggle(this)"><div class="check-box">□</div>Implemented Clean Architecture (3 layers)</li>
+        <li onclick="toggle(this)"><div class="check-box">□</div>Can explain UDF (Unidirectional Data Flow)</li>
+        <li onclick="toggle(this)"><div class="check-box">□</div>Solved 40+ LeetCode medium problems</li>
+      </ul>
+    </div>
+    <div>
+      <div class="panel-title" style="margin-bottom:14px;font-family:'Orbitron',monospace;font-size:11px;color:var(--gold);letter-spacing:3px;">🎯 MISSION PREP</div>
+      <ul class="checklist" id="missionList">
+        <li onclick="toggle(this)"><div class="check-box">□</div>Researched each target company's Android stack</li>
+        <li onclick="toggle(this)"><div class="check-box">□</div>Prepared 5 STAR behavioral stories</li>
+        <li onclick="toggle(this)"><div class="check-box">□</div>Done at least 3 mock interviews out loud</li>
+        <li onclick="toggle(this)"><div class="check-box">□</div>Have a personal GitHub project to discuss</li>
+        <li onclick="toggle(this)"><div class="check-box">□</div>Know the questions to ask at end of interview</li>
+        <li onclick="toggle(this)"><div class="check-box">□</div>Practiced explaining architecture decisions with tradeoffs</li>
+        <li onclick="toggle(this)"><div class="check-box">□</div>Can whiteboard MVVM + Clean arch from memory</li>
+        <li onclick="toggle(this)"><div class="check-box">□</div>Know current market trends (AI tools, KMP)</li>
+        <li onclick="toggle(this)"><div class="check-box">□</div>Resume updated with impact metrics (not just duties)</li>
+        <li onclick="toggle(this)"><div class="check-box">□</div>Negotiation number prepared with market research</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- ── SECTION 08: FRIDAY FINAL BRIEF ── -->
+  <div class="sec-header">
+    <div class="sec-number">08</div>
+    <div class="sec-title">FRIDAY's Final Brief</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="panel" style="border-left-color:var(--gold);padding:30px;margin-bottom:0;">
+    <div style="font-family:'Share Tech Mono',monospace;font-size:13px;line-height:2;color:var(--text);">
+      <span style="color:var(--gold);">FRIDAY:</span> "Boss, here's my honest read after analyzing the data..."<br><br>
+
+      <span style="color:var(--text-dim);">The Android job market in 2026 is brutal but beatable. Most candidates fail for one reason: <strong style="color:var(--red);">depth</strong>. They know the surface. They can write a ViewModel. They've heard of Hilt. But when an interviewer asks <em>"why does viewModelScope cancel when the ViewModel is cleared?"</em> or <em>"what makes a composable unstable?"</em> — they go silent.</span><br><br>
+
+      <span style="color:var(--text-dim);">You don't need to know everything. You need to know your core topics — <strong style="color:var(--gold);">Coroutines, Compose, Hilt, MVVM</strong> — so deeply that you can explain them to a 10-year-old or defend them to a Google engineer. That's the bar.</span><br><br>
+
+      <span style="color:var(--text-dim);">The data also shows something interesting: <strong style="color:var(--green);">the market rewards articulate engineers.</strong> The candidates who get offers aren't always the most technically brilliant. They're the ones who explain tradeoffs clearly, admit what they don't know honestly, and show genuine curiosity.</span><br><br>
+
+      <span style="color:var(--gold);">Walk in with depth. Walk out with an offer.</span><br><br>
+
+      <span style="color:var(--red);">— F.R.I.D.A.Y · Stark Industries AI Division · Standing by for further analysis</span>
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="hud-footer">
+  <div class="footer-text">STARK INDUSTRIES · FRIDAY v4.2 · CLASSIFIED · TONY STARK OPERATOR</div>
+  <div class="arc-reactor">
+    <div class="arc-inner"></div>
+  </div>
+  <div class="footer-text">MISSION: ANDROID DOMINANCE · CLEARANCE LEVEL 7</div>
+</footer>
+
+<script>
+  // Animate score bars on load
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.querySelectorAll('.score-fill').forEach(el => {
+        const target = el.style.getPropertyValue('--target-width') || '0%';
+        el.style.width = target;
+      });
+    }, 300);
+  });
+
+  // Checklist toggle
+  function toggle(el) {
+    el.classList.toggle('done');
+    const box = el.querySelector('.check-box');
+    box.textContent = el.classList.contains('done') ? '✓' : '□';
+  }
+
+  // Typing effect for FRIDAY quote
+  const q = document.querySelector('.friday-quote');
+  if (q) {
+    const text = q.textContent.trim();
+    q.textContent = '';
+    q.style.opacity = '1';
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < text.length) {
+        q.textContent += text[i];
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 15);
+  }
+</script>
+
+</body>
+</html>

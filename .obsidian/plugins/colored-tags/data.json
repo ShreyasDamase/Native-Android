@@ -12,6 +12,7 @@
   "knownTags": {
     "android": 1,
     "compose": 2,
+    "dp": 3,
     "error": 3,
     "frequency": 4,
     "hashmapgrouping": 5,
@@ -21,6 +22,7 @@
     "networking": 6,
     "okhttp": 7,
     "permissions": 8,
+    "recursion": 9,
     "righttoleftpass": 9,
     "securityexception": 9,
     "setcontentbasedsource": 10

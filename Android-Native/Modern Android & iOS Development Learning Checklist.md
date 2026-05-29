@@ -40,9 +40,13 @@ _Based on developer.android.com - Modern, Non-Legacy Topics Only_
 - [ ] Material 3 Components
 - [ ] Themes & Typography
 - [ ] Animation Basics
-- [ ] Navigation Compose
+- [ ] Navigation Compose (String-based routes)
+- [ ] Type-Safe Navigation (Kotlin Serialization)
+- [ ] Strong Skipping Mode (Performance)
+- [ ] Material 3 Adaptive Layouts (Large screens scaffolds)
+- [ ] Shared Element Transitions & Lazy List Animations (Modifier.animateItem)
 - [ ] Side Effects (LaunchedEffect, DisposableEffect)
-- [ ] ViewModel Integration
+- [ ] ViewModel Integration (Jetpack & KMP Common ViewModels)
 - [ ] Custom Composables
 - [ ] Performance Optimization
 
@@ -261,6 +265,7 @@ _Based on developer.android.com - Modern, Non-Legacy Topics Only_
 
 - [ ] libs.versions.toml
 - [ ] Centralized Dependencies
+- [ ] Kotlin 2.0 Compose Compiler Gradle Plugin (`kotlin("plugin.compose")`)
 
 #### **App Bundles**
 

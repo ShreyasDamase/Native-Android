@@ -126,10 +126,10 @@
 |11.1|LaunchedEffect|Running suspend functions, Key parameters, Cancellation|☐|
 |11.2|DisposableEffect|Cleanup operations, Lifecycle-aware effects|☐|
 |11.3|SideEffect|Publishing state to non-compose code, Use cases|☐|
-|11.4|rememberCoroutineScope|Launching coroutines from composables, Event handlers|☐|
+|11.4|rememberCoroutineScope|Launching coroutines from composables, Event handlers|☑|
 |11.5|rememberUpdatedState|Capturing latest values in effects|☐|
 |11.6|produceState|Converting non-compose state to State, Flow to State|☐|
-|11.7|Lifecycle Awareness|LocalLifecycleOwner, Observing lifecycle events|☐|
+|11.7|Lifecycle Awareness|LocalLifecycleOwner, Observing lifecycle events|☑|
 
 ## Level 12: Navigation
 
@@ -141,7 +141,7 @@
 |12.4|Bottom Sheet Navigation|Modal bottom sheets, Navigation in bottom sheets|☐|
 |12.5|Nested Navigation|Navigation graphs, Nested NavHost|☐|
 |12.6|Navigation with ViewModels|Scoped ViewModels, backStackEntry ViewModels|☐|
-|12.7|Type-Safe Navigation|Using sealed classes, Navigation routes|☐|
+|12.7|Type-Safe Navigation|Using sealed classes, Navigation routes|☑|
 
 ## Level 13: Architecture & Patterns
 
@@ -160,8 +160,8 @@
 
 |#|Topic|Content Details|Status|
 |---|---|---|---|
-|14.1|StateFlow Integration|Collecting flows in Compose, collectAsState, collectAsStateWithLifecycle|☐|
-|14.2|SharedFlow|Event handling, Hot flows, replay configuration|☐|
+|14.1|StateFlow Integration|Collecting flows in Compose, collectAsState, collectAsStateWithLifecycle|☑|
+|14.2|SharedFlow|Event handling, Hot flows, replay configuration|☑|
 |14.3|ViewModel with Compose|viewModel(), hiltViewModel(), Scoping ViewModels|☐|
 |14.4|SavedStateHandle|Process death handling, Preserving state|☐|
 |14.5|State Restoration|rememberSaveable with custom Saver, Parcelable support|☐|

@@ -1,8 +1,9 @@
 {
-  "cssTheme": "Obsidianite",
+  "cssTheme": "AnuPpuccin",
   "interfaceFontFamily": "Inter",
   "enabledCssSnippets": [],
   "nativeMenus": false,
   "baseFontSizeAction": true,
-  "baseFontSize": 11
+  "baseFontSize": 11,
+  "theme": "moonstone"
 }
