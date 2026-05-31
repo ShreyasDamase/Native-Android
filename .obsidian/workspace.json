@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "fe25c6d71e7f7001",
+        "id": "3f11094ab6608895",
         "type": "tabs",
         "children": [
           {
-            "id": "a9a186f5b9b9af6b",
+            "id": "182007fc722f45ff",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Interview/Android Interview Questions — Study Checklist.md",
+                "file": "Backend Development/PostgreSQL/Chapter 2 — Tables, Keys, Constraints and Schema Design.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Android Interview Questions — Study Checklist"
+              "title": "Chapter 2 — Tables, Keys, Constraints and Schema Design"
             }
           }
         ]
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 248.500732421875
+    "width": 454.5026054382324
   },
   "right": {
     "id": "c63af25f850b8f88",
@@ -169,34 +169,38 @@
       "bases:Create new base": false
     }
   },
-  "active": "a9a186f5b9b9af6b",
+  "active": "182007fc722f45ff",
   "lastOpenFiles": [
-    "Unity/Phase 1 — Math & Physics/Complete Formula Reference.md",
-    "Unity/Phase 2 — Unity 2D Core/2D Lighting & URP.md",
-    "Unity/Phase 2 — Unity 2D Core/Animation Deep Dive.md",
-    "Unity/Phase 2 — Unity 2D Core/Line Renderer & Trail Renderer.md",
-    "Unity/Phase 2 — Unity 2D Core/Joints2D & Mechanical Systems.md",
-    "Unity/Phase 2 — Unity 2D Core/Audio System.md",
-    "Unity/Phase 2 — Unity 2D Core/Coroutines & Async.md",
-    "Unity/Phase 3 — Game Architecture/Save System & Data Persistence.md",
-    "Unity/Phase 3 — Game Architecture/AI & Pathfinding.md",
-    "Unity/Phase 1 — Math & Physics/Advanced Game Math.md",
-    "Unity/Phase 1 — Math & Physics/Advanced Physics Simulation.md",
-    "Android-Native/Native Android/Android Basis/Push Notifications with FCM.md",
-    "Android-Native/Native Android/Android Basis/WorkManager, AlarmManager, and Foreground Services.md",
-    "Android-Native/Native Android/Android Basis/RecyclerView, DiffUtil, and Paging 3.md",
-    "Android-Native/Native Android/Android Basis/Runtime Permissions, PendingIntent, and Parcelable.md",
-    "Android-Native/Native Android/TODO/Native Android Coverage Audit.md",
-    "Interview/android interview links_v2.md",
-    "Interview/Technical Interview Communication Guide.md",
-    "Interview/Journey.md",
-    "Interview/Complete Guide to Class Components.md",
-    "Interview/Android Interview Questions — Study Checklist.md",
-    "Android-Native/Native Android/JetPack Compose/🏔️ Goal.md",
-    "Android-Native/Native Android/Android Basis/Fragments, Services, and Broadcast Receivers.md",
-    "Android-Native/Native Android/Android Basis/Android OS Fundamentals & System Internals.md",
-    "Android-Native/Kotlin/Kotlin Coroutines & Flow (Full Depth).md",
-    "Android-Native/Kotlin/Kotlin Generics & Collections.md",
+    "Backend Development/PostgreSQL/Chapter 10 — SQL Query Types and Practical Examples.md",
+    "Backend Development/PostgreSQL/Chapter 1 — PostgreSQL vs SQL and Why It Is the Default Backend Database.md",
+    "Backend Development/PostgreSQL/Chapter 9 — Production Operations, Backups and Monitoring.md",
+    "Backend Development/PostgreSQL/Chapter 8 — JSONB, Full Text Search and PostGIS.md",
+    "Backend Development/PostgreSQL/Chapter 7 — PostgreSQL with Spring Boot and Kotlin.md",
+    "Backend Development/PostgreSQL/Chapter 6 — Flyway Migrations and Production Schema Changes.md",
+    "Backend Development/PostgreSQL/Chapter 5 — Transactions, Isolation and Locking.md",
+    "Backend Development/PostgreSQL/Chapter 4 — Indexes and Query Performance.md",
+    "Backend Development/PostgreSQL/Chapter 3 — Relationships and ERD Modeling.md",
+    "Backend Development/PostgreSQL/Chapter 2 — Tables, Keys, Constraints and Schema Design.md",
+    "Backend Development/PostgreSQL/Index.md",
+    "Backend Development/PostgreSQL",
+    "Backend Development/Index.md",
+    "Springboot/Chapter 1 — Spring Boot Fundamentals.md",
+    "Backend Development/Springboot/microservices/note2.md",
+    "Backend Development/Springboot/microservices/Note1.md",
+    "Backend Development/Springboot/microservices/Note3.md",
+    "Backend Development/Springboot/microservices/HireStory1.md",
+    "Backend Development/Springboot/microservices/HireStory2.md",
+    "Backend Development/Springboot/microservices",
+    "Backend Development/Springboot/Index.md",
+    "Backend Development/Springboot/Chapter 9 — Spring AI- Extracting Structured Data From Raw Text.md",
+    "Backend Development/Springboot/Chapter 8 — The Web Crawler.md",
+    "Backend Development/Springboot/Chapter 7 — RabbitMQ-Async Processing & Notifications.md",
+    "Backend Development/Springboot/Chapter 6 — Redis - Caching, Counters & Speed.md",
+    "Backend Development/Springboot/Chapter 5 — Spring Security & JWT.md",
+    "Backend Development/Springboot/Chapter 4 — REST Controllers, Validation & Error Handling.md",
+    "Backend Development/Springboot/Chapter 3 — Repositories and Queries.md",
+    "Backend Development/Springboot",
+    "Backend Development",
     "Android-Native/Master Composable Functions.pdf",
     "Android-Native/Native Android/Android Basis/MainActivity.canvas",
     "Android-Native/docs/adaptive/assets/canonical_layouts/feed_landscape.png",
@@ -211,10 +215,6 @@
     "Android-Native/docs/adaptive/assets/canonical_layouts/list_view_landscape.png",
     "Android-Native/docs/adaptive/assets/canonical_layouts/supporting_panel_landscape.png",
     "Android-Native/docs/adaptive/assets/canonical_layouts/feed_portrait.png",
-    "DSA/Templates",
-    "Android-Native/KMP-Study-Book/chapters",
-    "Android-Native/KMP-Study-Book/appendices",
-    "Android-Native/KMP-Study-Book",
     "Android-Native/Native Android/JetPack Compose/02-State-Management/DI/Pasted image 20260304075342.png",
     "Untitled 1.canvas",
     "Untitled.canvas",
