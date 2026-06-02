@@ -1,5 +1,7 @@
 # Chapter 19 — Observability, Performance and Production Readiness
 
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
 ### _The difference between "it runs" and "we can operate it in production"_
 
 ---
@@ -293,4 +295,25 @@ Before production:
 - Spring Boot metrics: https://docs.spring.io/spring-boot/reference/actuator/metrics.html
 - Spring Boot Actuator endpoints: https://docs.spring.io/spring-boot/reference/actuator/endpoints.html
 - Spring Boot Testcontainers: https://docs.spring.io/spring-boot/reference/testing/testcontainers.html
+## Book-Aligned Corrections: Actuator First
 
+The book's production-readiness path starts with Spring Boot Actuator:
+
+- Add `spring-boot-starter-actuator`.
+- Configure endpoint exposure.
+- Use `/actuator/health` for liveness/readiness style checks.
+- Use `/actuator/metrics` and Prometheus integration for monitoring.
+- Use `/actuator/conditions`, `/actuator/beans`, `/actuator/configprops`, and `/actuator/env` for debugging only in protected environments.
+- Add custom health indicators for dependencies like RabbitMQ, Redis, and payment providers.
+
+Correct order:
+
+```text
+Actuator
+  -> Micrometer metrics
+  -> Prometheus scrape
+  -> Grafana dashboards
+  -> tracing/log correlation
+```
+
+Never expose sensitive Actuator endpoints publicly.

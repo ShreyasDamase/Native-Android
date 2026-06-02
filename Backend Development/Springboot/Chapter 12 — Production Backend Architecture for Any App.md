@@ -1,5 +1,7 @@
 # Chapter 12 — Production Backend Architecture for Any App
 
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
 ### _How to design Kotlin Spring Boot systems for delivery, Uber-like, booking, marketplace, SaaS and AI apps_
 
 ---

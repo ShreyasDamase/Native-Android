@@ -1,6 +1,8 @@
 # Backend Engineering with Spring Boot & Kotlin
 
-## The HireStory Builder's Guide
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
+## The DeliveryApp Builder's Guide
 
 ---
 
@@ -14,7 +16,7 @@
 
 Your API works correctly. Now let us talk about what happens under load.
 
-The HireStory feed endpoint currently does this on every request:
+The DeliveryApp feed endpoint currently does this on every request:
 
 ```
 GET /api/interviews?page=0&size=20
@@ -30,7 +32,7 @@ Now imagine 500 users loading the feed at the same time. That is 1,500 database 
 
 **Redis solves this.** Instead of hitting the database every time, you store the result in Redis the first time and return it instantly on every subsequent request. Redis answers in under 1ms. 500 users loading the same feed page: 1 database query, 499 Redis reads.
 
-This chapter covers everything Redis does in HireStory:
+This chapter covers everything Redis does in DeliveryApp:
 
 - Feed caching — reducing database load by 95%
 - Read counter — the free tier enforcement from Chapter 5, done properly
@@ -49,7 +51,7 @@ PostgreSQL: Data on disk → read from disk → 5-20ms
 Redis:      Data in RAM  → read from RAM  → 0.1-1ms
 ```
 
-The trade-off: RAM is limited and volatile. If Redis restarts, data is lost (unless you enable persistence, which you do not need for HireStory's use cases). This is why you use Redis for data that:
+The trade-off: RAM is limited and volatile. If Redis restarts, data is lost (unless you enable persistence, which you do not need for DeliveryApp's use cases). This is why you use Redis for data that:
 
 - Can be regenerated from the database
 - Is temporary by nature (counters that reset monthly)
@@ -68,7 +70,7 @@ Key: "crawled:abc123def456"        Value: "1"
 Key: "company:1"                   Value: "{company JSON...}"
 ```
 
-Keys are strings. Values can be strings, numbers, lists, sets, hashes, or sorted sets. For HireStory, you mostly use strings (for cached JSON) and numbers (for counters).
+Keys are strings. Values can be strings, numbers, lists, sets, hashes, or sorted sets. For DeliveryApp, you mostly use strings (for cached JSON) and numbers (for counters).
 
 ### TTL — Time To Live
 
@@ -109,9 +111,9 @@ spring:
 Now create the Redis configuration bean:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/config/RedisConfig.kt
+// src/main/kotlin/com/example/deliveryapp/config/RedisConfig.kt
 
-package com.example.hirestory.config
+package com.example.deliveryapp.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
@@ -316,18 +318,18 @@ fun getFeed(page: Int, size: Int, companyId: Long?, difficulty: Difficulty?, out
 - Atomic operations
 - Complex data structures (lists, sets)
 
-For HireStory: read counters, URL dedup, and shorts sequences use `StringRedisTemplate` directly. Company list and interview detail use `@Cacheable`.
+For DeliveryApp: read counters, URL dedup, and shorts sequences use `StringRedisTemplate` directly. Company list and interview detail use `@Cacheable`.
 
 ---
 
-## 6.5 The Cache Service — HireStory's Redis Layer
+## 6.5 The Cache Service — DeliveryApp's Redis Layer
 
 Rather than scattering Redis logic across all your services, put it in one dedicated service:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/service/CacheService.kt
+// src/main/kotlin/com/example/deliveryapp/service/CacheService.kt
 
-package com.example.hirestory.service
+package com.example.deliveryapp.service
 
 import org.slf4j.LoggerFactory
 import org.springframework.data.redis.core.StringRedisTemplate
@@ -455,14 +457,14 @@ private fun String.sha256(): String {
 The company list changes rarely. Cache it for one hour:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/service/CompanyService.kt
+// src/main/kotlin/com/example/deliveryapp/service/CompanyService.kt
 
-package com.example.hirestory.service
+package com.example.deliveryapp.service
 
-import com.example.hirestory.dto.CompanyDto
-import com.example.hirestory.dto.toDto
-import com.example.hirestory.exception.ResourceNotFoundException
-import com.example.hirestory.repository.CompanyRepository
+import com.example.deliveryapp.dto.CompanyDto
+import com.example.deliveryapp.dto.toDto
+import com.example.deliveryapp.exception.ResourceNotFoundException
+import com.example.deliveryapp.repository.CompanyRepository
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
@@ -518,10 +520,10 @@ class CompanyService(private val companyRepository: CompanyRepository) {
 
 ## 6.7 Caching the Interview Feed
 
-The feed is the highest-traffic endpoint in HireStory. Each combination of filters is a different cache entry:
+The feed is the highest-traffic endpoint in DeliveryApp. Each combination of filters is a different cache entry:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/service/InterviewService.kt
+// src/main/kotlin/com/example/deliveryapp/service/InterviewService.kt
 
 @Service
 class InterviewService(
@@ -609,7 +611,7 @@ class InterviewService(
 ### Evicting Feed Cache When an Interview Is Published
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/service/AdminService.kt
+// src/main/kotlin/com/example/deliveryapp/service/AdminService.kt
 
 @Service
 class AdminService(
@@ -642,16 +644,16 @@ class AdminService(
 In Chapter 5 you wrote a basic `ReadTrackingService`. Now make it production-grade with proper Redis operations:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/service/ReadTrackingService.kt
+// src/main/kotlin/com/example/deliveryapp/service/ReadTrackingService.kt
 
-package com.example.hirestory.service
+package com.example.deliveryapp.service
 
-import com.example.hirestory.config.HireStoryProperties
-import com.example.hirestory.entity.Interview
-import com.example.hirestory.entity.ReadHistory
-import com.example.hirestory.entity.User
-import com.example.hirestory.exception.PaywallException
-import com.example.hirestory.repository.ReadHistoryRepository
+import com.example.deliveryapp.config.DeliveryAppProperties
+import com.example.deliveryapp.entity.Interview
+import com.example.deliveryapp.entity.ReadHistory
+import com.example.deliveryapp.entity.User
+import com.example.deliveryapp.exception.PaywallException
+import com.example.deliveryapp.repository.ReadHistoryRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -659,7 +661,7 @@ import org.springframework.transaction.annotation.Transactional
 class ReadTrackingService(
     private val readHistoryRepository: ReadHistoryRepository,
     private val cacheService: CacheService,
-    private val properties: HireStoryProperties
+    private val properties: DeliveryAppProperties
 ) {
 
     @Transactional
@@ -710,7 +712,7 @@ class ReadTrackingService(
 The crawler (Chapter 10) will discover URLs from Reddit, GeeksForGeeks, and other sources. The same URL might appear multiple times across different crawl runs. Redis prevents processing duplicates:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/service/CrawlerService.kt
+// src/main/kotlin/com/example/deliveryapp/service/CrawlerService.kt
 // (Preview — full implementation in Chapter 10)
 
 @Service
@@ -806,16 +808,16 @@ Use this pattern when:
 The Shorts screen shows one interview at a time in a swipe format. The sequence of which interview comes next is pre-generated and stored in Redis as a list per user:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/service/ShortsService.kt
+// src/main/kotlin/com/example/deliveryapp/service/ShortsService.kt
 
-package com.example.hirestory.service
+package com.example.deliveryapp.service
 
-import com.example.hirestory.dto.InterviewSummaryDto
-import com.example.hirestory.dto.toSummaryDto
-import com.example.hirestory.entity.InterviewStatus
-import com.example.hirestory.entity.User
-import com.example.hirestory.repository.InterviewRepository
-import com.example.hirestory.repository.ReadHistoryRepository
+import com.example.deliveryapp.dto.InterviewSummaryDto
+import com.example.deliveryapp.dto.toSummaryDto
+import com.example.deliveryapp.entity.InterviewStatus
+import com.example.deliveryapp.entity.User
+import com.example.deliveryapp.repository.InterviewRepository
+import com.example.deliveryapp.repository.ReadHistoryRepository
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -883,7 +885,7 @@ class ShortsService(
 Redis is fast and reliable, but it can go down. If your app crashes whenever Redis is unavailable, you have a single point of failure. The correct approach: if Redis fails, fall back to the database.
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/service/CacheService.kt
+// src/main/kotlin/com/example/deliveryapp/service/CacheService.kt
 
 @Service
 class CacheService(private val redis: StringRedisTemplate) {
@@ -929,9 +931,9 @@ The pattern is always: try Redis, catch any exception, log it, return a safe def
 
 ---
 
-## 6.13 Cache Invalidation Strategy for HireStory
+## 6.13 Cache Invalidation Strategy for DeliveryApp
 
-Cache invalidation is famously described as one of the hardest problems in computer science. For HireStory, the rules are clear:
+Cache invalidation is famously described as one of the hardest problems in computer science. For DeliveryApp, the rules are clear:
 
 |What Changed|What to Evict|When|
 |---|---|---|
@@ -1092,9 +1094,9 @@ redisTemplate.scan(scanOptions).use { cursor ->
 
 ---
 
-## 6.16 HireStory Connection — What You Built in Chapter 6
+## 6.16 DeliveryApp Connection — What You Built in Chapter 6
 
-By the end of Chapter 6, HireStory has a complete caching layer:
+By the end of Chapter 6, DeliveryApp has a complete caching layer:
 
 - `RedisConfig` — `StringRedisTemplate`, `RedisTemplate<String, Any>`, and `RedisCacheManager` with per-cache TTL overrides
 - `CacheService` — centralised Redis operations: read counter, URL dedup, trending searches, Shorts sequence pre-generation
@@ -1155,7 +1157,7 @@ Call `cacheService.isUrlAlreadyCrawled("https://reddit.com/r/test/abc")` twice
 
 1. Your `@Cacheable` feed cache is working for anonymous users. A logged-in user loads the feed — why does this NOT use the cache, and what does the client receive instead?
     
-2. You publish a new interview via `AdminService.approve()`. The cache is evicted. Two seconds later, 50 users simultaneously request the feed. How many database queries run? (This is called the "cache stampede" problem — just identify it, you do not need to solve it for HireStory.)
+2. You publish a new interview via `AdminService.approve()`. The cache is evicted. Two seconds later, 50 users simultaneously request the feed. How many database queries run? (This is called the "cache stampede" problem — just identify it, you do not need to solve it for DeliveryApp.)
     
 3. Your `CacheService.incrementReadCount()` wraps the Redis call in try-catch and returns 0 on failure. A user reads their 25th interview. Redis is down so `incrementReadCount` returns 0. `getReadCount` also returns 0. What happens — does the paywall trigger? Is this a problem?
     

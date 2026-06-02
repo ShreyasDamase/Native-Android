@@ -1,6 +1,8 @@
 # Backend Engineering with Spring Boot & Kotlin
 
-## The HireStory Builder's Guide
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
+## The DeliveryApp Builder's Guide
 
 ---
 
@@ -48,11 +50,11 @@ This chapter teaches you the full system — from the simplest free methods to c
 Every repository interface in Spring Boot extends `JpaRepository`. This single interface gives you a complete set of database operations for free — no implementation needed.
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/repository/CompanyRepository.kt
+// src/main/kotlin/com/example/deliveryapp/repository/CompanyRepository.kt
 
-package com.example.hirestory.repository
+package com.example.deliveryapp.repository
 
-import com.example.hirestory.entity.Company
+import com.example.deliveryapp.entity.Company
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
@@ -218,7 +220,7 @@ interface InterviewRepository : JpaRepository<Interview, Long> {
 
 ## 3.4 Pagination — The Feed Engine
 
-The HireStory feed shows 20 interviews at a time. The user scrolls and loads more. This is pagination. Spring Data has first-class support for it.
+The DeliveryApp feed shows 20 interviews at a time. The user scrolls and loads more. This is pagination. Spring Data has first-class support for it.
 
 ### Understanding Pageable
 
@@ -249,7 +251,7 @@ fun findByStatus(status: InterviewStatus, pageable: Pageable): Page<Interview>
 fun findByStatus(status: InterviewStatus, pageable: Pageable): Slice<Interview>
 ```
 
-For HireStory's feed — infinite scroll, no page numbers shown — use `Slice`. For the admin panel — where you need "showing 41-60 of 847 pending interviews" — use `Page`.
+For DeliveryApp's feed — infinite scroll, no page numbers shown — use `Slice`. For the admin panel — where you need "showing 41-60 of 847 pending interviews" — use `Page`.
 
 ### Pagination in Practice
 
@@ -379,9 +381,9 @@ interface InterviewRepository : JpaRepository<Interview, Long> {
 
 > **⚠️ Important:** You cannot use `JOIN FETCH` with `Pageable` directly in JPQL — Hibernate will load all records into memory and paginate in Java, which is worse than N+1. The solution is covered in Section 3.7.
 
-### Optional Filters — The HireStory Feed Query
+### Optional Filters — The DeliveryApp Feed Query
 
-The HireStory feed supports optional filters: company, difficulty, outcome. A user might filter by company only, or by difficulty only, or by both, or by none. Writing a method name for every combination is impossible.
+The DeliveryApp feed supports optional filters: company, difficulty, outcome. A user might filter by company only, or by difficulty only, or by both, or by none. Writing a method name for every combination is impossible.
 
 The correct solution is JPQL with conditional clauses:
 
@@ -447,7 +449,7 @@ interface InterviewRepository : JpaRepository<Interview, Long> {
 
 ## 3.6 Full Text Search — The Search Feature
 
-HireStory needs `GET /api/search?q=google+system+design`. PostgreSQL has built-in full-text search. This is a place where native SQL is the right choice.
+DeliveryApp needs `GET /api/search?q=google+system+design`. PostgreSQL has built-in full-text search. This is a place where native SQL is the right choice.
 
 ### Adding the Search Vector Column
 
@@ -654,16 +656,16 @@ This is the professional pattern. Two queries, one for pagination metadata, one 
 
 ---
 
-## 3.8 All HireStory Repositories
+## 3.8 All DeliveryApp Repositories
 
 Now let us write every repository the app needs:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/repository/UserRepository.kt
+// src/main/kotlin/com/example/deliveryapp/repository/UserRepository.kt
 
-package com.example.hirestory.repository
+package com.example.deliveryapp.repository
 
-import com.example.hirestory.entity.User
+import com.example.deliveryapp.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
@@ -683,11 +685,11 @@ interface UserRepository : JpaRepository<User, Long> {
 ```
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/repository/CompanyRepository.kt
+// src/main/kotlin/com/example/deliveryapp/repository/CompanyRepository.kt
 
-package com.example.hirestory.repository
+package com.example.deliveryapp.repository
 
-import com.example.hirestory.entity.Company
+import com.example.deliveryapp.entity.Company
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
@@ -716,11 +718,11 @@ interface CompanyRepository : JpaRepository<Company, Long> {
 ```
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/repository/InterviewRepository.kt
+// src/main/kotlin/com/example/deliveryapp/repository/InterviewRepository.kt
 
-package com.example.hirestory.repository
+package com.example.deliveryapp.repository
 
-import com.example.hirestory.entity.*
+import com.example.deliveryapp.entity.*
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.data.jpa.repository.JpaRepository
@@ -840,13 +842,13 @@ interface InterviewRepository : JpaRepository<Interview, Long> {
 ```
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/repository/BookmarkRepository.kt
+// src/main/kotlin/com/example/deliveryapp/repository/BookmarkRepository.kt
 
-package com.example.hirestory.repository
+package com.example.deliveryapp.repository
 
-import com.example.hirestory.entity.Bookmark
-import com.example.hirestory.entity.Interview
-import com.example.hirestory.entity.User
+import com.example.deliveryapp.entity.Bookmark
+import com.example.deliveryapp.entity.Interview
+import com.example.deliveryapp.entity.User
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.data.jpa.repository.JpaRepository
@@ -892,12 +894,12 @@ interface BookmarkRepository : JpaRepository<Bookmark, Long> {
 ```
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/repository/CommentRepository.kt
+// src/main/kotlin/com/example/deliveryapp/repository/CommentRepository.kt
 
-package com.example.hirestory.repository
+package com.example.deliveryapp.repository
 
-import com.example.hirestory.entity.Comment
-import com.example.hirestory.entity.Interview
+import com.example.deliveryapp.entity.Comment
+import com.example.deliveryapp.entity.Interview
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.data.jpa.repository.JpaRepository
@@ -925,13 +927,13 @@ interface CommentRepository : JpaRepository<Comment, Long> {
 ```
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/repository/ReadHistoryRepository.kt
+// src/main/kotlin/com/example/deliveryapp/repository/ReadHistoryRepository.kt
 
-package com.example.hirestory.repository
+package com.example.deliveryapp.repository
 
-import com.example.hirestory.entity.Interview
-import com.example.hirestory.entity.ReadHistory
-import com.example.hirestory.entity.User
+import com.example.deliveryapp.entity.Interview
+import com.example.deliveryapp.entity.ReadHistory
+import com.example.deliveryapp.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -953,12 +955,12 @@ interface ReadHistoryRepository : JpaRepository<ReadHistory, Long> {
 ```
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/repository/CrawlJobRepository.kt
+// src/main/kotlin/com/example/deliveryapp/repository/CrawlJobRepository.kt
 
-package com.example.hirestory.repository
+package com.example.deliveryapp.repository
 
-import com.example.hirestory.entity.CrawlJob
-import com.example.hirestory.entity.CrawlStatus
+import com.example.deliveryapp.entity.CrawlJob
+import com.example.deliveryapp.entity.CrawlStatus
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
@@ -1018,7 +1020,7 @@ interface InterviewRepository : JpaRepository<Interview, Long> {
 }
 ```
 
-For HireStory, this matters especially for the feed — where you show 20 cards, each needing only the summary data. Not loading `content` (which can be 2000+ characters) for 20 interviews saves significant memory per request.
+For DeliveryApp, this matters especially for the feed — where you show 20 cards, each needing only the summary data. Not loading `content` (which can be 2000+ characters) for 20 interviews saves significant memory per request.
 
 ---
 
@@ -1027,13 +1029,13 @@ For HireStory, this matters especially for the feed — where you show 20 cards,
 Your controller must never return raw entities. It returns DTOs. You need a way to convert. The cleanest approach in Kotlin is extension functions:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/dto/Mappers.kt
+// src/main/kotlin/com/example/deliveryapp/dto/Mappers.kt
 
-package com.example.hirestory.dto
+package com.example.deliveryapp.dto
 
-import com.example.hirestory.entity.Company
-import com.example.hirestory.entity.Interview
-import com.example.hirestory.entity.InterviewRound
+import com.example.deliveryapp.entity.Company
+import com.example.deliveryapp.entity.Interview
+import com.example.deliveryapp.entity.InterviewRound
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -1166,13 +1168,13 @@ fun LocalDateTime.formatDisplay(): String = this.format(displayFormatter)
 Here is the complete feed implementation using everything from this chapter:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/service/InterviewService.kt
+// src/main/kotlin/com/example/deliveryapp/service/InterviewService.kt
 
-package com.example.hirestory.service
+package com.example.deliveryapp.service
 
-import com.example.hirestory.dto.*
-import com.example.hirestory.entity.*
-import com.example.hirestory.repository.*
+import com.example.deliveryapp.dto.*
+import com.example.deliveryapp.entity.*
+import com.example.deliveryapp.repository.*
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -1323,9 +1325,9 @@ fun updateStatus(...)
 
 ---
 
-## 3.13 HireStory Connection — What You Built in Chapter 3
+## 3.13 DeliveryApp Connection — What You Built in Chapter 3
 
-By the end of this chapter, HireStory has:
+By the end of this chapter, DeliveryApp has:
 
 - All 8 repositories — `User`, `Company`, `Interview`, `Bookmark`, `Comment`, `ReadHistory`, `CrawlJob`, plus tag support
 - A complete feed query with optional filters (company, difficulty, outcome) using the two-query pagination pattern — safe, correct, performant

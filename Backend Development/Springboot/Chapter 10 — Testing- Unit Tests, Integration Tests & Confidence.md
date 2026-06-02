@@ -1,6 +1,8 @@
 # Backend Engineering with Spring Boot & Kotlin
 
-## The HireStory Builder's Guide
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
+## The DeliveryApp Builder's Guide
 
 ---
 
@@ -23,7 +25,7 @@ But consider what happens next:
 
 Without tests, every change is a gamble. With tests, your code tells you immediately when something breaks.
 
-This chapter teaches you three levels of testing for HireStory:
+This chapter teaches you three levels of testing for DeliveryApp:
 
 - **Unit tests** — test one class in isolation, fast, no database
 - **Integration tests** — test one slice of the app with a real database
@@ -104,13 +106,13 @@ class SomeServiceTest {
 ### Testing InterviewService
 
 ```kotlin
-// src/test/kotlin/com/example/hirestory/service/InterviewServiceTest.kt
+// src/test/kotlin/com/example/deliveryapp/service/InterviewServiceTest.kt
 
-package com.example.hirestory.service
+package com.example.deliveryapp.service
 
-import com.example.hirestory.entity.*
-import com.example.hirestory.exception.ResourceNotFoundException
-import com.example.hirestory.repository.*
+import com.example.deliveryapp.entity.*
+import com.example.deliveryapp.exception.ResourceNotFoundException
+import com.example.deliveryapp.repository.*
 import io.mockk.*
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
@@ -300,14 +302,14 @@ class InterviewServiceTest {
 ### Testing ReadTrackingService
 
 ```kotlin
-// src/test/kotlin/com/example/hirestory/service/ReadTrackingServiceTest.kt
+// src/test/kotlin/com/example/deliveryapp/service/ReadTrackingServiceTest.kt
 
-package com.example.hirestory.service
+package com.example.deliveryapp.service
 
-import com.example.hirestory.config.HireStoryProperties
-import com.example.hirestory.entity.*
-import com.example.hirestory.exception.PaywallException
-import com.example.hirestory.repository.ReadHistoryRepository
+import com.example.deliveryapp.config.DeliveryAppProperties
+import com.example.deliveryapp.entity.*
+import com.example.deliveryapp.exception.PaywallException
+import com.example.deliveryapp.repository.ReadHistoryRepository
 import io.mockk.*
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
@@ -317,9 +319,9 @@ class ReadTrackingServiceTest {
 
     private val readHistoryRepository = mockk<ReadHistoryRepository>()
     private val cacheService          = mockk<CacheService>()
-    private val properties            = HireStoryProperties(
-        clerk = HireStoryProperties.ClerkProperties("", ""),
-        freeTier = HireStoryProperties.FreeTierProperties(monthlyReadLimit = 25),
+    private val properties            = DeliveryAppProperties(
+        clerk = DeliveryAppProperties.ClerkProperties("", ""),
+        freeTier = DeliveryAppProperties.FreeTierProperties(monthlyReadLimit = 25),
         crawler = mockk(),
         ai = mockk()
     )
@@ -394,11 +396,11 @@ class ReadTrackingServiceTest {
 `@DataJpaTest` starts only the JPA layer: entities, repositories, and an in-memory H2 database. Everything else (controllers, services, security) is not loaded. These tests run in about 3-5 seconds.
 
 ```kotlin
-// src/test/kotlin/com/example/hirestory/repository/InterviewRepositoryTest.kt
+// src/test/kotlin/com/example/deliveryapp/repository/InterviewRepositoryTest.kt
 
-package com.example.hirestory.repository
+package com.example.deliveryapp.repository
 
-import com.example.hirestory.entity.*
+import com.example.deliveryapp.entity.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -572,9 +574,9 @@ testImplementation("org.testcontainers:junit-jupiter:1.20.4")
 ```
 
 ```kotlin
-// src/test/kotlin/com/example/hirestory/repository/PostgresRepositoryTest.kt
+// src/test/kotlin/com/example/deliveryapp/repository/PostgresRepositoryTest.kt
 
-package com.example.hirestory.repository
+package com.example.deliveryapp.repository
 
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
@@ -597,7 +599,7 @@ abstract class PostgresRepositoryTest {
         @Container
         @JvmStatic
         val postgres = PostgreSQLContainer<Nothing>("postgres:16-alpine").apply {
-            withDatabaseName("hirestory_test")
+            withDatabaseName("deliveryapp_test")
             withUsername("test")
             withPassword("test")
         }
@@ -626,14 +628,14 @@ class InterviewRepositoryPostgresTest : PostgresRepositoryTest() {
 `@WebMvcTest` loads only the web layer: controllers, filters, exception handlers. Services and repositories are not loaded — you mock them.
 
 ```kotlin
-// src/test/kotlin/com/example/hirestory/controller/InterviewControllerTest.kt
+// src/test/kotlin/com/example/deliveryapp/controller/InterviewControllerTest.kt
 
-package com.example.hirestory.controller
+package com.example.deliveryapp.controller
 
-import com.example.hirestory.dto.*
-import com.example.hirestory.entity.*
-import com.example.hirestory.security.JwtAuthenticationFilter
-import com.example.hirestory.service.InterviewService
+import com.example.deliveryapp.dto.*
+import com.example.deliveryapp.entity.*
+import com.example.deliveryapp.security.JwtAuthenticationFilter
+import com.example.deliveryapp.service.InterviewService
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.junit.jupiter.api.Test
@@ -818,12 +820,12 @@ class InterviewControllerTest {
 Test your `JwtAuthenticationFilter` directly:
 
 ```kotlin
-// src/test/kotlin/com/example/hirestory/security/JwtAuthenticationFilterTest.kt
+// src/test/kotlin/com/example/deliveryapp/security/JwtAuthenticationFilterTest.kt
 
-package com.example.hirestory.security
+package com.example.deliveryapp.security
 
-import com.example.hirestory.entity.User
-import com.example.hirestory.repository.UserRepository
+import com.example.deliveryapp.entity.User
+import com.example.deliveryapp.repository.UserRepository
 import io.jsonwebtoken.Claims
 import io.mockk.*
 import jakarta.servlet.FilterChain
@@ -939,12 +941,12 @@ class JwtAuthenticationFilterTest {
 Integration tests start the full Spring Boot application and test the complete request-to-database flow. They are slower but give you the most confidence.
 
 ```kotlin
-// src/test/kotlin/com/example/hirestory/integration/InterviewApiIntegrationTest.kt
+// src/test/kotlin/com/example/deliveryapp/integration/InterviewApiIntegrationTest.kt
 
-package com.example.hirestory.integration
+package com.example.deliveryapp.integration
 
-import com.example.hirestory.entity.*
-import com.example.hirestory.repository.*
+import com.example.deliveryapp.entity.*
+import com.example.deliveryapp.repository.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -1072,7 +1074,7 @@ spring:
       # Use a separate Redis database for tests (database 1, not 0)
       database: 1
 
-hirestory:
+deliveryapp:
   clerk:
     jwks-url: https://test.clerk.accounts.dev/.well-known/jwks.json
     webhook-secret: test-secret
@@ -1089,7 +1091,7 @@ hirestory:
 logging:
   level:
     root: WARN        # Quiet logs during tests
-    com.example.hirestory: INFO
+    com.example.deliveryapp: INFO
 ```
 
 ---
@@ -1097,7 +1099,7 @@ logging:
 ## 10.8 Testing Validation — Asserting Field Errors
 
 ```kotlin
-// src/test/kotlin/com/example/hirestory/controller/ValidationTest.kt
+// src/test/kotlin/com/example/deliveryapp/controller/ValidationTest.kt
 
 @WebMvcTest(InterviewController::class)
 class ValidationTest {
@@ -1151,16 +1153,16 @@ class ValidationTest {
 ## 10.9 Testing the Crawler
 
 ```kotlin
-// src/test/kotlin/com/example/hirestory/crawler/CrawlJobServiceTest.kt
+// src/test/kotlin/com/example/deliveryapp/crawler/CrawlJobServiceTest.kt
 
-package com.example.hirestory.crawler
+package com.example.deliveryapp.crawler
 
-import com.example.hirestory.entity.CrawlJob
-import com.example.hirestory.entity.CrawlStatus
-import com.example.hirestory.messaging.CrawlPublisher
-import com.example.hirestory.repository.CrawlJobRepository
-import com.example.hirestory.service.CacheService
-import com.example.hirestory.service.CrawlJobService
+import com.example.deliveryapp.entity.CrawlJob
+import com.example.deliveryapp.entity.CrawlStatus
+import com.example.deliveryapp.messaging.CrawlPublisher
+import com.example.deliveryapp.repository.CrawlJobRepository
+import com.example.deliveryapp.service.CacheService
+import com.example.deliveryapp.service.CrawlJobService
 import io.mockk.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -1370,9 +1372,9 @@ private val someService = mockk<SomeService>(relaxed = true)
 
 ---
 
-## 10.12 HireStory Connection — What You Built in Chapter 10
+## 10.12 DeliveryApp Connection — What You Built in Chapter 10
 
-By the end of Chapter 10, HireStory has a test suite that:
+By the end of Chapter 10, DeliveryApp has a test suite that:
 
 - **Unit tests** for `InterviewService` — feed ordering, bookmark flags, read tracking delegation
 - **Unit tests** for `ReadTrackingService` — paywall enforcement, premium bypass, re-read prevention
@@ -1397,7 +1399,7 @@ Every critical business rule has a test:
 
 ### What to build
 
-A meaningful test suite for the three most important parts of HireStory.
+A meaningful test suite for the three most important parts of DeliveryApp.
 
 **Part 1 — ReadTrackingService unit tests (most critical business logic)**
 
@@ -1451,8 +1453,29 @@ Write tests for `InterviewController`:
 
 ---
 
-_Chapter 11 → Deployment — Getting HireStory Live on Railway_
+_Chapter 11 → Deployment — Getting DeliveryApp Live on Railway_
 
 ---
 
 > **Book Progress:** Chapter 10 of 15 complete. Chapters ahead: Deployment · KMP Shared Module · Android UI · Next.js · Final Integration
+## Book-Aligned Corrections: Testing
+
+The book emphasizes Spring Boot testing slices. Do not use full `@SpringBootTest` for everything.
+
+Use:
+
+- `@JsonTest` for JSON serialization/deserialization.
+- `@WebMvcTest` + MockMvc for MVC controller slices.
+- `@WebFluxTest` + WebTestClient for reactive controller slices.
+- `@DataJpaTest` for JPA repository tests.
+- `@DataMongoTest` for Mongo repository tests.
+- `@SpringBootTest` for full integration tests.
+- Testcontainers for real PostgreSQL/RabbitMQ/Redis-style dependencies.
+
+Correct rule:
+
+```text
+smallest useful Spring context wins
+```
+
+Full-context tests are valuable, but slow. Use them for cross-layer confidence, not every controller method.

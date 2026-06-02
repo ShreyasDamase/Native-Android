@@ -1,6 +1,8 @@
 # Backend Engineering with Spring Boot & Kotlin
 
-## The HireStory Builder's Guide
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
+## The DeliveryApp Builder's Guide
 
 ---
 
@@ -68,7 +70,7 @@ From this raw text you need to extract:
 
 Doing this with regex or rule-based code would take months and still fail on edge cases. GPT-4o Mini does it in 2 seconds for less than $0.001 per extraction.
 
-This chapter teaches you how to wire Spring AI into HireStory, write prompts that extract reliably, and build the auto-publish pipeline that turns crawled content into live interviews.
+This chapter teaches you how to wire Spring AI into DeliveryApp, write prompts that extract reliably, and build the auto-publish pipeline that turns crawled content into live interviews.
 
 ---
 
@@ -128,7 +130,7 @@ spring:
                                 # We want consistent extraction, not creativity
           max-tokens: 2000      # Enough for a full extraction response
 
-hirestory:
+deliveryapp:
   ai:
     extraction:
       min-confidence-score: 50   # Below this: mark as FAILED, do not create interview
@@ -136,10 +138,10 @@ hirestory:
       max-retries: 3             # Retry failed AI calls this many times
 ```
 
-Update `HireStoryProperties`:
+Update `DeliveryAppProperties`:
 
 ```kotlin
-data class HireStoryProperties(
+data class DeliveryAppProperties(
     val clerk: ClerkProperties,
     val freeTier: FreeTierProperties,
     val crawler: CrawlerProperties,
@@ -164,9 +166,9 @@ data class HireStoryProperties(
 Define the exact Kotlin data class you want the AI to populate. Spring AI uses this as the schema for structured output:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/ai/ExtractionModels.kt
+// src/main/kotlin/com/example/deliveryapp/ai/ExtractionModels.kt
 
-package com.example.hirestory.ai
+package com.example.deliveryapp.ai
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
@@ -241,14 +243,14 @@ The quality of your extracted data depends entirely on your prompt. A bad prompt
 Spend more time on your prompt than on any other part of this chapter.
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/ai/ExtractionPrompt.kt
+// src/main/kotlin/com/example/deliveryapp/ai/ExtractionPrompt.kt
 
-package com.example.hirestory.ai
+package com.example.deliveryapp.ai
 
 object ExtractionPrompt {
 
     val SYSTEM_PROMPT = """
-        You are a data extraction specialist for HireStory, a platform that aggregates
+        You are a data extraction specialist for DeliveryApp, a platform that aggregates
         software engineering interview experiences in India.
         
         Your job is to extract structured information from raw text that may contain
@@ -346,11 +348,11 @@ object ExtractionPrompt {
 ## 9.7 The AI Extraction Service
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/ai/AiExtractionService.kt
+// src/main/kotlin/com/example/deliveryapp/ai/AiExtractionService.kt
 
-package com.example.hirestory.ai
+package com.example.deliveryapp.ai
 
-import com.example.hirestory.config.HireStoryProperties
+import com.example.deliveryapp.config.DeliveryAppProperties
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.slf4j.LoggerFactory
@@ -364,7 +366,7 @@ import org.springframework.stereotype.Service
 class AiExtractionService(
     private val chatClient: ChatClient,
     private val objectMapper: ObjectMapper,
-    private val properties: HireStoryProperties
+    private val properties: DeliveryAppProperties
 ) {
     private val log = LoggerFactory.getLogger(AiExtractionService::class.java)
 
@@ -458,9 +460,9 @@ class AiExtractionService(
 Spring AI's `ChatClient` needs to be configured as a bean. Spring Boot auto-configures a `ChatClient.Builder` — use it:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/config/AiConfig.kt
+// src/main/kotlin/com/example/deliveryapp/config/AiConfig.kt
 
-package com.example.hirestory.config
+package com.example.deliveryapp.config
 
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.context.annotation.Bean
@@ -486,14 +488,14 @@ class AiConfig {
 After the AI returns a result, you need to decide what to do with it: create an interview, send to review, or discard it.
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/ai/ExtractionProcessor.kt
+// src/main/kotlin/com/example/deliveryapp/ai/ExtractionProcessor.kt
 
-package com.example.hirestory.ai
+package com.example.deliveryapp.ai
 
-import com.example.hirestory.config.HireStoryProperties
-import com.example.hirestory.entity.*
-import com.example.hirestory.repository.*
-import com.example.hirestory.service.toSlug
+import com.example.deliveryapp.config.DeliveryAppProperties
+import com.example.deliveryapp.entity.*
+import com.example.deliveryapp.repository.*
+import com.example.deliveryapp.service.toSlug
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -505,7 +507,7 @@ class ExtractionProcessor(
     private val companyRepository: CompanyRepository,
     private val tagRepository: TagRepository,
     private val crawlJobRepository: CrawlJobRepository,
-    private val properties: HireStoryProperties
+    private val properties: DeliveryAppProperties
 ) {
     private val log = LoggerFactory.getLogger(ExtractionProcessor::class.java)
 
@@ -845,7 +847,7 @@ Before you run this on real crawled data, test your prompt manually. This is not
 ### Test Cases You Must Verify
 
 ```kotlin
-// src/test/kotlin/com/example/hirestory/ai/ExtractionPromptTest.kt
+// src/test/kotlin/com/example/deliveryapp/ai/ExtractionPromptTest.kt
 
 // Test Case 1: Clear interview experience — should be confidence 90+
 val clearExperience = """
@@ -999,13 +1001,13 @@ Remember Chapter 8 checkpoint question 4 — a crawl job saved to the database b
 Fix it with a recovery scheduler:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/service/CrawlRecoveryScheduler.kt
+// src/main/kotlin/com/example/deliveryapp/service/CrawlRecoveryScheduler.kt
 
-package com.example.hirestory.service
+package com.example.deliveryapp.service
 
-import com.example.hirestory.entity.CrawlStatus
-import com.example.hirestory.messaging.CrawlPublisher
-import com.example.hirestory.repository.CrawlJobRepository
+import com.example.deliveryapp.entity.CrawlStatus
+import com.example.deliveryapp.messaging.CrawlPublisher
+import com.example.deliveryapp.repository.CrawlJobRepository
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
@@ -1144,9 +1146,9 @@ val prompt = ExtractionPrompt.buildUserPrompt(rawText.take(8000), sourceUrl)
 
 ---
 
-## 9.17 HireStory Connection — What You Built in Chapter 9
+## 9.17 DeliveryApp Connection — What You Built in Chapter 9
 
-By the end of Chapter 9, HireStory has a complete automated content pipeline from URL discovery to published interview:
+By the end of Chapter 9, DeliveryApp has a complete automated content pipeline from URL discovery to published interview:
 
 **The complete flow end to end:**
 

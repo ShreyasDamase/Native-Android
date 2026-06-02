@@ -1,6 +1,8 @@
 # Backend Engineering with Spring Boot & Kotlin
 
-## The HireStory Builder's Guide
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
+## The DeliveryApp Builder's Guide
 
 ---
 
@@ -89,7 +91,7 @@ This is how `currentUser` stops being `null`. By the time your controller met
 
 ## 5.3 What JWT Is — The Token Your App Uses
 
-You know the concept. Let us be precise about how it works for HireStory.
+You know the concept. Let us be precise about how it works for DeliveryApp.
 
 ### JWT Structure
 
@@ -154,7 +156,7 @@ Clerk publishes their public key at a JWKS URL. JWKS stands for JSON Web Key Set
 
 ```
 Your app.yml:
-hirestory:
+deliveryapp:
   clerk:
     jwks-url: https://your-app.clerk.accounts.dev/.well-known/jwks.json
 ```
@@ -189,15 +191,15 @@ dependencies {
 You already have the Clerk properties in your `application.yml`. Now create a type-safe class to read them:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/config/HireStoryProperties.kt
+// src/main/kotlin/com/example/deliveryapp/config/DeliveryAppProperties.kt
 
-package com.example.hirestory.config
+package com.example.deliveryapp.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.bind.DefaultValue
 
-@ConfigurationProperties(prefix = "hirestory")
-data class HireStoryProperties(
+@ConfigurationProperties(prefix = "deliveryapp")
+data class DeliveryAppProperties(
     val clerk: ClerkProperties,
     val freeTier: FreeTierProperties
 ) {
@@ -215,14 +217,14 @@ data class HireStoryProperties(
 Register it in your application class:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/HireStoryApplication.kt
+// src/main/kotlin/com/example/deliveryapp/DeliveryAppApplication.kt
 
 @SpringBootApplication
-@EnableConfigurationProperties(HireStoryProperties::class)
-class HireStoryApplication
+@EnableConfigurationProperties(DeliveryAppProperties::class)
+class DeliveryAppApplication
 
 fun main(args: Array<String>) {
-    runApplication<HireStoryApplication>()
+    runApplication<DeliveryAppApplication>()
 }
 ```
 
@@ -233,11 +235,11 @@ fun main(args: Array<String>) {
 This service does one job: take a raw JWT token string and return the claims inside it if the token is valid.
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/security/JwtService.kt
+// src/main/kotlin/com/example/deliveryapp/security/JwtService.kt
 
-package com.example.hirestory.security
+package com.example.deliveryapp.security
 
-import com.example.hirestory.config.HireStoryProperties
+import com.example.deliveryapp.config.DeliveryAppProperties
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.JwkSet
@@ -248,7 +250,7 @@ import java.net.URI
 import java.security.PublicKey
 
 @Service
-class JwtService(private val properties: HireStoryProperties) {
+class JwtService(private val properties: DeliveryAppProperties) {
 
     private val log = LoggerFactory.getLogger(JwtService::class.java)
 
@@ -321,11 +323,11 @@ class JwtService(private val properties: HireStoryProperties) {
 This is the core of your security. It runs before every request.
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/security/JwtAuthenticationFilter.kt
+// src/main/kotlin/com/example/deliveryapp/security/JwtAuthenticationFilter.kt
 
-package com.example.hirestory.security
+package com.example.deliveryapp.security
 
-import com.example.hirestory.repository.UserRepository
+import com.example.deliveryapp.repository.UserRepository
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -426,11 +428,11 @@ class JwtAuthenticationFilter(
 This is where you define which endpoints are public and which require authentication.
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/config/SecurityConfig.kt
+// src/main/kotlin/com/example/deliveryapp/config/SecurityConfig.kt
 
-package com.example.hirestory.config
+package com.example.deliveryapp.config
 
-import com.example.hirestory.security.JwtAuthenticationFilter
+import com.example.deliveryapp.security.JwtAuthenticationFilter
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -727,7 +729,7 @@ class CommentController(private val commentService: CommentService) {
 }
 ```
 
-For HireStory, the simpler approach is better for most cases:
+For DeliveryApp, the simpler approach is better for most cases:
 
 - Public endpoints in `SecurityConfig.permitAll()`
 - Admin endpoints in `SecurityConfig.hasRole("ADMIN")`
@@ -768,12 +770,12 @@ implementation("com.svix:svix:1.38.0")
 ### The Webhook Controller
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/controller/WebhookController.kt
+// src/main/kotlin/com/example/deliveryapp/controller/WebhookController.kt
 
-package com.example.hirestory.controller
+package com.example.deliveryapp.controller
 
-import com.example.hirestory.config.HireStoryProperties
-import com.example.hirestory.service.UserService
+import com.example.deliveryapp.config.DeliveryAppProperties
+import com.example.deliveryapp.service.UserService
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.svix.webhooks.Webhook
@@ -789,7 +791,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/webhooks")
 class WebhookController(
-    private val properties: HireStoryProperties,
+    private val properties: DeliveryAppProperties,
     private val userService: UserService,
     private val objectMapper: ObjectMapper
 ) {
@@ -881,12 +883,12 @@ class WebhookController(
 ### The User Service
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/service/UserService.kt
+// src/main/kotlin/com/example/deliveryapp/service/UserService.kt
 
-package com.example.hirestory.service
+package com.example.deliveryapp.service
 
-import com.example.hirestory.entity.User
-import com.example.hirestory.repository.UserRepository
+import com.example.deliveryapp.entity.User
+import com.example.deliveryapp.repository.UserRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -959,19 +961,19 @@ class UserService(private val userRepository: UserRepository) {
 
 ## 5.13 The Read Count — Free Tier Enforcement
 
-HireStory's free tier allows 25 interview reads per month. This logic lives in the service, triggered when someone reads an interview detail.
+DeliveryApp's free tier allows 25 interview reads per month. This logic lives in the service, triggered when someone reads an interview detail.
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/service/ReadTrackingService.kt
+// src/main/kotlin/com/example/deliveryapp/service/ReadTrackingService.kt
 
-package com.example.hirestory.service
+package com.example.deliveryapp.service
 
-import com.example.hirestory.config.HireStoryProperties
-import com.example.hirestory.entity.Interview
-import com.example.hirestory.entity.ReadHistory
-import com.example.hirestory.entity.User
-import com.example.hirestory.exception.PaywallException
-import com.example.hirestory.repository.ReadHistoryRepository
+import com.example.deliveryapp.config.DeliveryAppProperties
+import com.example.deliveryapp.entity.Interview
+import com.example.deliveryapp.entity.ReadHistory
+import com.example.deliveryapp.entity.User
+import com.example.deliveryapp.exception.PaywallException
+import com.example.deliveryapp.repository.ReadHistoryRepository
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -982,7 +984,7 @@ import java.time.format.DateTimeFormatter
 class ReadTrackingService(
     private val readHistoryRepository: ReadHistoryRepository,
     private val redisTemplate: StringRedisTemplate,
-    private val properties: HireStoryProperties
+    private val properties: DeliveryAppProperties
 ) {
 
     // Call this when a logged-in user reads an interview detail
@@ -1059,21 +1061,21 @@ class InterviewService(
 
 > **⚠️ Transaction note:** `trackRead` is `@Transactional` and `getBySlug` is `@Transactional(readOnly = true)`. When `getBySlug`calls `trackRead`, Spring detects that a transaction already exists and uses it — but since it is readOnly, the write in `trackRead` will fail.
 > 
-> Fix: Remove `readOnly = true` from `getBySlug`, or extract the track call to happen after the read-only transaction completes. For HireStory, removing `readOnly` from `getBySlug` is the simplest correct solution.
+> Fix: Remove `readOnly = true` from `getBySlug`, or extract the track call to happen after the read-only transaction completes. For DeliveryApp, removing `readOnly` from `getBySlug` is the simplest correct solution.
 
 ---
 
 ## 5.14 The Profile Endpoint — Seeing Your Own Data
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/controller/ProfileController.kt
+// src/main/kotlin/com/example/deliveryapp/controller/ProfileController.kt
 
-package com.example.hirestory.controller
+package com.example.deliveryapp.controller
 
-import com.example.hirestory.dto.ProfileDto
-import com.example.hirestory.entity.User
-import com.example.hirestory.service.ProfileService
-import com.example.hirestory.service.ReadTrackingService
+import com.example.deliveryapp.dto.ProfileDto
+import com.example.deliveryapp.entity.User
+import com.example.deliveryapp.service.ProfileService
+import com.example.deliveryapp.service.ReadTrackingService
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
@@ -1253,7 +1255,7 @@ http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilt
 @AuthenticationPrincipal currentUser: UserDetails  // UserDetails is Spring's interface
 
 // ✅ Use your actual entity type — this is what you put in the security context
-@AuthenticationPrincipal currentUser: User         // com.example.hirestory.entity.User
+@AuthenticationPrincipal currentUser: User         // com.example.deliveryapp.entity.User
 ```
 
 ### Mistake 5 — Not verifying the Clerk webhook signature
@@ -1295,9 +1297,9 @@ fun trackRead(user: User, interview: Interview) {
 
 ---
 
-## 5.18 HireStory Connection — What You Built in Chapter 5
+## 5.18 DeliveryApp Connection — What You Built in Chapter 5
 
-By the end of Chapter 5, HireStory has a complete, production-grade authentication system:
+By the end of Chapter 5, DeliveryApp has a complete, production-grade authentication system:
 
 - `JwtService` — validates Clerk JWT tokens against their public JWKS keys
 - `JwtAuthenticationFilter` — reads token on every request, loads the user, puts them in the security context
@@ -1377,3 +1379,25 @@ _Chapter 6 → Redis — Caching, Counters and Speed_
 ---
 
 > **Book Progress:** Chapter 5 of 15 complete. Chapters ahead: Redis · RabbitMQ · Spring AI · Jsoup · Scheduler · Testing · Deployment
+## Book-Aligned Corrections: Security
+
+The book's security chapter centers Spring Security itself before JWT:
+
+- Requests pass through a `SecurityFilterChain`.
+- `HttpSecurity` configures authentication and authorization rules.
+- `UserDetails`, `AuthenticationProvider`, and password encoders are the core authentication pieces.
+- `BCryptPasswordEncoder` is the safe default for password hashing.
+- JWT is a stateless API strategy layered on top of Spring Security, not a replacement for it.
+- Security tests should verify 401/403/allowed behavior.
+
+Correct learning order:
+
+```text
+SecurityFilterChain
+  -> password encoding
+  -> user lookup
+  -> authentication
+  -> authorization
+  -> JWT filter
+  -> method-level security
+```

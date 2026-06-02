@@ -1,5 +1,7 @@
 # Chapter 24 — Food Delivery App HLD and LLD Case Study
 
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
 ### _A complete Swiggy/Zomato/DoorDash-style design with HLD, LLD, flows, classes, APIs, schemas and Spring Boot architecture_
 
 ---

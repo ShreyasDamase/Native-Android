@@ -1,5 +1,7 @@
 # Chapter 20 — Industry Scale System Design Reference
 
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
 ### _Reference architectures for real production apps: delivery, Uber-like, booking, marketplace, chat, payments, search and AI_
 
 ---

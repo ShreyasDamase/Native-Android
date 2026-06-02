@@ -1,6 +1,8 @@
 # Backend Engineering with Spring Boot & Kotlin
 
-## The HireStory Builder's Guide
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
+## The DeliveryApp Builder's Guide
 
 ---
 
@@ -75,12 +77,12 @@ Spring Boot includes the Bean Validation API (Jakarta Validation). You annotate 
 ### The Validation Annotations You Need
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/dto/InterviewDtos.kt
+// src/main/kotlin/com/example/deliveryapp/dto/InterviewDtos.kt
 
-package com.example.hirestory.dto
+package com.example.deliveryapp.dto
 
-import com.example.hirestory.entity.Difficulty
-import com.example.hirestory.entity.Outcome
+import com.example.deliveryapp.entity.Difficulty
+import com.example.deliveryapp.entity.Outcome
 import jakarta.validation.Valid
 import jakarta.validation.constraints.*
 
@@ -208,9 +210,9 @@ A global exception handler catches every exception and returns a consistent JSON
 First, define what every error response looks like:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/exception/ErrorResponse.kt
+// src/main/kotlin/com/example/deliveryapp/exception/ErrorResponse.kt
 
-package com.example.hirestory.exception
+package com.example.deliveryapp.exception
 
 import java.time.LocalDateTime
 
@@ -260,9 +262,9 @@ On the Android or web app, every error response looks like:
 Before the handler, define your custom exceptions:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/exception/Exceptions.kt
+// src/main/kotlin/com/example/deliveryapp/exception/Exceptions.kt
 
-package com.example.hirestory.exception
+package com.example.deliveryapp.exception
 
 // 404 — Resource was not found
 class ResourceNotFoundException(
@@ -296,9 +298,9 @@ class BusinessRuleException(
 ### The Global Exception Handler
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/exception/GlobalExceptionHandler.kt
+// src/main/kotlin/com/example/deliveryapp/exception/GlobalExceptionHandler.kt
 
-package com.example.hirestory.exception
+package com.example.deliveryapp.exception
 
 import jakarta.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
@@ -549,7 +551,7 @@ Most beginners return 200 for everything. This is wrong. Status codes communicat
 
 ---
 
-## 4.6 The Complete HireStory API Controllers
+## 4.6 The Complete DeliveryApp API Controllers
 
 Now write every controller. Each one follows the same pattern:
 
@@ -563,14 +565,14 @@ Now write every controller. Each one follows the same pattern:
 ### Interview Controller
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/controller/InterviewController.kt
+// src/main/kotlin/com/example/deliveryapp/controller/InterviewController.kt
 
-package com.example.hirestory.controller
+package com.example.deliveryapp.controller
 
-import com.example.hirestory.dto.*
-import com.example.hirestory.entity.Difficulty
-import com.example.hirestory.entity.Outcome
-import com.example.hirestory.service.InterviewService
+import com.example.deliveryapp.dto.*
+import com.example.deliveryapp.entity.Difficulty
+import com.example.deliveryapp.entity.Outcome
+import com.example.deliveryapp.service.InterviewService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -639,13 +641,13 @@ class InterviewController(private val interviewService: InterviewService) {
 ### Company Controller
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/controller/CompanyController.kt
+// src/main/kotlin/com/example/deliveryapp/controller/CompanyController.kt
 
-package com.example.hirestory.controller
+package com.example.deliveryapp.controller
 
-import com.example.hirestory.dto.CompanyDto
-import com.example.hirestory.dto.SliceResponse
-import com.example.hirestory.service.CompanyService
+import com.example.deliveryapp.dto.CompanyDto
+import com.example.deliveryapp.dto.SliceResponse
+import com.example.deliveryapp.service.CompanyService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -682,13 +684,13 @@ class CompanyController(private val companyService: CompanyService) {
 ### Bookmark Controller
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/controller/BookmarkController.kt
+// src/main/kotlin/com/example/deliveryapp/controller/BookmarkController.kt
 
-package com.example.hirestory.controller
+package com.example.deliveryapp.controller
 
-import com.example.hirestory.dto.BookmarkDto
-import com.example.hirestory.dto.SliceResponse
-import com.example.hirestory.service.BookmarkService
+import com.example.deliveryapp.dto.BookmarkDto
+import com.example.deliveryapp.dto.SliceResponse
+import com.example.deliveryapp.service.BookmarkService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -727,12 +729,12 @@ class BookmarkController(private val bookmarkService: BookmarkService) {
 ### Admin Controller
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/controller/AdminController.kt
+// src/main/kotlin/com/example/deliveryapp/controller/AdminController.kt
 
-package com.example.hirestory.controller
+package com.example.deliveryapp.controller
 
-import com.example.hirestory.dto.*
-import com.example.hirestory.service.AdminService
+import com.example.deliveryapp.dto.*
+import com.example.deliveryapp.service.AdminService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -789,14 +791,14 @@ data class RejectInterviewDto(val reason: String = "Does not meet quality standa
 Your controllers are thin. All logic lives in services. Here are the services that power the controllers above:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/service/InterviewService.kt
+// src/main/kotlin/com/example/deliveryapp/service/InterviewService.kt
 
-package com.example.hirestory.service
+package com.example.deliveryapp.service
 
-import com.example.hirestory.dto.*
-import com.example.hirestory.entity.*
-import com.example.hirestory.exception.*
-import com.example.hirestory.repository.*
+import com.example.deliveryapp.dto.*
+import com.example.deliveryapp.entity.*
+import com.example.deliveryapp.exception.*
+import com.example.deliveryapp.repository.*
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -945,17 +947,17 @@ fun String.toSlug(): String = this
 ```
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/service/BookmarkService.kt
+// src/main/kotlin/com/example/deliveryapp/service/BookmarkService.kt
 
-package com.example.hirestory.service
+package com.example.deliveryapp.service
 
-import com.example.hirestory.dto.BookmarkDto
-import com.example.hirestory.entity.Bookmark
-import com.example.hirestory.exception.DuplicateResourceException
-import com.example.hirestory.exception.ResourceNotFoundException
-import com.example.hirestory.repository.BookmarkRepository
-import com.example.hirestory.repository.InterviewRepository
-import com.example.hirestory.repository.UserRepository
+import com.example.deliveryapp.dto.BookmarkDto
+import com.example.deliveryapp.entity.Bookmark
+import com.example.deliveryapp.exception.DuplicateResourceException
+import com.example.deliveryapp.exception.ResourceNotFoundException
+import com.example.deliveryapp.repository.BookmarkRepository
+import com.example.deliveryapp.repository.InterviewRepository
+import com.example.deliveryapp.repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -1001,14 +1003,14 @@ class BookmarkService(
 ```
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/service/AdminService.kt
+// src/main/kotlin/com/example/deliveryapp/service/AdminService.kt
 
-package com.example.hirestory.service
+package com.example.deliveryapp.service
 
-import com.example.hirestory.dto.*
-import com.example.hirestory.entity.InterviewStatus
-import com.example.hirestory.exception.ResourceNotFoundException
-import com.example.hirestory.repository.*
+import com.example.deliveryapp.dto.*
+import com.example.deliveryapp.entity.InterviewStatus
+import com.example.deliveryapp.exception.ResourceNotFoundException
+import com.example.deliveryapp.repository.*
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -1074,9 +1076,9 @@ class AdminService(
 ## 4.8 Remaining DTOs
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/dto/CommonDtos.kt
+// src/main/kotlin/com/example/deliveryapp/dto/CommonDtos.kt
 
-package com.example.hirestory.dto
+package com.example.deliveryapp.dto
 
 // Generic paginated response
 data class SliceResponse<T>(
@@ -1123,9 +1125,9 @@ data class CrawlerTriggerResultDto(
 Your Android app and Next.js web app are on different origins than your API. Without CORS configuration, browsers block web requests entirely. Configure it once:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/config/WebConfig.kt
+// src/main/kotlin/com/example/deliveryapp/config/WebConfig.kt
 
-package com.example.hirestory.config
+package com.example.deliveryapp.config
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.CorsRegistry
@@ -1138,8 +1140,8 @@ class WebConfig : WebMvcConfigurer {
         registry.addMapping("/**")              // Apply to all endpoints
             .allowedOrigins(
                 "http://localhost:3000",        // Next.js dev
-                "https://hirestory.com",        // Production web
-                "https://www.hirestory.com"
+                "https://deliveryapp.com",        // Production web
+                "https://www.deliveryapp.com"
             )
             .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
             .allowedHeaders("*")
@@ -1343,9 +1345,9 @@ data class CreateInterviewDto(
 
 ---
 
-## 4.12 HireStory Connection — What You Built in Chapter 4
+## 4.12 DeliveryApp Connection — What You Built in Chapter 4
 
-By the end of Chapter 4, HireStory has a complete, professional API layer:
+By the end of Chapter 4, DeliveryApp has a complete, professional API layer:
 
 - All request DTOs with field-level validation using correct `@field:` prefix
 - A `GlobalExceptionHandler` that catches every exception type and returns consistent JSON errors to every client

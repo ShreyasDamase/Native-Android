@@ -1,18 +1,20 @@
 # Backend Engineering with Spring Boot & Kotlin
 
-## The HireStory Builder's Guide
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
+## The DeliveryApp Builder's Guide
 
 ---
 
 # Chapter 8 — The Web Crawler
 
-### _Filling HireStory with content automatically — Jsoup, Reddit API, and scheduled crawling_
+### _Filling DeliveryApp with content automatically — Jsoup, Reddit API, and scheduled crawling_
 
 ---
 
 ## 8.1 The Problem This Chapter Solves
 
-HireStory needs content. Lots of it. Waiting for users to submit interviews one by one is too slow at launch. You need a way to automatically discover and import interview experiences from the internet.
+DeliveryApp needs content. Lots of it. Waiting for users to submit interviews one by one is too slow at launch. You need a way to automatically discover and import interview experiences from the internet.
 
 That is the crawler. It does four things:
 
@@ -71,15 +73,15 @@ dependencies {
 Add one annotation to your application class:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/HireStoryApplication.kt
+// src/main/kotlin/com/example/deliveryapp/DeliveryAppApplication.kt
 
 @SpringBootApplication
-@EnableConfigurationProperties(HireStoryProperties::class)
+@EnableConfigurationProperties(DeliveryAppProperties::class)
 @EnableScheduling    // ← Activates @Scheduled annotations
-class HireStoryApplication
+class DeliveryAppApplication
 
 fun main(args: Array<String>) {
-    runApplication<HireStoryApplication>()
+    runApplication<DeliveryAppApplication>()
 }
 ```
 
@@ -94,11 +96,11 @@ Add crawler settings to `application.yml` and your properties class:
 ```yaml
 # application.yml
 
-hirestory:
+deliveryapp:
   crawler:
     enabled: true                    # Master switch — set false to disable all crawling
     reddit:
-      user-agent: "HireStory/1.0 (interview aggregator; contact@hirestory.com)"
+      user-agent: "DeliveryApp/1.0 (interview aggregator; contact@deliveryapp.com)"
       subreddits:
         - cscareerquestions
         - india
@@ -123,10 +125,10 @@ hirestory:
 ```
 
 ```kotlin
-// Update HireStoryProperties.kt
+// Update DeliveryAppProperties.kt
 
-@ConfigurationProperties(prefix = "hirestory")
-data class HireStoryProperties(
+@ConfigurationProperties(prefix = "deliveryapp")
+data class DeliveryAppProperties(
     val clerk: ClerkProperties,
     val freeTier: FreeTierProperties,
     val crawler: CrawlerProperties
@@ -168,9 +170,9 @@ data class HireStoryProperties(
 Every crawler source returns the same structure regardless of where the content came from. This is the contract between crawlers and the orchestrator:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/crawler/CrawlResult.kt
+// src/main/kotlin/com/example/deliveryapp/crawler/CrawlResult.kt
 
-package com.example.hirestory.crawler
+package com.example.deliveryapp.crawler
 
 data class CrawlResult(
     val url: String,           // The canonical URL of the post
@@ -198,7 +200,7 @@ Jsoup downloads a webpage and gives you a structured object you can query with C
 
 // 1. Fetch the page
 val doc: Document = Jsoup.connect("https://www.geeksforgeeks.org/experiences/")
-    .userAgent("HireStory/1.0")
+    .userAgent("DeliveryApp/1.0")
     .timeout(10_000)       // 10 second timeout
     .get()
 
@@ -240,11 +242,11 @@ This is the actual skill of web scraping. The Jsoup code is easy once you have t
 Reddit provides a public JSON API — no scraping needed. Add `.json` to any Reddit URL and get structured data back.
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/crawler/RedditCrawler.kt
+// src/main/kotlin/com/example/deliveryapp/crawler/RedditCrawler.kt
 
-package com.example.hirestory.crawler
+package com.example.deliveryapp.crawler
 
-import com.example.hirestory.config.HireStoryProperties
+import com.example.deliveryapp.config.DeliveryAppProperties
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import okhttp3.OkHttpClient
@@ -255,7 +257,7 @@ import java.util.concurrent.TimeUnit
 
 @Component
 class RedditCrawler(
-    private val properties: HireStoryProperties,
+    private val properties: DeliveryAppProperties,
     private val objectMapper: ObjectMapper
 ) {
     private val log = LoggerFactory.getLogger(RedditCrawler::class.java)
@@ -402,18 +404,18 @@ GFG has a dedicated interview experiences section. This uses Jsoup to scrape the
 > **Legal note:** GFG's public interview experience pages are crawlable (their robots.txt allows it). Always check `site.com/robots.txt` before scraping any website.
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/crawler/GfgCrawler.kt
+// src/main/kotlin/com/example/deliveryapp/crawler/GfgCrawler.kt
 
-package com.example.hirestory.crawler
+package com.example.deliveryapp.crawler
 
-import com.example.hirestory.config.HireStoryProperties
+import com.example.deliveryapp.config.DeliveryAppProperties
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
 @Component
-class GfgCrawler(private val properties: HireStoryProperties) {
+class GfgCrawler(private val properties: DeliveryAppProperties) {
 
     private val log = LoggerFactory.getLogger(GfgCrawler::class.java)
 
@@ -493,7 +495,7 @@ class GfgCrawler(private val properties: HireStoryProperties) {
     private fun fetchPage(url: String): Document? {
         return try {
             Jsoup.connect(url)
-                .userAgent("Mozilla/5.0 (compatible; HireStoryBot/1.0)")
+                .userAgent("Mozilla/5.0 (compatible; DeliveryAppBot/1.0)")
                 .timeout(15_000)
                 .followRedirects(true)
                 .get()
@@ -528,11 +530,11 @@ class GfgCrawler(private val properties: HireStoryProperties) {
 dev.to has a public REST API — clean and well-documented. No scraping needed.
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/crawler/DevToCrawler.kt
+// src/main/kotlin/com/example/deliveryapp/crawler/DevToCrawler.kt
 
-package com.example.hirestory.crawler
+package com.example.deliveryapp.crawler
 
-import com.example.hirestory.config.HireStoryProperties
+import com.example.deliveryapp.config.DeliveryAppProperties
 import com.fasterxml.jackson.databind.ObjectMapper
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -542,7 +544,7 @@ import java.util.concurrent.TimeUnit
 
 @Component
 class DevToCrawler(
-    private val properties: HireStoryProperties,
+    private val properties: DeliveryAppProperties,
     private val objectMapper: ObjectMapper
 ) {
     private val log = LoggerFactory.getLogger(DevToCrawler::class.java)
@@ -576,7 +578,7 @@ class DevToCrawler(
 
         val request = Request.Builder()
             .url(url)
-            .header("User-Agent", "HireStory/1.0")
+            .header("User-Agent", "DeliveryApp/1.0")
             .build()
 
         val responseBody = httpClient.newCall(request).execute().use { response ->
@@ -640,16 +642,16 @@ class DevToCrawler(
 This service receives discovered URLs, deduplicates them, stores them, and queues them for processing:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/service/CrawlJobService.kt
+// src/main/kotlin/com/example/deliveryapp/service/CrawlJobService.kt
 
-package com.example.hirestory.service
+package com.example.deliveryapp.service
 
-import com.example.hirestory.crawler.CrawlResult
-import com.example.hirestory.crawler.CrawlSource
-import com.example.hirestory.entity.CrawlJob
-import com.example.hirestory.entity.CrawlStatus
-import com.example.hirestory.messaging.CrawlPublisher
-import com.example.hirestory.repository.CrawlJobRepository
+import com.example.deliveryapp.crawler.CrawlResult
+import com.example.deliveryapp.crawler.CrawlSource
+import com.example.deliveryapp.entity.CrawlJob
+import com.example.deliveryapp.entity.CrawlStatus
+import com.example.deliveryapp.messaging.CrawlPublisher
+import com.example.deliveryapp.repository.CrawlJobRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -735,12 +737,12 @@ class CrawlJobService(
 The orchestrator coordinates all crawlers, respects the master switch, and handles the scheduling:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/crawler/CrawlerOrchestrator.kt
+// src/main/kotlin/com/example/deliveryapp/crawler/CrawlerOrchestrator.kt
 
-package com.example.hirestory.crawler
+package com.example.deliveryapp.crawler
 
-import com.example.hirestory.config.HireStoryProperties
-import com.example.hirestory.service.CrawlJobService
+import com.example.deliveryapp.config.DeliveryAppProperties
+import com.example.deliveryapp.service.CrawlJobService
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
@@ -748,7 +750,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 @Component
 class CrawlerOrchestrator(
-    private val properties: HireStoryProperties,
+    private val properties: DeliveryAppProperties,
     private val redditCrawler: RedditCrawler,
     private val gfgCrawler: GfgCrawler,
     private val devToCrawler: DevToCrawler,
@@ -769,7 +771,7 @@ class CrawlerOrchestrator(
     // Called from admin endpoint for manual triggering
     fun run(triggeredManually: Boolean = false): CrawlerRunResult {
         if (!properties.crawler.enabled) {
-            log.info("Crawler is disabled (hirestory.crawler.enabled=false)")
+            log.info("Crawler is disabled (deliveryapp.crawler.enabled=false)")
             return CrawlerRunResult(0, 0, "Crawler disabled")
         }
 
@@ -909,9 +911,9 @@ data class CrawlerStatsDto(
 By default, Spring uses a single thread for all `@Scheduled` tasks. If one task takes too long, it blocks all others. Configure a thread pool:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/config/SchedulerConfig.kt
+// src/main/kotlin/com/example/deliveryapp/config/SchedulerConfig.kt
 
-package com.example.hirestory.config
+package com.example.deliveryapp.config
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.scheduling.annotation.SchedulingConfigurer
@@ -966,9 +968,9 @@ class SchedulerConfig : SchedulingConfigurer {
 Every website has a `robots.txt` that defines crawling rules. Respecting it is both legally important and ethically correct.
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/crawler/RobotsChecker.kt
+// src/main/kotlin/com/example/deliveryapp/crawler/RobotsChecker.kt
 
-package com.example.hirestory.crawler
+package com.example.deliveryapp.crawler
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -986,7 +988,7 @@ class RobotsChecker {
     private val robotsCache = ConcurrentHashMap<String, String>()
 
     // Returns true if your bot is allowed to crawl this URL
-    fun isAllowed(url: String, userAgent: String = "HireStoryBot"): Boolean {
+    fun isAllowed(url: String, userAgent: String = "DeliveryAppBot"): Boolean {
         return try {
             val domain = extractDomain(url)
             val robotsTxt = robotsCache.getOrPut(domain) { fetchRobotsTxt(domain) }
@@ -1050,12 +1052,12 @@ class RobotsChecker {
 ```kotlin
 // ❌ @Scheduled annotations do nothing — no error, just silence
 @SpringBootApplication
-class HireStoryApplication
+class DeliveryAppApplication
 
 // ✅ Activates all @Scheduled annotations
 @SpringBootApplication
 @EnableScheduling
-class HireStoryApplication
+class DeliveryAppApplication
 ```
 
 ### Mistake 2 — Not rate limiting external HTTP calls
@@ -1141,9 +1143,9 @@ val title = doc.selectFirst("article h1, div.article h1, h1")?.text()
 
 ---
 
-## 8.18 HireStory Connection — What You Built in Chapter 8
+## 8.18 DeliveryApp Connection — What You Built in Chapter 8
 
-By the end of Chapter 8, HireStory has a complete content pipeline:
+By the end of Chapter 8, DeliveryApp has a complete content pipeline:
 
 - `RedditCrawler` — searches three subreddits for interview experience posts using Reddit's public JSON API. Filters by keywords. Rate limits between calls.
 - `GfgCrawler` — scrapes GeeksForGeeks experience pages using Jsoup. Extracts title and content. Respects rate limits.
@@ -1178,7 +1180,7 @@ A working crawler that discovers real content and saves it to your database.
 
 **Step 1 — Add @EnableScheduling**
 
-Add it to `HireStoryApplication`. Verify with a test:
+Add it to `DeliveryAppApplication`. Verify with a test:
 
 ```kotlin
 @Component

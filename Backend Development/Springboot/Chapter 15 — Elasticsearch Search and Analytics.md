@@ -1,5 +1,7 @@
 # Chapter 15 — Elasticsearch Search and Analytics
 
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
 ### _Full-text search, autocomplete, filters, geo search and read-optimized indexes_
 
 ---

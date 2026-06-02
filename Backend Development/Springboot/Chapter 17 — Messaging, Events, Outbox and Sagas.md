@@ -1,5 +1,7 @@
 # Chapter 17 — Messaging, Events, Outbox and Sagas
 
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
 ### _How production systems do work safely after the HTTP request returns_
 
 ---

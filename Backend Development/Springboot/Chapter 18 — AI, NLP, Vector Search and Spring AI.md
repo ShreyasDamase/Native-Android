@@ -1,5 +1,7 @@
 # Chapter 18 — AI, NLP, Vector Search and Spring AI
 
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
 ### _Semantic search, RAG, recommendations, moderation and language workflows in Kotlin Spring Boot_
 
 ---

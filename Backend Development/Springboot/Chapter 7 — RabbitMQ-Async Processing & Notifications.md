@@ -1,6 +1,8 @@
 # Backend Engineering with Spring Boot & Kotlin
 
-## The HireStory Builder's Guide
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
+## The DeliveryApp Builder's Guide
 
 ---
 
@@ -73,7 +75,7 @@ The entry point. When you publish a message, you publish it to an **exchange**.
 Your app publishes message → Exchange → routes to → Queue(s)
 ```
 
-Four exchange types exist. HireStory uses two:
+Four exchange types exist. DeliveryApp uses two:
 
 **Direct Exchange** — routes based on an exact routing key match. You publish with key `"interview.submitted"` → message goes to the queue bound with key `"interview.submitted"`. One-to-one routing.
 
@@ -105,14 +107,14 @@ Publisher (your API)
 
 ---
 
-## 7.3 HireStory's Queue Architecture
+## 7.3 DeliveryApp's Queue Architecture
 
 Before writing code, design what queues you need and why:
 
 ```
 Exchanges:
-  hirestory.notifications   (topic)   — all notification events
-  hirestory.crawler         (direct)  — crawl job processing
+  deliveryapp.notifications   (topic)   — all notification events
+  deliveryapp.crawler         (direct)  — crawl job processing
 
 Queues:
   notification.queue        — FCM push notifications to users
@@ -120,8 +122,8 @@ Queues:
   crawl.dlq                 — Dead letter queue: failed crawl jobs land here
 
 Bindings:
-  hirestory.notifications → notification.queue     (routing key: "#")
-  hirestory.crawler       → crawl.queue            (routing key: "crawl.process")
+  deliveryapp.notifications → notification.queue     (routing key: "#")
+  deliveryapp.crawler       → crawl.queue            (routing key: "crawl.process")
   crawl.queue → crawl.dlq                          (on rejection after max retries)
 ```
 
@@ -129,7 +131,7 @@ Bindings:
 
 A dead letter queue (DLQ) catches messages that failed to process. Instead of losing failed messages, they land in the DLQ where you can inspect them, fix the problem, and replay them.
 
-For HireStory: if the AI extraction fails 3 times, the crawl job message goes to `crawl.dlq`. You see it in the admin panel. You fix it manually or retrigger.
+For DeliveryApp: if the AI extraction fails 3 times, the crawl job message goes to `crawl.dlq`. You see it in the admin panel. You fix it manually or retrigger.
 
 ---
 
@@ -186,9 +188,9 @@ spring:
 Spring Boot creates all exchanges, queues, and bindings automatically when the app starts — if they do not already exist.
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/config/RabbitMQConfig.kt
+// src/main/kotlin/com/example/deliveryapp/config/RabbitMQConfig.kt
 
-package com.example.hirestory.config
+package com.example.deliveryapp.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.amqp.core.*
@@ -204,8 +206,8 @@ class RabbitMQConfig {
 
     // ── Exchange names ────────────────────────────────────────────────
     companion object {
-        const val NOTIFICATIONS_EXCHANGE = "hirestory.notifications"
-        const val CRAWLER_EXCHANGE       = "hirestory.crawler"
+        const val NOTIFICATIONS_EXCHANGE = "deliveryapp.notifications"
+        const val CRAWLER_EXCHANGE       = "deliveryapp.crawler"
 
         // Queue names
         const val NOTIFICATION_QUEUE     = "notification.queue"
@@ -308,9 +310,9 @@ class RabbitMQConfig {
 Define the data each message carries. These are just Kotlin data classes:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/messaging/Messages.kt
+// src/main/kotlin/com/example/deliveryapp/messaging/Messages.kt
 
-package com.example.hirestory.messaging
+package com.example.deliveryapp.messaging
 
 import java.time.LocalDateTime
 
@@ -380,11 +382,11 @@ data class CrawlJobMessage(
 ## 7.8 The Notification Publisher — Sending Messages
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/messaging/NotificationPublisher.kt
+// src/main/kotlin/com/example/deliveryapp/messaging/NotificationPublisher.kt
 
-package com.example.hirestory.messaging
+package com.example.deliveryapp.messaging
 
-import com.example.hirestory.config.RabbitMQConfig
+import com.example.deliveryapp.config.RabbitMQConfig
 import org.slf4j.LoggerFactory
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.stereotype.Component
@@ -489,11 +491,11 @@ class NotificationPublisher(private val rabbitTemplate: RabbitTemplate) {
 ## 7.9 The Crawl Publisher
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/messaging/CrawlPublisher.kt
+// src/main/kotlin/com/example/deliveryapp/messaging/CrawlPublisher.kt
 
-package com.example.hirestory.messaging
+package com.example.deliveryapp.messaging
 
-import com.example.hirestory.config.RabbitMQConfig
+import com.example.deliveryapp.config.RabbitMQConfig
 import org.slf4j.LoggerFactory
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.stereotype.Component
@@ -530,13 +532,13 @@ class CrawlPublisher(private val rabbitTemplate: RabbitTemplate) {
 The consumer listens to the queue and processes messages as they arrive. This runs in a background thread — completely separate from your API threads.
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/messaging/NotificationConsumer.kt
+// src/main/kotlin/com/example/deliveryapp/messaging/NotificationConsumer.kt
 
-package com.example.hirestory.messaging
+package com.example.deliveryapp.messaging
 
-import com.example.hirestory.config.RabbitMQConfig
-import com.example.hirestory.service.FcmService
-import com.example.hirestory.service.NotificationStorageService
+import com.example.deliveryapp.config.RabbitMQConfig
+import com.example.deliveryapp.service.FcmService
+import com.example.deliveryapp.service.NotificationStorageService
 import com.rabbitmq.client.Channel
 import org.slf4j.LoggerFactory
 import org.springframework.amqp.rabbit.annotation.RabbitListener
@@ -617,7 +619,7 @@ class NotificationConsumer(
         fcmService.sendToUser(
             userId = userId,
             title = "Your interview is live! 🎉",
-            body = "\"$interviewTitle\" is now published on HireStory.",
+            body = "\"$interviewTitle\" is now published on DeliveryApp.",
             deepLink = "/interview/${message["interviewId"]}"
         )
     }
@@ -660,7 +662,7 @@ class NotificationConsumer(
         fcmService.sendToUser(
             userId = userId,
             title = "Referral bonus unlocked! 🎁",
-            body = "$referredUserName joined HireStory with your code. You earned $bonusReads extra reads.",
+            body = "$referredUserName joined DeliveryApp with your code. You earned $bonusReads extra reads.",
             deepLink = "/profile/referrals"
         )
     }
@@ -693,7 +695,7 @@ class NotificationConsumer(
 
         val (title, body) = when (day) {
             1 -> Pair(
-                "Welcome to HireStory! 👋",
+                "Welcome to DeliveryApp! 👋",
                 "Start reading real interview experiences from top companies."
             )
             3 -> Pair(
@@ -701,7 +703,7 @@ class NotificationConsumer(
                 "The more you read, the more personalised your feed becomes."
             )
             7 -> Pair(
-                "One week on HireStory!",
+                "One week on DeliveryApp!",
                 "You have been preparing for 7 days. Keep going — interviews are winnable."
             )
             else -> return
@@ -783,9 +785,9 @@ implementation("com.google.firebase:firebase-admin:9.4.1")
 Initialize Firebase in your config:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/config/FirebaseConfig.kt
+// src/main/kotlin/com/example/deliveryapp/config/FirebaseConfig.kt
 
-package com.example.hirestory.config
+package com.example.deliveryapp.config
 
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.FirebaseApp
@@ -822,11 +824,11 @@ class FirebaseConfig {
 ```
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/service/FcmService.kt
+// src/main/kotlin/com/example/deliveryapp/service/FcmService.kt
 
-package com.example.hirestory.service
+package com.example.deliveryapp.service
 
-import com.example.hirestory.repository.FcmTokenRepository
+import com.example.deliveryapp.repository.FcmTokenRepository
 import com.google.firebase.messaging.*
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -909,13 +911,13 @@ class FcmService(private val fcmTokenRepository: FcmTokenRepository) {
 Every notification sent via FCM is also stored in your database. This powers the in-app notification list on the profile screen.
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/service/NotificationStorageService.kt
+// src/main/kotlin/com/example/deliveryapp/service/NotificationStorageService.kt
 
-package com.example.hirestory.service
+package com.example.deliveryapp.service
 
-import com.example.hirestory.entity.Notification
-import com.example.hirestory.repository.NotificationRepository
-import com.example.hirestory.repository.UserRepository
+import com.example.deliveryapp.entity.Notification
+import com.example.deliveryapp.repository.NotificationRepository
+import com.example.deliveryapp.repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -1106,14 +1108,14 @@ fun applyReferralCode(code: String, currentUser: User) {
 The crawl consumer picks up raw text from the crawler and sends it to the AI extraction service. Full AI implementation is in Chapter 9. The queue infrastructure is built here.
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/messaging/CrawlConsumer.kt
+// src/main/kotlin/com/example/deliveryapp/messaging/CrawlConsumer.kt
 
-package com.example.hirestory.messaging
+package com.example.deliveryapp.messaging
 
-import com.example.hirestory.config.RabbitMQConfig
-import com.example.hirestory.entity.CrawlStatus
-import com.example.hirestory.repository.CrawlJobRepository
-import com.example.hirestory.service.AiExtractionService
+import com.example.deliveryapp.config.RabbitMQConfig
+import com.example.deliveryapp.entity.CrawlStatus
+import com.example.deliveryapp.repository.CrawlJobRepository
+import com.example.deliveryapp.service.AiExtractionService
 import com.rabbitmq.client.Channel
 import org.slf4j.LoggerFactory
 import org.springframework.amqp.rabbit.annotation.RabbitListener
@@ -1191,12 +1193,12 @@ class CrawlConsumer(
 The onboarding notification sequence runs on a daily schedule. It finds users at day 1, 3, and 7 of their journey and publishes onboarding messages to the queue.
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/service/OnboardingScheduler.kt
+// src/main/kotlin/com/example/deliveryapp/service/OnboardingScheduler.kt
 
-package com.example.hirestory.service
+package com.example.deliveryapp.service
 
-import com.example.hirestory.messaging.NotificationPublisher
-import com.example.hirestory.repository.UserRepository
+import com.example.deliveryapp.messaging.NotificationPublisher
+import com.example.deliveryapp.repository.UserRepository
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
@@ -1254,13 +1256,13 @@ fun findUsersCreatedBetween(
 ## 7.17 The Notification Controller
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/controller/NotificationController.kt
+// src/main/kotlin/com/example/deliveryapp/controller/NotificationController.kt
 
-package com.example.hirestory.controller
+package com.example.deliveryapp.controller
 
-import com.example.hirestory.entity.User
-import com.example.hirestory.service.FcmTokenService
-import com.example.hirestory.service.NotificationStorageService
+import com.example.deliveryapp.entity.User
+import com.example.deliveryapp.service.FcmTokenService
+import com.example.deliveryapp.service.NotificationStorageService
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotBlank
 import org.springframework.http.ResponseEntity
@@ -1418,9 +1420,9 @@ QueueBuilder.durable(NOTIFICATION_QUEUE).build()
 
 ---
 
-## 7.19 HireStory Connection — What You Built in Chapter 7
+## 7.19 DeliveryApp Connection — What You Built in Chapter 7
 
-By the end of Chapter 7, HireStory has a complete async processing backbone:
+By the end of Chapter 7, DeliveryApp has a complete async processing backbone:
 
 - `RabbitMQConfig` — two exchanges, three queues, bindings, DLQ for failed crawl jobs, Jackson JSON message converter
 - `NotificationPublisher` — publishes 5 notification types with try-catch protection
@@ -1494,8 +1496,31 @@ Make your consumer throw an exception. After 3 retries, verify the message appea
 
 ---
 
-_Chapter 8 → The Web Crawler — Filling HireStory With Content Automatically_
+_Chapter 8 → The Web Crawler — Filling DeliveryApp With Content Automatically_
 
 ---
 
 > **Book Progress:** Chapter 7 of 15 complete. Chapters ahead: Web Crawler · Spring AI · Scheduled Jobs · Testing · Deployment
+## Book-Aligned Corrections: Messaging
+
+The book treats messaging as a family of tools, not just "async = Kafka":
+
+- JMS is a standard Java messaging API.
+- AMQP/RabbitMQ uses exchanges, bindings, and queues.
+- `RabbitTemplate` publishes messages.
+- Message converters matter because payload type and JSON serialization/deserialization must be explicit.
+- WebSockets/STOMP are for realtime client updates.
+- RSocket is for bidirectional/reactive communication.
+
+For a delivery app:
+
+```text
+RabbitMQ:
+  notifications, email jobs, payment retry jobs, command queues
+
+Kafka:
+  order event stream, analytics, audit trails, inventory-event replay
+
+WebSocket/STOMP:
+  order tracking and delivery partner location updates
+```

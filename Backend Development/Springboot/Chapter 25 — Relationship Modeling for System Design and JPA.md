@@ -1,5 +1,7 @@
 # Chapter 25 — Relationship Modeling for System Design and JPA
 
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
 ### _One-to-one, one-to-many, many-to-many, join tables, ownership, aggregate boundaries and real backend examples_
 
 ---

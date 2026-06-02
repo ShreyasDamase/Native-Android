@@ -1,6 +1,8 @@
 # Backend Engineering with Spring Boot & Kotlin
 
-## The HireStory Builder's Guide
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
+## The DeliveryApp Builder's Guide
 
 ---
 
@@ -145,9 +147,9 @@ This is intentional — Flyway is protecting you from accidentally changing a mi
 
 ---
 
-## 2.3 Your First Migration — The HireStory Schema
+## 2.3 Your First Migration — The DeliveryApp Schema
 
-Let us write the complete schema for HireStory. This is your `V1__create_initial_schema.sql`:
+Let us write the complete schema for DeliveryApp. This is your `V1__create_initial_schema.sql`:
 
 ```sql
 -- src/main/resources/db/migration/V1__create_initial_schema.sql
@@ -367,7 +369,7 @@ This works automatically. Only use `@Column(name = "...")` when the actual dat
 
 ---
 
-## 2.5 JPA Annotations — Every One You Need for HireStory
+## 2.5 JPA Annotations — Every One You Need for DeliveryApp
 
 ### @Entity and @Table
 
@@ -449,7 +451,7 @@ val difficulty: Difficulty,
 
 Relationships are where most Spring Boot beginners get confused. Take your time here. Read each section twice.
 
-Your HireStory database has these relationships:
+Your DeliveryApp database has these relationships:
 
 - One Company → many Interviews
 - One Interview → many Rounds
@@ -611,16 +613,16 @@ This gives you exactly what you need in one query instead of N+1 queries.
 
 ---
 
-## 2.8 The Complete HireStory Entities
+## 2.8 The Complete DeliveryApp Entities
 
-Now let us write all the entities for HireStory. These map directly to the tables in your `V1` migration.
+Now let us write all the entities for DeliveryApp. These map directly to the tables in your `V1` migration.
 
 First, create a file for all your enums:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/entity/Enums.kt
+// src/main/kotlin/com/example/deliveryapp/entity/Enums.kt
 
-package com.example.hirestory.entity
+package com.example.deliveryapp.entity
 
 enum class Difficulty {
     EASY, MEDIUM, HARD
@@ -660,9 +662,9 @@ enum class Platform {
 Now the entities:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/entity/User.kt
+// src/main/kotlin/com/example/deliveryapp/entity/User.kt
 
-package com.example.hirestory.entity
+package com.example.deliveryapp.entity
 
 import jakarta.persistence.*
 import java.time.LocalDateTime
@@ -704,9 +706,9 @@ class User(
 ```
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/entity/Company.kt
+// src/main/kotlin/com/example/deliveryapp/entity/Company.kt
 
-package com.example.hirestory.entity
+package com.example.deliveryapp.entity
 
 import jakarta.persistence.*
 import java.time.LocalDateTime
@@ -740,9 +742,9 @@ class Company(
 ```
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/entity/Interview.kt
+// src/main/kotlin/com/example/deliveryapp/entity/Interview.kt
 
-package com.example.hirestory.entity
+package com.example.deliveryapp.entity
 
 import jakarta.persistence.*
 import java.time.LocalDateTime
@@ -837,9 +839,9 @@ class Interview(
 ```
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/entity/InterviewRound.kt
+// src/main/kotlin/com/example/deliveryapp/entity/InterviewRound.kt
 
-package com.example.hirestory.entity
+package com.example.deliveryapp.entity
 
 import jakarta.persistence.*
 import java.time.LocalDateTime
@@ -877,9 +879,9 @@ class InterviewRound(
 ```
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/entity/Tag.kt
+// src/main/kotlin/com/example/deliveryapp/entity/Tag.kt
 
-package com.example.hirestory.entity
+package com.example.deliveryapp.entity
 
 import jakarta.persistence.*
 
@@ -897,9 +899,9 @@ class Tag(
 ```
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/entity/Bookmark.kt
+// src/main/kotlin/com/example/deliveryapp/entity/Bookmark.kt
 
-package com.example.hirestory.entity
+package com.example.deliveryapp.entity
 
 import jakarta.persistence.*
 import java.time.LocalDateTime
@@ -929,9 +931,9 @@ class Bookmark(
 ```
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/entity/Comment.kt
+// src/main/kotlin/com/example/deliveryapp/entity/Comment.kt
 
-package com.example.hirestory.entity
+package com.example.deliveryapp.entity
 
 import jakarta.persistence.*
 import java.time.LocalDateTime
@@ -964,9 +966,9 @@ class Comment(
 ```
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/entity/ReadHistory.kt
+// src/main/kotlin/com/example/deliveryapp/entity/ReadHistory.kt
 
-package com.example.hirestory.entity
+package com.example.deliveryapp.entity
 
 import jakarta.persistence.*
 import java.time.LocalDateTime
@@ -996,9 +998,9 @@ class ReadHistory(
 ```
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/entity/CrawlJob.kt
+// src/main/kotlin/com/example/deliveryapp/entity/CrawlJob.kt
 
-package com.example.hirestory.entity
+package com.example.deliveryapp.entity
 
 import jakarta.persistence.*
 import java.time.LocalDateTime
@@ -1096,12 +1098,12 @@ For most entities, you do not even need to override `equals` and `hashCode`. 
 For development, you need test data. Create a component that runs on startup and seeds the database if it is empty:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/config/DataInitializer.kt
+// src/main/kotlin/com/example/deliveryapp/config/DataInitializer.kt
 
-package com.example.hirestory.config
+package com.example.deliveryapp.config
 
-import com.example.hirestory.entity.*
-import com.example.hirestory.repository.*
+import com.example.deliveryapp.entity.*
+import com.example.deliveryapp.repository.*
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.context.annotation.Profile
@@ -1146,7 +1148,7 @@ class DataInitializer(
         val testUser = userRepository.save(
             User(
                 clerkId = "user_test_123",
-                email = "test@hirestory.com",
+                email = "test@deliveryapp.com",
                 name = "Test User",
                 referralCode = "TEST123"
             )
@@ -1419,9 +1421,9 @@ fun save(interview: Interview) { ... }
 
 ---
 
-## 2.14 HireStory Connection — What You Built In Chapter 2
+## 2.14 DeliveryApp Connection — What You Built In Chapter 2
 
-By the end of this chapter, HireStory has:
+By the end of this chapter, DeliveryApp has:
 
 - A complete database schema in `V1__create_initial_schema.sql` — all 14 tables
 - All indexes in `V2__create_indexes.sql` for query performance
@@ -1506,3 +1508,26 @@ _Chapter 3 → Repositories and Queries — Talking to Your Database_
 ---
 
 > **Book Progress:** Chapter 2 of 15 complete. Chapters ahead: Repositories & Queries · REST API · Spring Security · JWT/Clerk · Redis · RabbitMQ · Spring AI · Jsoup · Scheduler · Testing · Deployment
+## Book-Aligned Corrections: SQL, JPA, and Flyway
+
+The book separates SQL data access from Spring Data. Keep these ideas distinct:
+
+- JDBC/DataSource is the lower-level database connection layer.
+- HikariCP is the default connection pool when present.
+- Spring Data JDBC is not the same as Spring Data JPA.
+- JPA/Hibernate is useful for entity relationships but brings lazy loading, persistence context, and transaction complexity.
+- Spring Boot can initialize SQL with `schema.sql` / `data.sql`, but production schema evolution should use Flyway.
+- Docker Compose integration can auto-configure PostgreSQL locally, but production should use explicit datasource settings and secrets.
+
+Correct production rule:
+
+```text
+local dev:
+  Docker Compose + application-local.yml
+
+test:
+  Testcontainers + @ServiceConnection / dynamic properties
+
+production:
+  PostgreSQL + Flyway + explicit env/secrets + Hikari tuning
+```

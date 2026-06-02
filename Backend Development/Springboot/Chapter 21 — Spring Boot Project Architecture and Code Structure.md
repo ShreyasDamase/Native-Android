@@ -1,5 +1,7 @@
 # Chapter 21 — Spring Boot Project Architecture and Code Structure
 
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
 ### _How to structure production Kotlin Spring Boot code so it stays clean as the app grows_
 
 ---
@@ -964,3 +966,23 @@ class PricingService(
 ```
 
 Spring injects all `PricingStrategy` beans automatically. This is clean, testable and avoids giant `when` blocks.
+## Book-Aligned Corrections: Modulith Before Microservices
+
+The book includes Spring Modulith as a new Spring Boot project direction. This matters for your backend notes:
+
+- Start with clear module packages.
+- Keep internal types private to a module where possible.
+- Publish events between modules instead of leaking entities.
+- Use modularity tests to verify boundaries.
+- Generate module documentation when the project grows.
+
+Correct backend path:
+
+```text
+layered app
+  -> modular monolith
+  -> verified module boundaries
+  -> split selected modules into services only when needed
+```
+
+Do not start with microservices just because the final architecture diagram has many boxes.

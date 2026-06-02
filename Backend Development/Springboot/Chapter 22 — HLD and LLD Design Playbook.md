@@ -1,5 +1,7 @@
 # Chapter 22 — HLD and LLD Design Playbook
 
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
 ### _A deep practical reference for diagrams, requirements, flows, classes, schemas, APIs, locking and design patterns_
 
 ---

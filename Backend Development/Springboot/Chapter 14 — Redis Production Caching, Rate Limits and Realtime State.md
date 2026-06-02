@@ -1,5 +1,7 @@
 # Chapter 14 — Redis Production Caching, Rate Limits and Realtime State
 
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
 ### _Using Redis for speed without turning it into an unsafe second database_
 
 ---

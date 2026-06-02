@@ -1,5 +1,7 @@
 # Chapter 16 — Cassandra High-Scale Data Modeling
 
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
 ### _Massive writes, predictable reads and query-first modeling_
 
 ---

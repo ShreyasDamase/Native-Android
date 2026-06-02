@@ -1,5 +1,7 @@
 # Chapter 13 — PostgreSQL Production Data Modeling
 
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
 ### _The source of truth for users, orders, bookings, payments, ledgers and business rules_
 
 ---

@@ -1,5 +1,7 @@
 # Chapter 23 — Taxi Aggregator Uber Scale HLD
 
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
 ### _Uber/Ola-style system design with live location, region/cell matching, Kafka, pricing, maps, analytics, ML and production failure handling_
 
 ---

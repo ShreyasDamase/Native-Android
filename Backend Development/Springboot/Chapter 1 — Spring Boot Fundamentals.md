@@ -1,12 +1,14 @@
 # Backend Engineering with Spring Boot & Kotlin
 
-## The HireStory Builder's Guide
+Book alignment: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
+
+## The DeliveryApp Builder's Guide
 
 _From Node.js Developer to Spring Boot Professional_
 
 ---
 
-> **How to use this book:** Every chapter follows the same structure — The Problem → The Theory → The Code → Node.js Comparison → Common Mistakes → HireStory Connection → Chapter Project. Never move to the next chapter without completing the Chapter Project. It is small on purpose. It is a checkpoint.
+> **How to use this book:** Every chapter follows the same structure — The Problem → The Theory → The Code → Node.js Comparison → Common Mistakes → DeliveryApp Connection → Chapter Project. Never move to the next chapter without completing the Chapter Project. It is small on purpose. It is a checkpoint.
 
 ---
 
@@ -53,7 +55,7 @@ You already know how to build a backend. Every concept exists in Spring Boot —
 
 |Concept|Node.js / Express|Spring Boot / Kotlin|
 |---|---|---|
-|App entry point|`index.js` → `app.listen(3000)`|`HireStoryApplication.kt` → `runApplication<App>()`|
+|App entry point|`index.js` → `app.listen(3000)`|`DeliveryAppApplication.kt` → `runApplication<App>()`|
 |Route handler|`app.get('/users', handler)`|`@GetMapping("/users")` on a method|
 |URL parameters|`req.params.id`|`@PathVariable id: String`|
 |Query strings|`req.query.page`|`@RequestParam page: Int = 0`|
@@ -77,12 +79,12 @@ You already know how to build a backend. Every concept exists in Spring Boot —
 When you generate a project from `start.spring.io`, you get a specific directory layout. Unlike Node where you create folders yourself, Spring Boot has a standard structure every Spring developer recognises. Learn it once, read any Spring project.
 
 ```
-hirestory/
+deliveryapp/
 ├── src/
 │   ├── main/
 │   │   ├── kotlin/
-│   │   │   └── com/example/hirestory/
-│   │   │       ├── HireStoryApplication.kt   ← Entry point
+│   │   │   └── com/example/deliveryapp/
+│   │   │       ├── DeliveryAppApplication.kt   ← Entry point
 │   │   │       ├── controller/               ← HTTP layer
 │   │   │       ├── service/                  ← Business logic
 │   │   │       ├── repository/               ← Database layer
@@ -95,7 +97,7 @@ hirestory/
 │   │       └── db/migration/                 ← Flyway SQL files
 │   └── test/
 │       └── kotlin/
-│           └── com/example/hirestory/
+│           └── com/example/deliveryapp/
 │               └── ...                       ← Your test files
 ├── build.gradle.kts                          ← Dependencies + build config
 ├── settings.gradle.kts                       ← Project name
@@ -112,7 +114,7 @@ The `controller / service / repository` structure is not arbitrary. It represe
 
 **3. Repository** — Talks to the database. That is its only job. No business logic. No HTTP concerns. No decisions.
 
-> **💡 Why this matters for HireStory:** When you need to add bookmarks, you create `BookmarkController`, `BookmarkService`, and `BookmarkRepository`. Each file has one job. When a bug appears in database queries, you look in the Repository. When a bug is in read count logic, you look in the Service. When a bug is in the response shape, you look in the Controller. This saves hours of debugging on a project this size.
+> **💡 Why this matters for DeliveryApp:** When you need to add bookmarks, you create `BookmarkController`, `BookmarkService`, and `BookmarkRepository`. Each file has one job. When a bug appears in database queries, you look in the Repository. When a bug is in read count logic, you look in the Service. When a bug is in the response shape, you look in the Controller. This saves hours of debugging on a project this size.
 
 ---
 
@@ -232,7 +234,7 @@ Breaking these rules causes cryptic startup errors:
 # CORRECT
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/hirestory_dev
+    url: jdbc:postgresql://localhost:5432/deliveryapp_dev
     username: postgres
 
 # WRONG — tabs will crash the app on startup
@@ -242,7 +244,7 @@ spring:
 # Rule 4: Lists use dash + space
 allowed-origins:
   - http://localhost:3000
-  - https://hirestory.com
+  - https://deliveryapp.com
 
 # Rule 5: Strings with special characters need quotes
 some-url: "jdbc:postgresql://localhost:5432/db?ssl=true&sslmode=require"
@@ -252,7 +254,7 @@ show-sql: true
 enabled: false
 ```
 
-### 1.6.2 Your Full HireStory application.yml
+### 1.6.2 Your Full DeliveryApp application.yml
 
 This is your complete configuration file. Every line is explained. Build it incrementally as you add features — start with just the database and server sections for Phase 1.
 
@@ -270,11 +272,11 @@ server:
 # ── SPRING ────────────────────────────────────────────────────────
 spring:
   application:
-    name: hirestory    # Appears in logs and monitoring tools
+    name: deliveryapp    # Appears in logs and monitoring tools
 
   # ── DATABASE ────────────────────────────────────────────────────
   datasource:
-    url: jdbc:postgresql://localhost:5432/hirestory_dev
+    url: jdbc:postgresql://localhost:5432/deliveryapp_dev
     username: ${DB_USERNAME:postgres}     # Env var with fallback default
     password: ${DB_PASSWORD:yourpassword}
     driver-class-name: org.postgresql.Driver
@@ -336,14 +338,14 @@ management:
 logging:
   level:
     root: INFO
-    com.example.hirestory: DEBUG        # Your own code logs verbosely in dev
+    com.example.deliveryapp: DEBUG        # Your own code logs verbosely in dev
     org.hibernate.SQL: DEBUG            # See every SQL query
     org.springframework.security: DEBUG # Remove this in production
   pattern:
     console: "%d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
 # ── YOUR CUSTOM PROPERTIES ────────────────────────────────────────
-hirestory:
+deliveryapp:
   free-tier:
     monthly-read-limit: 25
   clerk:
@@ -355,7 +357,7 @@ hirestory:
   cors:
     allowed-origins:
       - http://localhost:3000
-      - https://hirestory.com
+      - https://deliveryapp.com
 ```
 
 ### 1.6.3 The `${VAR:default}` Pattern
@@ -386,7 +388,7 @@ Spring Boot lets you have separate config files per environment:
 # application.yml — loaded always (shared config)
 spring:
   application:
-    name: hirestory
+    name: deliveryapp
   profiles:
     active: dev    # Change to "prod" for production
 ```
@@ -400,7 +402,7 @@ spring:
         show_sql: true
 logging:
   level:
-    com.example.hirestory: DEBUG
+    com.example.deliveryapp: DEBUG
 ```
 
 ```yaml
@@ -426,7 +428,7 @@ When you click Run in IntelliJ, a precise sequence of events happens. Understand
 ```
 1. JVM starts
          ↓
-2. main() runs → runApplication<HireStoryApplication>()
+2. main() runs → runApplication<DeliveryAppApplication>()
          ↓
 3. Spring reads application.yml
          ↓
@@ -448,7 +450,7 @@ When you click Run in IntelliJ, a precise sequence of events happens. Understand
          ↓
 9. Tomcat starts on port 8080
          ↓
-10. "Started HireStoryApplication in 3.4 seconds" appears in logs
+10. "Started DeliveryAppApplication in 3.4 seconds" appears in logs
 ```
 
 The most important step is **step 5 and 6** — this is Dependency Injection. It is the concept everything else in Spring Boot depends on.
@@ -558,20 +560,20 @@ class ArticleService {
 ## 1.9 Your First Spring Boot Application — The Entry Point
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/HireStoryApplication.kt
+// src/main/kotlin/com/example/deliveryapp/DeliveryAppApplication.kt
 
-package com.example.hirestory
+package com.example.deliveryapp
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication  // Three annotations in one (explained below)
-class HireStoryApplication
+class DeliveryAppApplication
 
 fun main(args: Array<String>) {
-    runApplication<HireStoryApplication>(*args)
+    runApplication<DeliveryAppApplication>(*args)
     // *args spreads the array — Kotlin syntax for passing array as varargs
-    // Equivalent to SpringApplication.run(HireStoryApplication::class.java, *args)
+    // Equivalent to SpringApplication.run(DeliveryAppApplication::class.java, *args)
 }
 ```
 
@@ -583,7 +585,7 @@ fun main(args: Array<String>) {
 |`@EnableAutoConfiguration`|Tells Spring Boot to auto-configure based on your classpath|
 |`@ComponentScan`|Tells Spring to scan this package and all sub-packages for beans|
 
-The `@ComponentScan` is why your package structure matters. Spring only finds your `@Service` and `@Repository` classes if they are in the same package as `HireStoryApplication` or a sub-package. If you put a class outside this package tree, Spring will not find it and you will get a confusing `NoSuchBeanDefinitionException`.
+The `@ComponentScan` is why your package structure matters. Spring only finds your `@Service` and `@Repository` classes if they are in the same package as `DeliveryAppApplication` or a sub-package. If you put a class outside this package tree, Spring will not find it and you will get a confusing `NoSuchBeanDefinitionException`.
 
 ---
 
@@ -594,16 +596,16 @@ Now you understand the foundation. Let us write a real endpoint — the same one
 ```kotlin
 // Node.js version (what you know)
 app.get('/health', (req, res) => {
-    res.json({ status: 'UP', app: 'hirestory' })
+    res.json({ status: 'UP', app: 'deliveryapp' })
 })
 ```
 
 ```kotlin
 // Spring Boot version (what you are learning)
 
-// src/main/kotlin/com/example/hirestory/controller/HealthController.kt
+// src/main/kotlin/com/example/deliveryapp/controller/HealthController.kt
 
-package com.example.hirestory.controller
+package com.example.deliveryapp.controller
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -628,7 +630,7 @@ class HealthController {
         return ResponseEntity.ok(
             HealthResponse(
                 status = "UP",
-                app = "hirestory",
+                app = "deliveryapp",
                 timestamp = LocalDateTime.now()
             )
         )
@@ -649,7 +651,7 @@ Run the app and hit `GET http://localhost:8080/api/health`. You get:
 ```json
 {
   "status": "UP",
-  "app": "hirestory",
+  "app": "deliveryapp",
   "timestamp": "2024-01-15T10:30:00"
 }
 ```
@@ -747,10 +749,10 @@ fun findOne(@PathVariable id: Long): InterviewDetailDto {
 }
 ```
 
-For HireStory, you will have DTOs like these:
+For DeliveryApp, you will have DTOs like these:
 
 ```kotlin
-// src/main/kotlin/com/example/hirestory/dto/InterviewDtos.kt
+// src/main/kotlin/com/example/deliveryapp/dto/InterviewDtos.kt
 
 // What the API receives when someone submits an interview
 data class CreateInterviewDto(
@@ -888,16 +890,16 @@ return ResponseEntity.status(HttpStatus.CREATED).body(created)  // 201
 ### Mistake 5 — Package outside the component scan
 
 ```
-com/example/hirestory/HireStoryApplication.kt   ← @ComponentScan starts here
-com/example/hirestory/controller/ArticleController.kt   ← ✅ Found
+com/example/deliveryapp/DeliveryAppApplication.kt   ← @ComponentScan starts here
+com/example/deliveryapp/controller/ArticleController.kt   ← ✅ Found
 com/example/utils/SomeHelper.kt   ← ❌ OUTSIDE scan — Spring never finds this
 ```
 
 ---
 
-## 1.13 HireStory Connection — What You Just Built
+## 1.13 DeliveryApp Connection — What You Just Built
 
-At the end of Chapter 1, your HireStory backend has:
+At the end of Chapter 1, your DeliveryApp backend has:
 
 - A running Spring Boot 3 application with embedded Tomcat
 - `application.yml` configured with database, Redis, logging, and custom properties
@@ -912,7 +914,7 @@ This is the skeleton. Every subsequent chapter adds a body part:
 - Chapter 3 adds data fetching (Repositories + Queries)
 - Chapter 4 adds the full REST API
 - Chapter 5 adds authentication
-- And so on until HireStory is complete
+- And so on until DeliveryApp is complete
 
 ---
 
@@ -929,7 +931,7 @@ A Spring Boot application with three endpoints:
 ```json
 {
   "status": "UP",
-  "app": "hirestory",
+  "app": "deliveryapp",
   "version": "1.0.0",
   "timestamp": "2024-01-15T10:30:00"
 }
@@ -975,7 +977,7 @@ A Spring Boot application with three endpoints:
 ### Checkpoint questions — answer these before moving on
 
 1. What is the difference between `@RestController` and `@Controller`?
-2. If you put `CompanyService` in the package `com.utils` instead of `com.example.hirestory.service`, what error do you get and why?
+2. If you put `CompanyService` in the package `com.utils` instead of `com.example.deliveryapp.service`, what error do you get and why?
 3. What does `@RequestParam(required = false)` do differently than `@RequestParam`?
 4. Why do you use `ResponseEntity<T>` as a return type instead of just `T`?
 5. Change the server port to 9090 in `application.yml`. Does the app work on 9090 without changing any Kotlin code? Why?
@@ -987,3 +989,24 @@ _Chapter 2 → JPA and Entities — Mapping Your Database To Kotlin Classes_
 ---
 
 > **Book Progress:** Chapter 1 of 15 complete. Chapters ahead: JPA · Repositories · REST API · Spring Security · JWT/Clerk · Redis · RabbitMQ · Spring AI · Jsoup · Scheduler · Testing · Deployment
+## Book-Aligned Correction: Spring Boot Fundamentals
+
+The local book frames Spring Boot around these concrete mechanisms:
+
+- Spring Initializr creates the standard project structure.
+- `@SpringBootApplication` is the entry point annotation.
+- `runApplication<App>(*args)` starts the application.
+- Embedded Tomcat is started by the web starter.
+- Static files under `src/main/resources/static` can be served automatically.
+- JSON responses are produced by Spring MVC/Jackson defaults.
+- `application.properties` or `application.yml` externalizes config.
+- Profiles let the same app run differently in local/dev/prod.
+
+Most importantly, the book emphasizes that Boot is not separate from Spring Framework. Boot assembles Spring Framework pieces through auto-configuration and sensible defaults.
+
+Correct mental model:
+
+```text
+Spring Framework = DI, MVC, transactions, security, data access
+Spring Boot = starters + auto-configuration + embedded runtime + externalized config
+```
