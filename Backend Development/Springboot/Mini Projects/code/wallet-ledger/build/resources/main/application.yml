@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: wallet-ledger
+  datasource:
+    url: jdbc:postgresql://localhost:5436/wallet_ledger
+    username: wallet
+    password: wallet
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+
+server:
+  port: 8084
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.learning.food.domain.FoodOrderTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-06-03T13:04:02.910Z" hostname="Shreyass-MacBook-Pro.local" time="0.037">
+  <properties/>
+  <testcase name="order moves through valid state()" classname="com.learning.food.domain.FoodOrderTest" time="0.027"/>
+  <testcase name="order rejects invalid transition()" classname="com.learning.food.domain.FoodOrderTest" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

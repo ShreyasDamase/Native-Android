@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: food_ordering
+      POSTGRES_USER: food
+      POSTGRES_PASSWORD: food
+    ports:
+      - "5435:5432"
+    volumes:
+      - food_ordering_data:/var/lib/postgresql/data
+
+volumes:
+  food_ordering_data:

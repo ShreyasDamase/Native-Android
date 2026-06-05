@@ -13,51 +13,10 @@
             "state": {
               "type": "excalidraw",
               "state": {
-                "file": "Backend Development/System Design Digram/blinkit.md"
+                "file": "Backend Development/Blinkit research/blinkitDeliveryApp.excalidraw.md"
               },
               "icon": "excalidraw-icon",
-              "title": "blinkit"
-            }
-          },
-          {
-            "id": "8965b0b20e3cf6fc",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Backend Development/Springboot/SD-12 — System Design - Content Delivery Network (CDN).md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "SD-12 — System Design - Content Delivery Network (CDN)"
-            }
-          },
-          {
-            "id": "545c9ff245a40cb3",
-            "type": "leaf",
-            "state": {
-              "type": "bases",
-              "state": {
-                "file": "Untitled.base",
-                "viewName": "Table"
-              },
-              "icon": "lucide-table",
-              "title": "Untitled"
-            }
-          },
-          {
-            "id": "10dbea016e657d0c",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Backend Development/Springboot/Chapter 9 — Spring AI- Extracting Structured Data From Raw Text.md",
-                "mode": "preview",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Chapter 9 — Spring AI- Extracting Structured Data From Raw Text"
+              "title": "blinkitDeliveryApp.excalidraw"
             }
           }
         ]
@@ -117,7 +76,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 212.5
+    "width": 507.5,
+    "collapsed": true
   },
   "right": {
     "id": "c63af25f850b8f88",
@@ -211,55 +171,55 @@
   },
   "active": "9487b6b43f0d8d35",
   "lastOpenFiles": [
-    "Backend Development/Index.md",
-    "Backend Development/System Design Digram/blinkit.md",
-    "Backend Development/Springboot/SD-12 — System Design - Content Delivery Network (CDN).md",
-    "Excalidraw/Drawing 2026-06-03 02.33.18.excalidraw.md",
-    "Backend Development/Springboot/Chapter 9 — Spring AI- Extracting Structured Data From Raw Text.md",
-    "Untitled.base",
-    "Excalidraw/Drawing 2026-06-02 22.48.58.excalidraw.md",
-    "Backend Development/Springboot/Chapter 8 — The Web Crawler.md",
-    "Backend Development/Springboot/Chapter 7 — RabbitMQ-Async Processing & Notifications.md",
-    "Backend Development/Springboot/Chapter 6 — Redis - Caching, Counters & Speed.md",
-    "Backend Development/Springboot/Chapter 5 — Spring Security & JWT.md",
-    "Backend Development/Springboot/Chapter 4 — REST Controllers, Validation & Error Handling.md",
-    "Backend Development/Springboot/Chapter 3 — Repositories and Queries.md",
-    "Backend Development/Springboot/Chapter 2 — JPA, Entities & Flyway.md",
-    "Backend Development/Springboot/Chapter 1 — Spring Boot Fundamentals.md",
-    "Backend Development/Springboot/SD-4 — System Design - Unique ID Generator.md",
-    "Backend Development/Springboot/SD-5 — System Design - URL Shortener.md",
-    "Backend Development/Springboot/SD-9 — System Design - Consistent Hashing.md",
-    "Backend Development/Springboot/M1 — Backend Foundation (Spring Boot + Kotlin).md",
+    "Screenshot 2026-06-05 at 9.02.25 PM.png",
+    "Screenshot 2026-06-05 at 9.01.35 PM.png",
+    "Screenshot 2026-06-05 at 9.00.41 PM.png",
+    "Screenshot 2026-06-05 at 9.00.31 PM.png",
+    "Screenshot 2026-06-05 at 8.59.54 PM.png",
+    "Screenshot 2026-06-05 at 8.58.59 PM.png",
+    "Screenshot 2026-06-05 at 8.58.28 PM.png",
+    "Screenshot 2026-06-05 at 8.57.20 PM.png",
+    "Screenshot 2026-06-05 at 8.56.43 PM.png",
+    "Screenshot 2026-06-05 at 8.56.17 PM.png",
+    "Screenshot 2026-06-05 at 8.55.38 PM.png",
+    "Backend Development/Blinkit research/Blinkit Workflow Diagrams.md",
+    "Backend Development/Blinkit research/blinkitDeliveryApp.excalidraw.md",
+    "Backend Development/Blinkit research/Local Commerce Delivery Platform — Complete Business Model Reference.md",
     "Backend Development/Blinkit research/Kotlin Spring Boot Clone Roadmap.md",
-    "Backend Development/Springboot/Book Alignment — Pro Spring Boot 3 with Kotlin.md",
     "Backend Development/Blinkit research/Quick Commerce Domain Research.md",
-    "Backend Development/Blinkit research/Kotlin Spring Boot Backend Design.md",
-    "Backend Development/Blinkit research/Blinkit Endpoint Map.md",
-    "Backend Development/Blinkit research/Blinkit Data Model Draft.md",
-    "Backend Development/Blinkit research/Blinkit Backend Architecture Research.md",
     "Backend Development/Blinkit research/00 Blinkit Research Index.md",
-    "Backend Development/Blinkit research",
-    "Excalidraw",
-    "Backend Development/System Design Digram",
+    "Backend Development/Blinkit research/Blinkit Data Model Draft.md",
+    "Backend Development/Blinkit research/Blinkit Endpoint Map.md",
+    "Backend Development/Springboot/Chapter 9 — Spring AI- Extracting Structured Data From Raw Text.md",
+    "Backend Development/Springboot/SD-12 — System Design - Content Delivery Network (CDN).md",
+    "Untitled.base",
+    "Backend Development/DSA/Why DSA Matters for Backend Engineers.md",
+    "Backend Development/DSA/Index.md",
+    "Backend Development/DSA/LeetCode Backend Problem Tracker.md",
+    "Backend Development/DSA/Backend DSA Pattern Roadmap.md",
+    "Backend Development/System Design Digram/blinkit.md",
+    "Backend Development/Blinkit research/Blinkit Backend Architecture Research.md",
+    "Backend Development/Blinkit research/Kotlin Spring Boot Backend Design.md",
     "Backend Development/Pro_Spring_Boot_3_with_Kotlin_3rd_Edition_-_Peter_Spath.pdf",
-    "pdf_extract.json",
-    "extract_chapters.py",
-    "read_pdf.py",
-    "create_sd_chapters.py",
-    "rename_delivery_app.py",
+    "Retrofit Errors.md",
+    "Quick Commerce Delivery Platform.md",
+    "Screen Recording 2026-06-03 at 11.48.42 PM.mov",
+    "Excalidraw/Drawing 2026-06-03 02.33.18.excalidraw.md",
+    "2026-06-03.md",
+    "Backend Development/Springboot/Chapter 1 — Spring Boot Fundamentals.md",
+    "Backend Development/Springboot/Book Alignment — Pro Spring Boot 3 with Kotlin.md",
+    "Backend Development/Springboot/Mini Projects/MP-1 — Parking Lot Management System.md",
+    "Backend Development/Springboot/Chapter 26 — Kotlin Multithreading, Coroutines and Async Spring Boot.md",
+    "Backend Development/Springboot/Mini Projects/code/food-ordering/build/test-results/test/TEST-com.learning.food.domain.FoodOrderTest.xml",
+    "Backend Development/Springboot/Mini Projects/code/food-ordering/build/reports/tests/test/js/report.js",
+    "Backend Development/Springboot/Mini Projects/code/food-ordering/build/reports/tests/test/js",
+    "Backend Development/Springboot/Mini Projects/code/food-ordering/build/reports/tests/test/css/style.css",
+    "Backend Development/Springboot/Mini Projects/code/food-ordering/build/reports/tests/test/css/base-style.css",
+    "Backend Development/Springboot/Mini Projects/code/food-ordering/build/reports/tests/test/css",
+    "Backend Development/Springboot/Mini Projects/code/food-ordering/build/reports/tests/test/index.html",
     "Android-Native/Native Android/Android Basis/MainActivity.canvas",
-    "Android-Native/docs/adaptive/assets/canonical_layouts/feed_landscape.png",
-    "Android-Native/docs/adaptive/assets/canonical_layouts/feed_foldable.png",
-    "Android-Native/docs/adaptive/assets/canonical_layouts/supporting_panel_portrait.png",
-    "Android-Native/docs/adaptive/assets/canonical_layouts/hero_landscape.png",
-    "Android-Native/docs/adaptive/assets/canonical_layouts/list_view_landscape.png",
-    "Android-Native/docs/adaptive/assets/canonical_layouts/supporting_panel_landscape.png",
-    "Android-Native/docs/adaptive/assets/canonical_layouts/feed_portrait.png",
-    "Android-Native/Native Android/JetPack Compose/02-State-Management/DI/Pasted image 20260304075342.png",
     "Untitled 1.canvas",
     "Untitled.canvas",
-    "Pasted image 20260304075342.png",
-    "Android-Native/docs/components/assets/badge/large-badge-hero.png",
     "Android-Native/Untitled.canvas"
   ]
 }

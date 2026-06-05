@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: parking-lot
+  datasource:
+    url: jdbc:postgresql://localhost:5433/parking_lot
+    username: parking
+    password: parking
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+
+server:
+  port: 8081
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

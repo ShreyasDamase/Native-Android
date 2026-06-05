@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: food-ordering
+  datasource:
+    url: jdbc:postgresql://localhost:5435/food_ordering
+    username: food
+    password: food
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+
+server:
+  port: 8083
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

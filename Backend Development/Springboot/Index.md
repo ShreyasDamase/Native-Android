@@ -40,6 +40,17 @@ Use these chapters when you want to build any serious backend: delivery app, Ube
 [[Chapter 23 — Taxi Aggregator Uber Scale HLD]]
 [[Chapter 24 — Food Delivery App HLD and LLD Case Study]]
 [[Chapter 25 — Relationship Modeling for System Design and JPA]]
+[[Chapter 26 — Kotlin Multithreading, Coroutines and Async Spring Boot]]
+
+## Mini Project Learning Track
+
+Use this when you want actual backend project practice after reading the concepts. These projects are original Kotlin + Spring Boot mini apps designed to cover common backend patterns without copying random code.
+
+[[Mini Projects/Index|Spring Boot Kotlin Mini Projects]]
+[[Mini Projects/MP-1 — Parking Lot Management System]]
+[[Mini Projects/MP-2 — Ticket Booking System]]
+[[Mini Projects/MP-3 — Food Ordering and Delivery System]]
+[[Mini Projects/MP-4 — Wallet and Ledger System]]
 
 ## Recommended Reading Order
 
@@ -55,6 +66,7 @@ Use these chapters when you want to build any serious backend: delivery app, Ube
 10. Read Chapter 22 when you want the deep HLD/LLD design method with use-case diagrams, class diagrams, sequence diagrams, activity diagrams, schema design, locking, SOLID and design patterns.
 11. Read Chapter 24 when you want a complete food delivery case study with HLD, LLD, order flow, payment flow, delivery assignment, classes, APIs, schemas and Spring Boot package mapping.
 12. Read Chapter 25 when you need to decide one-to-one, one-to-many, many-to-many, join table, ownership, aggregate boundary and JPA relationship mappings for system design.
+13. Read Chapter 26 before adding `@Async`, scheduled jobs, coroutine controllers, WebFlux, R2DBC, wallet transfers, inventory reservation, ticket booking or any concurrent backend flow.
 
 ## Rule of Thumb
 

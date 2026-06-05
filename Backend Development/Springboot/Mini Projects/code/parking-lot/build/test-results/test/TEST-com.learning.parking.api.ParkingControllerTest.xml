@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.learning.parking.api.ParkingControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-06-03T13:02:46.221Z" hostname="Shreyass-MacBook-Pro.local" time="2.213">
+  <properties/>
+  <testcase name="create ticket assigns a spot()" classname="com.learning.parking.api.ParkingControllerTest" time="0.461"/>
+  <system-out><![CDATA[18:32:46.271 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.learning.parking.api.ParkingControllerTest]: ParkingControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:32:46.313 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.learning.parking.ParkingLotApplication for test class com.learning.parking.api.ParkingControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.5)
+
+2026-06-03T18:32:46.445+05:30  INFO 50196 --- [    Test worker] c.l.parking.api.ParkingControllerTest    : Starting ParkingControllerTest using Java 21.0.8 with PID 50196 (started by shreyasdamase in /Users/shreyasdamase/Sentinel/Native-Android-Notes/Backend Development/Springboot/Mini Projects/code/parking-lot)
+2026-06-03T18:32:46.446+05:30  INFO 50196 --- [    Test worker] c.l.parking.api.ParkingControllerTest    : No active profile set, falling back to 1 default profile: "default"
+2026-06-03T18:32:46.754+05:30  INFO 50196 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-03T18:32:46.773+05:30  INFO 50196 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 17 ms. Found 2 JPA repository interfaces.
+2026-06-03T18:32:46.920+05:30  INFO 50196 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-03T18:32:46.937+05:30  INFO 50196 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2026-06-03T18:32:46.948+05:30  INFO 50196 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-06-03T18:32:47.050+05:30  INFO 50196 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-03T18:32:47.062+05:30  INFO 50196 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-03T18:32:47.126+05:30  INFO 50196 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:parking_lot user=SA
+2026-06-03T18:32:47.127+05:30  INFO 50196 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-03T18:32:47.423+05:30  INFO 50196 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-03T18:32:47.438+05:30  INFO 50196 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-03T18:32:47.951+05:30  INFO 50196 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-06-03T18:32:47.952+05:30  INFO 50196 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-06-03T18:32:47.953+05:30  INFO 50196 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-06-03T18:32:47.966+05:30  INFO 50196 --- [    Test worker] c.l.parking.api.ParkingControllerTest    : Started ParkingControllerTest in 1.607 seconds (process running for 1.992)
+]]></system-out>
+  <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (/Users/shreyasdamase/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.14.19/154da3a65b4f4a909d3e5bdec55d1b2b4cbb6ce1/byte-buddy-agent-1.14.19.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>

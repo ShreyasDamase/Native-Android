@@ -8,6 +8,8 @@ This folder groups backend notes by technology and role in a production system.
 
 [[PostgreSQL/Index|PostgreSQL]]
 
+[[DSA/Index|DSA for Backend Development]]
+
 ## How These Fit Together
 
 For serious backend projects, use this default stack:
@@ -15,6 +17,7 @@ For serious backend projects, use this default stack:
 ```text
 Spring Boot + Kotlin -> API and business logic
 PostgreSQL -> source-of-truth database
+DSA -> logic, invariants, complexity, backend problem-solving
 Redis -> cache, rate limits, temporary state
 Elasticsearch -> search/read index
 Kafka/RabbitMQ -> async workflows

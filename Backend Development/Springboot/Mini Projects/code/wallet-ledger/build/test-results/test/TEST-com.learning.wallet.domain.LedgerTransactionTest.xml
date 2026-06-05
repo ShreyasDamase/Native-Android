@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.learning.wallet.domain.LedgerTransactionTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-06-03T13:04:01.664Z" hostname="Shreyass-MacBook-Pro.local" time="0.037">
+  <properties/>
+  <testcase name="unbalanced ledger transaction is rejected()" classname="com.learning.wallet.domain.LedgerTransactionTest" time="0.03"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
