@@ -6,13 +6,22 @@ Book correction source: [[Book Alignment — Pro Spring Boot 3 with Kotlin]]
 
 Use that note as the local truth source when these notes conflict with generic online advice. It was created from `Backend Development/Pro_Spring_Boot_3_with_Kotlin_3rd_Edition_-_Peter_Spath.pdf`.
 
+## ⚡ Start Here — Read Before Any Chapter
+
+[[Chapter 0 — How It All Connects (Read This First)]]
+> Complete API request/response flow · What each layer does · Success path · Error path · All missing concepts (bean, @Transactional, DTO vs Entity, interface repositories, lateinit var) · How every chapter builds on this map
+
+---
+
 ## Existing App-Specific Track
 
 These chapters use DeliveryApp as the running example. Keep them as a concrete project walkthrough.
 
+[[Chapter 0 — How It All Connects (Read This First)]]
 [[Chapter 1 — Spring Boot Fundamentals]]
 [[Chapter 2 — JPA, Entities & Flyway]]
 [[Chapter 3 — Repositories and Queries]]
+[[Chapter — Swagger and SpringDoc OpenAPI]]
 [[Chapter 4 — REST Controllers, Validation & Error Handling]]
 [[Chapter 5 — Spring Security & JWT]]
 [[Chapter 6 — Redis - Caching, Counters & Speed]]
@@ -41,6 +50,7 @@ Use these chapters when you want to build any serious backend: delivery app, Ube
 [[Chapter 24 — Food Delivery App HLD and LLD Case Study]]
 [[Chapter 25 — Relationship Modeling for System Design and JPA]]
 [[Chapter 26 — Kotlin Multithreading, Coroutines and Async Spring Boot]]
+[[Chapter 27 — Flyway — Database Migrations Mastery]]
 
 ## Mini Project Learning Track
 

@@ -1339,6 +1339,243 @@ The feed endpoint is the most complex query in the app. It is now solved correct
 
 ---
 
+## 3.15 Spring Data JPA Method Naming Conventions — Complete Reference
+
+> **Why this section exists:** A single missing `By` keyword (e.g., writing `findEmail` instead of `findByEmail`) causes your Spring Boot application to **fail on startup** with a `QueryCreationException`. This is the complete rulebook so you never make that mistake.
+
+---
+
+### The Golden Rule — Structure of a Derived Query Method
+
+```
+[Prefix][By][PropertyName][Keyword][...AdditionalProperties...]
+```
+
+**Every derived query method must contain the keyword `By`** — it separates the prefix from the property expression. Without it, Spring cannot parse the method name and startup fails.
+
+```kotlin
+fun findByEmail(email: String): User?
+// ↑      ↑     ↑
+// prefix  By   property name
+```
+
+---
+
+### Allowed Prefixes
+
+| Prefix | Purpose | Return type |
+|--------|---------|-------------|
+| `find…By` | Returns one or more results | Entity / List / Page / Slice |
+| `get…By` | Same as `find` (legacy alias) | Entity / List |
+| `read…By` | Same as `find` (read-only intent) | Entity / List |
+| `query…By` | Same as `find` | Entity / List |
+| `count…By` | Returns a count | `Long` |
+| `exists…By` | Returns existence check | `Boolean` |
+| `delete…By` | Deletes matching entities | `void` |
+| `remove…By` | Same as `delete` | `void` |
+
+**All prefixes require `By` immediately before the property name.**
+
+```kotlin
+// ✅ Correct
+fun findByEmail(email: String): User?
+fun countByEmail(email: String): Long
+fun existsByName(name: String): Boolean
+fun deleteByEmail(email: String)
+
+// ❌ Wrong — missing By — startup FAILS
+fun findEmail(email: String): User?       // QueryCreationException
+fun countEmail(email: String): Long       // QueryCreationException
+fun existsName(name: String): Boolean     // QueryCreationException
+```
+
+---
+
+### Property Names (after `By`)
+
+- Must match **exactly** the field names in your entity (camelCase).
+- Nested properties: traverse using the nested field name directly (e.g., `profileCity` maps to `profile.city`).
+
+| Entity field | Correct method | Generated SQL |
+|--------------|----------------|---------------|
+| `email` | `findByEmail` | `WHERE email = ?` |
+| `name` | `findByName` | `WHERE name = ?` |
+| `createdAt` | `findByCreatedAtAfter` | `WHERE created_at > ?` |
+| `profile.city` | `findByProfileCity` | `WHERE profile.city = ?` |
+
+---
+
+### Condition Keywords (after property name)
+
+#### Comparison
+
+| Keyword | SQL equivalent | Example |
+|---------|----------------|---------|
+| `Is` / `Equals` | `=` | `findByEmailIs` |
+| `IsNot` / `Not` | `<>` | `findByEmailNot` |
+| `IsNull` | `IS NULL` | `findByEmailIsNull` |
+| `IsNotNull` | `IS NOT NULL` | `findByEmailIsNotNull` |
+| `IsTrue` | `= true` | `findByActiveIsTrue` |
+| `IsFalse` | `= false` | `findByActiveIsFalse` |
+| `GreaterThan` | `>` | `findByAgeGreaterThan` |
+| `GreaterThanEqual` | `>=` | `findByAgeGreaterThanEqual` |
+| `LessThan` | `<` | `findByAgeLessThan` |
+| `LessThanEqual` | `<=` | `findByAgeLessThanEqual` |
+| `Between` | `BETWEEN ? AND ?` | `findByAgeBetween` |
+| `In` | `IN (...)` | `findByStatusIn` |
+| `NotIn` | `NOT IN (...)` | `findByStatusNotIn` |
+| `Like` | `LIKE ?` | `findByNameLike` |
+| `Containing` | `LIKE %?%` | `findByNameContaining` |
+| `StartingWith` | `LIKE ?%` | `findByNameStartingWith` |
+| `EndingWith` | `LIKE %?` | `findByNameEndingWith` |
+| `IgnoreCase` | `UPPER(...)` | `findByEmailIgnoreCase` |
+
+```kotlin
+fun findByCreatedAtAfter(date: LocalDateTime): List<User>
+fun findByNameContaining(part: String): List<User>
+fun findByEmailIgnoreCase(email: String): User?
+fun findByAgeBetween(min: Int, max: Int): List<User>
+fun findByStatusIn(statuses: List<Status>): List<User>
+```
+
+---
+
+### Combining Multiple Properties — `And` / `Or`
+
+```kotlin
+// WHERE name = ? AND email = ?
+fun findByNameAndEmail(name: String, email: String): User?
+
+// WHERE name = ? OR email = ?
+fun findByNameOrEmail(name: String, email: String): List<User>
+
+// WHERE LOWER(name) LIKE LOWER(%?%) AND UPPER(email) = UPPER(?)
+fun findByNameContainingAndEmailIgnoreCase(namePart: String, email: String): List<User>
+```
+
+---
+
+### Return Types
+
+| Return type | Use case |
+|-------------|----------|
+| `User?` | Expecting at most one result (nullable) |
+| `Optional<User>` | Java-style nullable (use `User?` in Kotlin) |
+| `User` (non-null) | Throws exception if not found |
+| `List<User>` | Zero or more results |
+| `Page<User>` | Paginated — requires `Pageable` param, includes total count |
+| `Slice<User>` | Paginated — no total count (faster, use for infinite scroll) |
+| `Stream<User>` | Large result sets (must be closed in a `@Transactional` method) |
+| `Long` | For `count…By` methods |
+| `Boolean` | For `exists…By` methods |
+| `void` | For `delete…By` / `remove…By` methods |
+
+---
+
+### Special Prefix Semantics
+
+```kotlin
+// countBy — returns Long, not entities
+fun countByEmail(email: String): Long
+
+// existsBy — returns Boolean (true if at least one row matches)
+fun existsByName(name: String): Boolean
+
+// deleteBy — bulk delete — does NOT load entities first
+// JPA cascade settings are ignored because entities are not loaded
+fun deleteByEmail(email: String)
+
+// findAll + OrderBy — no filter, just sort
+fun findAllByOrderByCreatedAtDesc(): List<User>
+```
+
+> **⚠️ deleteBy warning:** `deleteBy` runs a bulk DELETE query directly in SQL. Because entities are never loaded into the JPA context, `@PreRemove`, `orphanRemoval`, and cascade delete settings are **not triggered**. If you need those to fire, load the entity first and call `delete(entity)`.
+
+---
+
+### What Happens When You Break the Rules
+
+| Mistake | Spring Boot behaviour |
+|---------|----------------------|
+| Missing `By` — e.g., `findEmail` | **Startup fails** — `QueryCreationException: No property 'email' found for type 'User'` |
+| Typo in property name — e.g., `findByEmaill` | **Startup fails** — `PropertyReferenceException: No property 'emaill' found` |
+| Wrong return type — method returns `User` but query returns multiple rows | **Runtime exception** — `IncorrectResultSizeDataAccessException` |
+| `Between` without two parameters | **Startup fails** — parser error |
+| `In` without a `Collection` parameter | **Startup fails** — parser error |
+
+Spring validates your repository methods **at startup**, not at runtime. This means naming errors are caught immediately when you run the app — but you should still write tests to catch wrong return types, which are runtime errors.
+
+---
+
+### When to Use Derived Queries vs `@Query`
+
+| Situation | Use |
+|-----------|-----|
+| Simple `WHERE` on one or two fields | Derived query (method name) |
+| Checking existence or counting | `existsBy` / `countBy` |
+| Standard sort + filter on known fields | `findBy…OrderBy…` |
+| Complex JOIN with multiple conditions | `@Query` with JPQL |
+| Aggregation (`SUM`, `AVG`, `GROUP BY`) | `@Query` with JPQL or native SQL |
+| Method name becomes unreadably long | `@Query` with JPQL |
+| Database-specific functions | `@Query` with `nativeQuery = true` |
+
+```kotlin
+// Derived query — short and self-documenting ✅
+fun findByEmail(email: String): User?
+
+// @Query fallback when method name would be absurdly long ✅
+@Query("SELECT u FROM User u WHERE u.email = :email")
+fun findEmail(@Param("email") email: String): User?
+// Note: you'd never do this for something this simple — just use findByEmail
+```
+
+---
+
+### Quick Reference Card
+
+```
+✅ Correct derived query methods:
+   findByEmail
+   findAllByEmail
+   findByEmailAndName
+   findByNameContaining
+   findByNameContainingIgnoreCase
+   findByCreatedAtBetween
+   findByStatusIn
+   findByActiveIsTrue
+   countByEmail
+   existsByEmail
+   deleteByEmail
+   findAllByOrderByCreatedAtDesc
+   findByEmailAndStatusOrderByCreatedAtDesc
+
+❌ Wrong — will fail at startup:
+   findEmail          ← missing By
+   findByEmaill       ← typo in property name
+   findByNameAnd      ← incomplete — no second property
+   findByNameOr       ← incomplete — no second property
+   existsEmail        ← missing By
+   countEmail         ← missing By
+```
+
+---
+
+### Real-World Examples
+
+| Requirement | Method signature |
+|-------------|-----------------|
+| Find user by email (unique) | `fun findByEmail(email: String): User?` |
+| Find all users whose name contains "jo" (case-insensitive) | `fun findByNameContainingIgnoreCase(part: String): List<User>` |
+| Check if any user has a given email | `fun existsByEmail(email: String): Boolean` |
+| Count users created after a date | `fun countByCreatedAtAfter(date: LocalDateTime): Long` |
+| Delete all users with a given name | `fun deleteByName(name: String)` |
+| Find users sorted newest first | `fun findAllByOrderByCreatedAtDesc(): List<User>` |
+| Find by status, paginated | `fun findByStatus(status: Status, pageable: Pageable): Slice<User>` |
+| Find where field is null | `fun findByLocationIsNull(): List<User>` |
+| Find where name length > X | Use `@Query("SELECT u FROM User u WHERE LENGTH(u.name) > :len")` |
+
+---
+
 ## 3.14 Chapter Project — Build It Before You Move On
 
 ### What to build

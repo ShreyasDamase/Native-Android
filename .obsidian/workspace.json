@@ -8,18 +8,47 @@
         "type": "tabs",
         "children": [
           {
-            "id": "9487b6b43f0d8d35",
+            "id": "30d9a2cd2eb43eac",
             "type": "leaf",
             "state": {
-              "type": "excalidraw",
+              "type": "pdf",
               "state": {
-                "file": "Backend Development/Blinkit research/blinkitDeliveryApp.excalidraw.md"
+                "file": "Backend Development/Pro_Spring_Boot_3_with_Kotlin_3rd_Edition_-_Peter_Spath.pdf"
               },
-              "icon": "excalidraw-icon",
-              "title": "blinkitDeliveryApp.excalidraw"
+              "icon": "lucide-file-text",
+              "title": "Pro_Spring_Boot_3_with_Kotlin_3rd_Edition_-_Peter_Spath"
+            }
+          },
+          {
+            "id": "126df64be79d011a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Backend Development/DSA/Backend DSA Pattern Roadmap.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Backend DSA Pattern Roadmap"
+            }
+          },
+          {
+            "id": "46ab7b4a9973fde8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Backend Development/System Design Digram/Mermaid digram explain.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Mermaid digram explain"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -51,7 +80,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "singleton",
+                "query": "derivedStateOf",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -76,8 +105,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 507.5,
-    "collapsed": true
+    "width": 465.50418853759766
   },
   "right": {
     "id": "c63af25f850b8f88",
@@ -149,13 +177,23 @@
               "icon": "lucide-list",
               "title": "Outline of Why-Compose-vs-XML-Views"
             }
+          },
+          {
+            "id": "7bcf4955f2582d1a",
+            "type": "leaf",
+            "state": {
+              "type": "mermaid-toolbar-view",
+              "state": {},
+              "icon": "trident-custom",
+              "title": "Mermaid Toolbar"
+            }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -166,50 +204,52 @@
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "bases:Create new base": false,
-      "obsidian-excalidraw-plugin:New drawing": false
+      "obsidian-excalidraw-plugin:New drawing": false,
+      "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "9487b6b43f0d8d35",
+  "active": "46ab7b4a9973fde8",
   "lastOpenFiles": [
+    "Backend Development/System Design Digram/Drawing 2026-06-08 05.50.02.excalidraw.md",
+    "Backend Development/System Design Digram/Mermaid digram explain.md",
+    "Pasted Image 20260608061340_965.png",
+    "Pasted Image 20260608061202_826.png",
+    "Pasted Image 20260608061131_856.png",
+    "Pasted Image 20260608061047_045.png",
+    "Backend Development/DSA/Backend DSA Pattern Roadmap.md",
+    "Backend Development/Blinkit research/Kotlin Spring Boot Clone Roadmap.md",
+    "Backend Development/Blinkit research/Kotlin Spring Boot Backend Design.md",
+    "Backend Development/Blinkit research/blinkitDeliveryApp.excalidraw.md",
+    "Backend Development/Springboot/Chapter 0 — How It All Connects (Read This First).md",
+    "Backend Development/Springboot/Chapter — Swagger and SpringDoc OpenAPI.md",
+    "Backend Development/Springboot/Book Alignment — Pro Spring Boot 3 with Kotlin.md",
+    "Backend Development/Springboot/Chapter 5 — Spring Security & JWT.md",
+    "Backend Development/Springboot/Chapter 1 — Spring Boot Fundamentals.md",
+    "Backend Development/Springboot/Index.md",
+    "Tests/Test 1.md",
+    "Tests/0. Theory Question.md",
+    "Interview/Technical Interview Communication Guide.md",
+    "Interview/Journey.md",
+    "Interview/Complete Guide to Class Components.md",
+    "Interview/Android Interview Questions — Study Checklist.md",
+    "Interview/android interview links_v2.md",
+    "Android-Native/Native Android/JetPack Compose/02-State-Management/02.1-Core-State/states/Compose State Fundamentals.md",
+    "Android-Native/Native Android/JetPack Compose/03-Layout-System/03.1-Foundation-Layouts/LazyColumn-LazyRow.md",
+    "Android-Native/Native Android/JetPack Compose/02-State-Management/02.2-Side-Effects/02.2-Side-EffectsOverview.md",
+    "Android-Native/Native Android/JetPack Compose/🏔️ Goal.md",
+    "Backend Development/Blinkit research/Blinkit Workflow Diagrams.md",
+    "Backend Development/Springboot/Chapter 2 — JPA, Entities & Flyway.md",
+    "Backend Development/Pro_Spring_Boot_3_with_Kotlin_3rd_Edition_-_Peter_Spath.pdf",
+    "Backend Development/Springboot/Mini Projects/MP-1 — Parking Lot Management System.md",
+    "Untitled.canvas",
     "Screenshot 2026-06-05 at 9.02.25 PM.png",
     "Screenshot 2026-06-05 at 9.01.35 PM.png",
     "Screenshot 2026-06-05 at 9.00.41 PM.png",
     "Screenshot 2026-06-05 at 9.00.31 PM.png",
     "Screenshot 2026-06-05 at 8.59.54 PM.png",
     "Screenshot 2026-06-05 at 8.58.59 PM.png",
-    "Screenshot 2026-06-05 at 8.58.28 PM.png",
-    "Screenshot 2026-06-05 at 8.57.20 PM.png",
-    "Screenshot 2026-06-05 at 8.56.43 PM.png",
-    "Screenshot 2026-06-05 at 8.56.17 PM.png",
-    "Screenshot 2026-06-05 at 8.55.38 PM.png",
-    "Backend Development/Blinkit research/Blinkit Workflow Diagrams.md",
-    "Backend Development/Blinkit research/blinkitDeliveryApp.excalidraw.md",
-    "Backend Development/Blinkit research/Local Commerce Delivery Platform — Complete Business Model Reference.md",
-    "Backend Development/Blinkit research/Kotlin Spring Boot Clone Roadmap.md",
-    "Backend Development/Blinkit research/Quick Commerce Domain Research.md",
-    "Backend Development/Blinkit research/00 Blinkit Research Index.md",
-    "Backend Development/Blinkit research/Blinkit Data Model Draft.md",
-    "Backend Development/Blinkit research/Blinkit Endpoint Map.md",
-    "Backend Development/Springboot/Chapter 9 — Spring AI- Extracting Structured Data From Raw Text.md",
-    "Backend Development/Springboot/SD-12 — System Design - Content Delivery Network (CDN).md",
     "Untitled.base",
-    "Backend Development/DSA/Why DSA Matters for Backend Engineers.md",
-    "Backend Development/DSA/Index.md",
-    "Backend Development/DSA/LeetCode Backend Problem Tracker.md",
-    "Backend Development/DSA/Backend DSA Pattern Roadmap.md",
-    "Backend Development/System Design Digram/blinkit.md",
-    "Backend Development/Blinkit research/Blinkit Backend Architecture Research.md",
-    "Backend Development/Blinkit research/Kotlin Spring Boot Backend Design.md",
-    "Backend Development/Pro_Spring_Boot_3_with_Kotlin_3rd_Edition_-_Peter_Spath.pdf",
-    "Retrofit Errors.md",
-    "Quick Commerce Delivery Platform.md",
     "Screen Recording 2026-06-03 at 11.48.42 PM.mov",
-    "Excalidraw/Drawing 2026-06-03 02.33.18.excalidraw.md",
-    "2026-06-03.md",
-    "Backend Development/Springboot/Chapter 1 — Spring Boot Fundamentals.md",
-    "Backend Development/Springboot/Book Alignment — Pro Spring Boot 3 with Kotlin.md",
-    "Backend Development/Springboot/Mini Projects/MP-1 — Parking Lot Management System.md",
-    "Backend Development/Springboot/Chapter 26 — Kotlin Multithreading, Coroutines and Async Spring Boot.md",
     "Backend Development/Springboot/Mini Projects/code/food-ordering/build/test-results/test/TEST-com.learning.food.domain.FoodOrderTest.xml",
     "Backend Development/Springboot/Mini Projects/code/food-ordering/build/reports/tests/test/js/report.js",
     "Backend Development/Springboot/Mini Projects/code/food-ordering/build/reports/tests/test/js",
@@ -219,7 +259,6 @@
     "Backend Development/Springboot/Mini Projects/code/food-ordering/build/reports/tests/test/index.html",
     "Android-Native/Native Android/Android Basis/MainActivity.canvas",
     "Untitled 1.canvas",
-    "Untitled.canvas",
     "Android-Native/Untitled.canvas"
   ]
 }
