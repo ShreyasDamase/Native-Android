@@ -18,32 +18,32 @@ Each side of the relationship has **two characters** — one for the outer marke
 
 ### Outer Markers (how many at minimum)
 
-|Symbol|Meaning|
-|---|---|
-|`\|`|Exactly one (mandatory)|
-|`o`|Zero (optional)|
+| Symbol | Meaning                 |
+| ------ | ----------------------- |
+| \|     | Exactly one (mandatory) |
+| o      | Zero (optional)         |
 
 ### Inner Markers (how many at maximum)
 
-|Symbol|Meaning|
-|---|---|
-|`\|`|One and only one|
-|`{`|Many (one or more)|
+| Symbol | Meaning            |
+| ------ | ------------------ |
+| \|     | One and only one   |
+| {      | Many (one or more) |
 
 ---
 
 ## All Relationship Types
 
-|Notation|Reads As|Example|
-|---|---|---|
-|`A \|--\| B`|A has exactly one B, B has exactly one A|ticket — payment|
-|`A \|--o\| B`|A has zero or one B|ParkingSlot — ticket (slot may be empty)|
-|`A \|--\|{ B`|A has one or more B (mandatory many)|Order — LineItem|
-|`A \|--o{ B`|A has zero or more B (optional many)|ParkingLot — Gate|
-|`A }\|--\| B`|Many A must have exactly one B|many Gates belong to one Lot|
-|`A }o--\| B`|Many (optional) A belong to one B|—|
-|`A }\|--\|{ B`|Many A, many B (both mandatory)|Student — Course|
-|`A }o--o{ B`|Many A, many B (both optional)|—|
+| Notation       | Reads As                                 | Example                                  |
+| -------------- | ---------------------------------------- | ---------------------------------------- |
+| A \|\|--\|\| B | A has exactly one B, B has exactly one A | ticket — payment                         |
+| A \|\|--o\| B  | A has zero or one B                      | ParkingSlot — ticket (slot may be empty) |
+| A \|\|--\|{ B  | A has one or more B (mandatory many)     | Order — LineItem                         |
+| A \|\|--o{ B   | A has zero or more B (optional many)     | ParkingLot — Gate                        |
+| A }\|--\|\| B  | Many A must have exactly one B           | many Gates belong to one Lot             |
+| A }o--\|\| B   | Many (optional) A belong to one B        | —                                        |
+| A }\|--\|{ B   | Many A, many B (both mandatory)          | Student — Course                         |
+| A }o--o{ B     | Many A, many B (both optional)           | —                                        |
 
 ### Simple Memory Trick
 
@@ -60,10 +60,10 @@ o = zero (optional)
 
 ## Line Style
 
-|Style|Symbol|Meaning|
-|---|---|---|
-|Solid line|`--`|Identifying relationship (FK is part of PK)|
-|Dashed line|`..`|Non-identifying relationship (FK is not part of PK)|
+| Style       | Symbol | Meaning                                             |
+| ----------- | ------ | --------------------------------------------------- |
+| Solid line  | `--`   | Identifying relationship (FK is part of PK)         |
+| Dashed line | `..`   | Non-identifying relationship (FK is not part of PK) |
 
 > Most of the time you will use `--` (solid line)
 
@@ -166,9 +166,9 @@ Example: ParkingLot ||--o{ ParkingFloor
 
 ## Common Mistakes
 
-|Mistake|Fix|
-|---|---|
-|`A --\| B`|Wrong — always need both sides: `A \|--\| B`|
-|Forgetting PK/FK labels|Add `PK` and `FK` suffixes for clarity|
-|Using spaces in entity names|Use CamelCase: `ParkingLot` not `Parking Lot`|
-|Wrong direction of FK|FK always lives on the **many** side|
+| Mistake                      | Fix                                           |     |
+| ---------------------------- | --------------------------------------------- | --- |
+| A --\| B                     | Wrong — always need both sides:  A \|--\| B   |     |
+| Forgetting PK/FK labels      | Add `PK` and `FK` suffixes for clarity        |     |
+| Using spaces in entity names | Use CamelCase: `ParkingLot` not `Parking Lot` |     |
+| Wrong direction of FK        | FK always lives on the **many** side          |     |
