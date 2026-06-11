@@ -1,5 +1,8 @@
 # 🚀 Android Jetpack — Mastering LiveData, StateFlow, Flow & SharedFlow
 
+> [!NOTE]
+> Flow is part of `kotlinx.coroutines`. This file is the source of truth for Flow, StateFlow, and SharedFlow details in this folder. For pure coroutine basics like `launch`, `async`, dispatchers, cancellation, and structured concurrency, use [[Coroutines/Coroutines in Kotlin Complete Notes]].
+
 
 ---
 

@@ -1,5 +1,8 @@
 # State vs StateFlow
 
+> [!NOTE]
+> `StateFlow` belongs to Kotlin Coroutines, while Compose `State` belongs to Jetpack Compose. For coroutine basics, use [[Coroutines/Coroutines in Kotlin Complete Notes]]. For Flow and SharedFlow details, use [[Android Jetpack Flow Study Notes]].
+
 ## 📌 Purpose
 Both `MutableState<T>` and `MutableStateFlow<T>` represent a stream of state that can change over time. However, they belong to different ecosystems and handle observation differently. Understanding when to use which is crucial for a clean architecture in modern Android apps.
 

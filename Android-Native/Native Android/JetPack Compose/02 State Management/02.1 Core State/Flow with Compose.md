@@ -1,5 +1,8 @@
 # Consuming Flows in Jetpack Compose
 
+> [!NOTE]
+> This file focuses only on collecting Flow/StateFlow in Compose. For coroutine foundations, use [[Coroutines/Coroutines in Kotlin Complete Notes]]. For Flow theory and operators, use [[Android Jetpack Flow Study Notes]].
+
 ## 📌 Purpose
 While Jetpack Compose has its own `State` system (`MutableState`), Android apps heavily rely on Kotlin Coroutines and `Flow` / `StateFlow` for domain and data layers. To use a `Flow` in Compose, it must be converted into Compose `State` so that emissions trigger recompositions.
 

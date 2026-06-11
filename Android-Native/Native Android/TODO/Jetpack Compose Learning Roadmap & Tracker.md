@@ -252,16 +252,16 @@
 
 ## Level 22: Integration with Libraries
 
-|#|Topic|Content Details|Status|
-|---|---|---|---|
-|22.1|Coil for Compose|AsyncImage, Image loading, Placeholder, Error handling|☐|
-|22.2|Accompanist Libraries|Pager, Permissions, SystemUIController, Navigation Animation|☐|
-|22.3|Room Database|Room with Compose, Flow integration, Observing database changes|☐|
-|22.4|Retrofit Integration|API calls in Compose, Loading states, Error handling|☐|
-|22.5|DataStore|Preferences DataStore, Proto DataStore, collectAsState|☐|
-|22.6|WorkManager|Background tasks with Compose, Observing work status|☐|
-|22.7|Firebase Integration|Firebase Auth, Firestore, Cloud Storage with Compose|☐|
-|22.8|Google Maps Compose|Maps SDK for Compose, Markers, Camera control|☐|
+| #    | Topic                 | Content Details                                                 | Status |
+| ---- | --------------------- | --------------------------------------------------------------- | ------ |
+| 22.1 | Coil for Compose      | AsyncImage, Image loading, Placeholder, Error handling          | ☐      |
+| 22.2 | Accompanist Libraries | Pager, Permissions, SystemUIController, Navigation Animation    | ☐      |
+| 22.3 | Room Database         | Room with Compose, Flow integration, Observing database changes | ☐      |
+| 22.4 | Retrofit Integration  | API calls in Compose, Loading states, Error handling            | ☐      |
+| 22.5 | DataStore             | Preferences DataStore, Proto DataStore, collectAsState          | ☐      |
+| 22.6 | WorkManager           | Background tasks with Compose, Observing work status            | ☐      |
+| 22.7 | Firebase Integration  | Firebase Auth, Firestore, Cloud Storage with Compose            | ☐      |
+| 22.8 | Google Maps Compose   | Maps SDK for Compose, Markers, Camera control                   | ☐      |
 
 ## Level 23: Multi-Platform & Desktop
 

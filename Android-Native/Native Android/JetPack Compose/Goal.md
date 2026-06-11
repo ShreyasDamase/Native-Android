@@ -146,7 +146,7 @@
 
 #### 0.1.4 Generics
 
-- [ ] 🟥 Generic classes and functions
+- [x] 🟥 Generic classes and functions
 - [ ] 🟥 Type variance: `out` (covariance), `in` (contravariance), invariance
 - [ ] 🟨  Use-site vs declaration-site variance
 - [ ] 🟨  Star projection `<*>`
@@ -175,22 +175,22 @@
 
 #### 0.2.1 Fundamentals
 
-- [ ] 🟥 What a coroutine actually is — a suspendable computation, NOT a thread
-- [ ] 🟥 `suspend` keyword — what it does at bytecode level (continuation-passing style transformation)
-- [ ] 🟥 `CoroutineScope` — the owner of coroutine lifecycles, every coroutine needs a scope
-- [ ] 🟥 `CoroutineContext` — a map of key-value elements (`Job`, `Dispatcher`, `CoroutineName`, `ExceptionHandler`)
-- [ ] 🟥 `Job` — lifecycle states: New, Active, Completing, Completed, Cancelling, Cancelled
-- [ ] 🟥 `launch` vs `async` — fire-and-forget vs deferred result
-- [ ] 🟥 `Deferred<T>` — `await()` suspends until result, `await()` rethrows exceptions
-- [ ] 🟥 `coroutineScope {}` vs `supervisorScope {}` — how exceptions propagate differently
-- [ ] 🟥 `withContext()` — switch dispatcher without creating a new coroutine
+- [x] 🟥 What a coroutine actually is — a suspendable computation, NOT a thread
+- [x] 🟥 `suspend` keyword — what it does at bytecode level (continuation-passing style transformation)
+- [x] 🟥 `CoroutineScope` — the owner of coroutine lifecycles, every coroutine needs a scope
+- [x] 🟥 `CoroutineContext` — a map of key-value elements (`Job`, `Dispatcher`, `CoroutineName`, `ExceptionHandler`)
+- [x] 🟥 `Job` — lifecycle states: New, Active, Completing, Completed, Cancelling, Cancelled
+- [x] 🟥 `launch` vs `async` — fire-and-forget vs deferred result
+- [x] 🟥 `Deferred<T>` — `await()` suspends until result, `await()` rethrows exceptions
+- [x] 🟥 `coroutineScope {}` vs `supervisorScope {}` — how exceptions propagate differently
+- [x] 🟥 `withContext()` — switch dispatcher without creating a new coroutine
 
 #### 0.2.2 Dispatchers
 
-- [ ] 🟥 `Dispatchers.Main` — UI thread, must not be blocked
-- [ ] 🟥 `Dispatchers.IO` — thread pool for blocking I/O, sized to 64 threads by default
-- [ ] 🟥 `Dispatchers.Default` — CPU-bound work, thread pool sized to CPU cores
-- [ ] 🟨  `Dispatchers.Unconfined` — runs in the caller thread until first suspension
+- [x] 🟥 `Dispatchers.Main` — UI thread, must not be blocked
+- [x] 🟥 `Dispatchers.IO` — thread pool for blocking I/O, sized to 64 threads by default
+- [x] 🟥 `Dispatchers.Default` — CPU-bound work, thread pool sized to CPU cores
+- [x] 🟨  `Dispatchers.Unconfined` — runs in the caller thread until first suspension
 - [ ] 🟨  Custom dispatchers with `newSingleThreadContext` and `Executors.asCoroutineDispatcher()`
 - [ ] 🟨  `limitedParallelism()` for controlling concurrency on existing dispatchers
 
@@ -198,11 +198,11 @@
 
 - [ ] 🟥 Why structured concurrency exists — prevents coroutine leaks
 - [ ] 🟥 Parent-child relationship: parent waits for all children; child cancellation does not cancel parent (with SupervisorJob)
-- [ ] 🟥 `SupervisorJob` — child failures are independent; use in `viewModelScope`, `lifecycleScope`
-- [ ] 🟥 Exception propagation rules: in `launch` exceptions propagate to parent; in `async` exceptions rethrow on `await()`
+- [x] 🟥 `SupervisorJob` — child failures are independent; use in `viewModelScope`, `lifecycleScope`
+- [x] 🟥 Exception propagation rules: in `launch` exceptions propagate to parent; in `async` exceptions rethrow on `await()`
 - [ ] 🟥 `CoroutineExceptionHandler` — last-resort handler, only for `launch` at root level
 - [ ] 🟥 Cancellation propagation — cooperative cancellation, `isActive`, `ensureActive()`, `yield()`
-- [ ] 🟥 `CancellationException` — must never be swallowed in `catch (e: Exception)`
+- [x] 🟥 `CancellationException` — must never be swallowed in `catch (e: Exception)`
 - [ ] 🟥 `withTimeout` vs `withTimeoutOrNull`
 - [ ] 🟨  `NonCancellable` context — for cleanup code that must run even during cancellation
 
@@ -225,7 +225,7 @@
 
 #### 0.2.5 StateFlow & SharedFlow
 
-- [ ] 🟥 `StateFlow<T>` — hot, stateful, always has a value, replays last to new collectors
+- [x] 🟥 `StateFlow<T>` — hot, stateful, always has a value, replays last to new collectors
 - [ ] 🟥 `MutableStateFlow` — `value` property, `update {}` for atomic updates
 - [ ] 🟥 `SharedFlow<T>` — hot, configurable replay, no initial value requirement
 - [ ] 🟥 `MutableSharedFlow` — `emit()` (suspends if buffer full), `tryEmit()` (non-suspending)
