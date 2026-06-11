@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Coroutines/Coroutine 01 Builders Dispatchers Scopes.md",
+                "file": "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Coroutines/Coroutine 00 Setup Basics Suspend.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Coroutine 01 Builders Dispatchers Scopes"
+              "title": "Coroutine 00 Setup Basics Suspend"
             }
           }
         ]
@@ -184,14 +184,21 @@
   },
   "active": "15317bc5670dfbec",
   "lastOpenFiles": [
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Coroutines/Coroutine 00 Setup Basics Suspend.md",
     "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Coroutines/Coroutines in Kotlin Complete Notes.md",
+    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Android Jetpack Flow Study Notes.md",
+    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Compose State Fundamentals.md",
+    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Derived State Of Computed State.md",
+    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Flow with Compose.md",
+    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Remember Mutable State Of.md",
     "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/States.md",
+    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/State vs StateFlow.md",
+    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/State Hoisting Patterns.md",
     "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Coroutines/Coroutine 05 Testing Debugging Shared State.md",
     "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Coroutines/Coroutine 04 Channels Producer Consumer.md",
     "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Coroutines/Coroutine 03 Sequential Parallel Async Patterns.md",
     "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Coroutines/Coroutine 02 Structured Concurrency Cancellation Exceptions.md",
     "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Coroutines/Coroutine 01 Builders Dispatchers Scopes.md",
+    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Coroutines/Coroutine 00 Setup Basics Suspend.md",
     "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Coroutines",
     "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Coroutine 05 Testing Debugging Shared State.md",
     "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Coroutine 04 Channels Producer Consumer.md",
@@ -199,14 +206,7 @@
     "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Coroutine 02 Structured Concurrency Cancellation Exceptions.md",
     "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Coroutine 01 Builders Dispatchers Scopes.md",
     "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Coroutine 00 Setup Basics Suspend.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/State vs StateFlow.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/State Hoisting Patterns.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Remember Mutable State Of.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Flow with Compose.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Derived State Of Computed State.md",
     "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Coroutines in Kotlin Complete Notes.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Compose State Fundamentals.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Android Jetpack Flow Study Notes.md",
     "Android-Native/Native Android/JetPack Compose/02 State Management/02.2 Side Effects/Launched Effect Disposable Effect.md",
     "raw practice.md",
     "Android-Native/Native Android/JetPack Compose/Goal.md",

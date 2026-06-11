@@ -969,3 +969,239 @@ implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
 ---
 
 *"The difference between a good Android developer and a great one is knowing not just HOW to use these APIs, but WHY — and which one fits the problem. Master the mental model, and the code writes itself."*
+
+
+---
+
+## 🚀 Mastery Deep Dive (Added 2026)
+
+> [!NOTE]
+> The following deep dive notes were generated to provide mastery-level understanding, complementing the original notes above.
+
+# Android Jetpack Flow — Complete Study Notes
+
+> [!NOTE]
+> `Flow` is Kotlin's reactive streams implementation. It completely replaces RxJava and LiveData. If Coroutines are for *one-shot* async operations (like an API call), Flow is for *multiple* async values over time (like a websocket, location updates, or a database query that updates when data changes).
+
+---
+
+## 🧠 Mental Model — Read This First
+
+**A Flow is a cold water pipe.**
+- **Cold:** The pipe does nothing until someone turns on the faucet at the end (`collect`). If you don't collect a Flow, the code inside the builder NEVER runs.
+- **Sequential:** Water drops (emissions) travel down the pipe one by one. Drop 2 cannot leave until Drop 1 is processed by the collector.
+- **Suspension:** If the collector is slow at processing drops, the entire pipe pauses. The producer waits for the collector.
+
+**StateFlow is a water tank with a gauge.**
+- **Hot:** The tank always has water in it, regardless of whether anyone is looking.
+- **Stateful:** It always holds exactly one value (the current water level).
+- **Conflated:** If the level changes from 1 to 2 to 3 very fast, a slow observer might only see 1 and then 3. Drop 2 is overwritten (conflated).
+
+**SharedFlow is a loudspeaker.**
+- **Hot:** The speaker plays music whether anyone is in the room or not.
+- **Event-driven:** Once a sound is played, it's gone (unless you configure replay). If you walk into the room late, you missed it.
+
+---
+
+## 🧊 Cold Flows (Standard `Flow`)
+
+### The Basics
+
+```kotlin
+// Builder: Defines the pipe
+val timerFlow: Flow<Int> = flow {
+    println("Pipe turned on!")
+    for (i in 1..3) {
+        delay(1000) // fake work
+        emit(i)     // send down the pipe
+    }
+}
+
+// Terminal Operator: Turns on the faucet
+// Without this, the println above NEVER runs!
+coroutineScope.launch {
+    timerFlow.collect { value ->
+        println("Received $value")
+    }
+}
+```
+
+### Flow Builders
+- `flow { emit() }` — The most common, flexible builder.
+- `flowOf(1, 2, 3)` — For a fixed set of values.
+- `listOf(1, 2, 3).asFlow()` — Convert collections.
+- `callbackFlow { }` — Critical for wrapping legacy callback APIs (Firebase, LocationManager).
+
+### `callbackFlow` — Bridging the Legacy World
+
+> [!IMPORTANT]
+> This is a highly tested interview concept. `callbackFlow` bridges traditional callback-based APIs into Kotlin Flows. It uses a Channel under the hood so you can `trySend()` from non-suspend callbacks.
+
+```kotlin
+fun getLocationFlow(locationManager: LocationManager): Flow<Location> = callbackFlow {
+    // 1. Define the callback
+    val callback = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            // trySend pushes the value into the flow.
+            // It doesn't suspend, so it's safe to call from standard interfaces.
+            trySend(location)
+        }
+    }
+
+    // 2. Register the callback
+    locationManager.requestLocationUpdates(callback)
+
+    // 3. MANDATORY: Suspend until the flow is cancelled (collector goes away)
+    // When cancelled, the block inside awaitClose runs to clean up.
+    awaitClose {
+        locationManager.removeUpdates(callback) // Prevent memory leaks!
+    }
+}
+```
+
+---
+
+## 🔄 Operators (The Pipe Filters)
+
+Operators transform the data *as it travels down the pipe*. They are intermediate — they don't start the flow.
+
+| Operator | What it does | Example |
+|---|---|---|
+| `map` | Transforms each value | `map { user -> user.name }` |
+| `filter` | Drops values that don't match | `filter { age >= 18 }` |
+| `take` | Cancels the flow after N items | `take(5)` |
+| `transform` | Can emit multiple times per input | `transform { emit(it); emit(it * 2) }` |
+| `catch` | Catches exceptions from UPSTREAM | `catch { emit(BackupData()) }` |
+| `onEach` | Side-effects (logging, etc) | `onEach { Log.d("Flow", "Saw $it") }` |
+
+### Backpressure Operators (When the collector is too slow)
+
+Because Flow is sequential, if `emit` is fast but `collect` is slow, the whole pipe slows down.
+
+1. **`buffer()`**: Adds a tank between producer and collector. Producer can keep emitting into the tank without waiting for the collector.
+2. **`conflate()`**: Drops intermediate values. If producer emits 1, 2, 3 fast, but collector is still processing 1, the collector will skip 2 and only receive 3.
+3. **`collectLatest { }`**: If a new value arrives while the collector is still processing the old one, it **cancels** the collector block and restarts it with the new value. (Great for network requests driven by search UI).
+
+```kotlin
+// collectLatest example: Search Debounce
+searchQueryFlow
+    .debounce(300) // Wait 300ms for user to stop typing
+    .collectLatest { query ->
+        // If user types again while this is running, this block is CANCELLED
+        val results = api.search(query)
+        updateUI(results)
+    }
+```
+
+---
+
+## 🔥 Hot Flows (`StateFlow` & `SharedFlow`)
+
+Cold flows re-run their builder code from scratch for *every* collector. Hot flows run once, and multiple collectors "listen in" to the same broadcast.
+
+### `StateFlow` (The State Holder)
+
+Replaces `LiveData`. Always has a value. Always conflates (if you set 1 then 2 instantly, observers might only see 2).
+
+```kotlin
+private val _uiState = MutableStateFlow(UiState())
+val uiState: StateFlow<UiState> = _uiState.asStateFlow()
+
+// Update state atomically (thread-safe!)
+fun increment() {
+    _uiState.update { it.copy(count = it.count + 1) }
+}
+```
+
+### `SharedFlow` (The Event Bus)
+
+For one-time events (navigation, toast messages). By default, it doesn't replay past events. If a collector attaches *after* an event is sent, it misses it.
+
+```kotlin
+// replay = 0 means no one gets old events when they attach
+private val _events = MutableSharedFlow<UiEvent>()
+val events: SharedFlow<UiEvent> = _events.asSharedFlow()
+
+fun showToast() {
+    viewModelScope.launch {
+        _events.emit(UiEvent.ShowToast("Saved!"))
+    }
+}
+```
+
+---
+
+## 🏗️ `stateIn` and `shareIn` (Cold to Hot Conversion)
+
+Often, your Room database or Retrofit API returns a cold `Flow`. But the UI needs a hot `StateFlow` so that rotating the screen doesn't cause a re-query to the database.
+
+```kotlin
+val usersState: StateFlow<List<User>> = repository.getUsersFlow() // Cold Flow
+    .map { users -> users.filter { it.isActive } }
+    .stateIn(
+        scope = viewModelScope,
+        // WhileSubscribed(5000) keeps the flow alive for 5 seconds after the UI disappears.
+        // This handles configuration changes (rotation) gracefully without restarting the flow!
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = emptyList() // StateFlow MUST have an initial value
+    )
+```
+
+**SharingStarted Options:**
+- `Eagerly`: Starts immediately, never stops. Wastes resources if no one is looking.
+- `Lazily`: Starts when the first collector arrives, then never stops.
+- `WhileSubscribed(5000)`: **(Best Practice for Android)** Starts when the first collector arrives. Stops 5 seconds after the last collector leaves. The 5-second buffer ensures screen rotations don't kill and restart the flow unnecessarily.
+
+---
+
+## 🧪 Testing Flows (Turbine)
+
+Testing Flows with standard coroutines is hard because Flows don't finish. Use **Turbine** (`app.cash.turbine:turbine`).
+
+```kotlin
+@Test
+fun `test increment updates state`() = runTest {
+    val viewModel = MyViewModel()
+
+    // .test is Turbine's extension function
+    viewModel.uiState.test {
+        // 1. Assert the initial state
+        assertEquals(0, awaitItem().count)
+
+        // 2. Trigger an action
+        viewModel.increment()
+
+        // 3. Assert the new state
+        assertEquals(1, awaitItem().count)
+
+        // 4. Cancel the collector (since StateFlows never complete naturally)
+        cancelAndIgnoreRemainingEvents()
+    }
+}
+```
+
+---
+
+## 🔗 Connections
+
+- **Compose integration**: [[Flow with Compose]] — how to safely collect these flows in UI using `collectAsStateWithLifecycle`
+- **ViewModel Architecture**: [[State vs StateFlow]] — why we use `MutableStateFlow` instead of Compose `State`
+- **Channels**: `callbackFlow` is built on top of Coroutine Channels. See Phase 4 Coroutines notes.
+
+---
+
+## 💬 Interview Master Q&A
+
+**Q: What is the difference between Flow, StateFlow, and SharedFlow?**
+> `Flow` is cold — it starts fresh for every collector. If you have 3 collectors, the code block runs 3 times.
+> `StateFlow` is hot and stateful — it holds exactly one latest value. It requires an initial value. It conflates fast updates. Multiple collectors share the same state. It is the modern replacement for LiveData.
+> `SharedFlow` is hot and event-driven — it broadcasts events to all current subscribers. By default, it has no memory (replay=0), so late subscribers miss past events. It is used for one-time actions like navigation or showing Snackbars.
+
+**Q: Why must you use `awaitClose` inside `callbackFlow`?**
+> `callbackFlow` converts a callback API into a Flow. `awaitClose` suspends the coroutine that is running the flow builder. Without it, the flow builder would finish immediately, the coroutine would exit, and the flow would complete before any callbacks could fire. `awaitClose` also provides a mandatory block to unregister the listener (e.g., `removeLocationUpdates`) when the collector cancels the flow. If you forget to unregister, you create a memory leak.
+
+**Q: What is the purpose of `SharingStarted.WhileSubscribed(5000)` in `stateIn`?**
+> It tells the StateFlow to stop collecting from its upstream Cold Flow when there are no active UI collectors, but to wait 5 seconds before doing so. On Android, an Activity is destroyed and recreated during screen rotation. For a brief moment, there are 0 collectors. If we stopped immediately, the upstream flow (like a database query) would be cancelled and immediately restarted, wasting CPU and battery. The 5000ms delay bridges the gap of a configuration change perfectly.
+
+**Q: What happens if a Flow producer is faster than the collector?**
+> Because Flow is fundamentally sequential and suspends, the producer will suspend and wait for the collector to process the item. This creates natural backpressure. If you don't want the producer to wait, you can use `.buffer()` to decouple them via a channel, `.conflate()` to drop intermediate unread values, or `collectLatest { }` to cancel the slow collector block and restart it with the new value.

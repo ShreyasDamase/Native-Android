@@ -1105,3 +1105,536 @@ fun MixedStateExample() {
 
 data class Player(val name: String)
 ```
+
+---
+
+## 🚀 Mastery Deep Dive (Added 2026)
+
+> [!NOTE]
+> The following deep dive notes were generated to provide mastery-level understanding, complementing the original notes above.
+
+# remember & mutableStateOf — Deep Reference
+
+> [!NOTE]
+> `States.md` covers the fundamentals. This file goes deeper: `@Stable`/`@Immutable`, `remember` key mechanics, `rememberSaveable` Saver patterns, when NOT to use `remember`, and smart recomposition skipping.
+
+---
+
+## 🧠 Mental Model — Read This First
+
+**`remember` is a numbered locker room.**
+
+- Every `remember` call in your composable gets its own locker (slot), numbered by **position in the code**, not by variable name.
+- First composition: Compose OPENS each locker and puts the computed value inside.
+- Every recomposition: Compose READS each locker — it does NOT recompute. The lambda inside `remember { }` never runs again.
+- When a `remember(key)` detects the key changed: it EMPTIES the locker and recomputes the value.
+
+This is why `remember` calls MUST always be in the same order — if you conditionally skip one, every subsequent locker number shifts, and you end up reading the wrong value.
+
+---
+
+## 🔬 `remember(key)` — Deep Dive into Key Mechanics
+
+### Single Key
+
+```kotlin
+@Composable
+fun UserProfile(userId: String) {
+    // Every time userId changes → lambda runs again → loadUser() called fresh
+    // Same userId → lambda skipped → cached value returned
+    val userProfile by remember(userId) {
+        mutableStateOf(loadUser(userId))
+    }
+}
+```
+
+**Internally, Compose stores:**
+```
+Slot[n] = {
+    keys: ["user-123"],           // current keys
+    value: MutableState<User>     // the remembered value
+}
+```
+
+On recomposition with `userId = "user-456"`:
+- Compose checks: `["user-456"] != ["user-123"]` → keys changed
+- Throws away the old `MutableState<User>`
+- Runs the lambda: `mutableStateOf(loadUser("user-456"))`
+- Stores new value in the same slot
+
+### Multiple Keys — ANY key change resets
+
+```kotlin
+@Composable
+fun FilteredSortedList(
+    items: List<Product>,
+    filter: String,
+    sortOrder: SortOrder
+) {
+    // Recomputes if items, filter, OR sortOrder changes
+    val processed by remember(items, filter, sortOrder) {
+        mutableStateOf(
+            items
+                .filter { it.name.contains(filter, ignoreCase = true) }
+                .sortedWith(sortOrder.comparator)
+        )
+    }
+
+    LazyColumn {
+        items(processed) { product -> ProductRow(product) }
+    }
+}
+```
+
+### `remember` for expensive objects (not just state)
+
+```kotlin
+// remember is not only for MutableState — it caches ANY expensive object
+@Composable
+fun RegexValidatedInput(pattern: String, input: String) {
+    // Regex compilation is expensive — cache it, recompile only when pattern changes
+    val regex = remember(pattern) { Regex(pattern) }
+    val isValid = regex.matches(input)
+
+    OutlinedTextField(
+        value = input,
+        onValueChange = { /* hoisted */ },
+        isError = !isValid
+    )
+}
+
+@Composable
+fun AnimatedGradient() {
+    // Shader creation is expensive — cache across recompositions
+    val shader = remember {
+        LinearGradientShader(
+            from = Offset.Zero,
+            to = Offset(100f, 100f),
+            colors = listOf(Color.Blue, Color.Purple)
+        )
+    }
+}
+```
+
+---
+
+## 🏷️ `@Stable` and `@Immutable` — Teaching Compose to Skip
+
+### The Skipping Problem
+
+Compose can **skip** recomposing a composable if its parameters haven't changed. But it only skips if it can PROVE the parameters are stable (won't change in a way Compose can't detect).
+
+**Compose considers a type stable if:**
+1. It's a primitive (`Int`, `String`, `Boolean`, etc.)
+2. It's annotated with `@Stable` or `@Immutable`
+3. It's a Kotlin `data class` where ALL fields are stable types
+4. It's a Compose `State<T>` type
+
+**If a parameter type is NOT stable, Compose always recomposes the child — even if the value didn't actually change.**
+
+```kotlin
+// Regular class — Compose treats as UNSTABLE (cannot verify it won't change)
+class User(val name: String, val age: Int)
+
+// Compose CANNOT skip recomposing UserCard when User is passed as unstable
+@Composable
+fun UserCard(user: User) {   // 'user' is unstable → always recomposes
+    Text(user.name)
+    Text(user.age.toString())
+}
+```
+
+### `@Immutable` — The Strong Guarantee
+
+```kotlin
+// @Immutable: you promise ALL properties will NEVER change after construction
+@Immutable
+data class User(val name: String, val age: Int)
+// Now Compose knows: if the User reference is the same, the data is identical
+// → Can skip recomposing composables that receive this User if reference hasn't changed
+
+@Composable
+fun UserCard(user: User) {   // 'user' is now stable (@Immutable) → Compose CAN skip this
+    Text(user.name)
+}
+```
+
+### `@Stable` — The Softer Guarantee
+
+```kotlin
+// @Stable: you promise that if == returns true, all public properties are equal
+// AND: changes to properties are always notified via snapshot system
+@Stable
+class UserState(initialName: String) {
+    var name by mutableStateOf(initialName)   // changes are observable via snapshot ✅
+}
+// Compose can now skip recompositions where the UserState reference is the same
+// AND none of its observable properties changed
+```
+
+### Practical Example: The Performance Difference
+
+```kotlin
+// Without @Immutable — always recomposes
+data class ProductItem(val id: String, val name: String, val price: Double)
+
+@Composable
+fun ProductList(products: List<ProductItem>) {
+    LazyColumn {
+        items(products) { product ->
+            ProductRow(product)  // recomposes every time parent recomposes — expensive!
+        }
+    }
+}
+
+// With @Immutable — Compose can skip ProductRow if ProductItem didn't change
+@Immutable
+data class ProductItem(val id: String, val name: String, val price: Double)
+
+@Composable
+fun ProductRow(product: ProductItem) {  // CAN be skipped now ✅
+    Row { Text(product.name); Text("$${product.price}") }
+}
+```
+
+> [!TIP]
+> For the Compose compiler plugin (Compose Compiler Metrics) to verify your stability, you can run: `./gradlew assembleRelease -PcomposeCompilerReports=true`. It generates a report showing which composables are "skippable" and which aren't due to unstable parameters.
+
+---
+
+## 🚫 When NOT to Use `remember`
+
+Not every value needs `remember`. Using it unnecessarily adds overhead to the Slot Table.
+
+### Don't use `remember` for derived values that recompute on every recomposition anyway
+
+```kotlin
+// ❌ Unnecessary — fullName changes every time firstName or lastName changes
+// derivedStateOf would be better, or just compute directly
+val fullName by remember(firstName, lastName) {
+    mutableStateOf("$firstName $lastName")
+}
+
+// ✅ Just compute directly — the composable already recomposes when these change
+val fullName = "$firstName $lastName"   // no remember needed!
+```
+
+### Don't use `remember` when the value doesn't need to survive recomposition
+
+```kotlin
+// ❌ Overkill — this formatting changes on every recomposition anyway
+val formattedDate by remember(timestamp) {
+    mutableStateOf(DateFormat.getDateInstance().format(timestamp))
+}
+
+// ✅ Just compute inline
+val formattedDate = DateFormat.getDateInstance().format(timestamp)
+```
+
+### DO use `remember` for:
+
+```kotlin
+// ✅ Expensive object creation that doesn't depend on changing params
+val paint = remember { Paint().apply { color = Color.Red } }
+
+// ✅ Observable state that the user can modify
+var searchQuery by remember { mutableStateOf("") }
+
+// ✅ Objects that are expensive per-instance (Regex, Coroutine, etc.)
+val animatable = remember { Animatable(0f) }
+
+// ✅ State holders / objects with internal state
+val scrollState = rememberScrollState()
+val lazyListState = rememberLazyListState()
+```
+
+---
+
+## 🗄️ `rememberSaveable` — Saver Patterns for Complex Types
+
+### Pattern 1: `mapSaver` — Cleanest for data classes
+
+```kotlin
+data class FilterState(
+    val query: String = "",
+    val priceMin: Int = 0,
+    val priceMax: Int = 10000,
+    val categoriesSelected: Set<String> = emptySet()
+)
+
+val FilterStateSaver = run {
+    // mapSaver: converts to/from Map<String, Any?>
+    val queryKey = "query"
+    val priceMinKey = "priceMin"
+    val priceMaxKey = "priceMax"
+    val categoriesKey = "categories"
+
+    mapSaver(
+        save = { state ->
+            mapOf(
+                queryKey    to state.query,
+                priceMinKey to state.priceMin,
+                priceMaxKey to state.priceMax,
+                categoriesKey to state.categoriesSelected.toList()  // Set → List (Bundle-safe)
+            )
+        },
+        restore = { map ->
+            @Suppress("UNCHECKED_CAST")
+            FilterState(
+                query              = map[queryKey] as String,
+                priceMin           = map[priceMinKey] as Int,
+                priceMax           = map[priceMaxKey] as Int,
+                categoriesSelected = (map[categoriesKey] as List<String>).toSet()
+            )
+        }
+    )
+}
+
+@Composable
+fun FilterScreen() {
+    var filterState by rememberSaveable(stateSaver = FilterStateSaver) {
+        mutableStateOf(FilterState())
+    }
+}
+```
+
+### Pattern 2: `listSaver` — For ordered sequences
+
+```kotlin
+data class Point(val x: Float, val y: Float)
+
+val PointSaver = listSaver<Point, Float>(
+    save = { point -> listOf(point.x, point.y) },
+    restore = { list -> Point(list[0], list[1]) }
+)
+
+@Composable
+fun DrawingCanvas() {
+    var touchPoint by rememberSaveable(stateSaver = PointSaver) {
+        mutableStateOf(Point(0f, 0f))
+    }
+}
+```
+
+### Pattern 3: `Parcelable` — Auto-save without a Saver
+
+```kotlin
+@Parcelize
+data class CartItem(
+    val productId: String,
+    val quantity: Int,
+    val price: Double
+) : Parcelable   // ← @Parcelize from kotlin-parcelize plugin
+
+@Composable
+fun CartItemEditor() {
+    // Parcelable is auto-saveable — no custom Saver needed!
+    var selectedItem by rememberSaveable {
+        mutableStateOf(CartItem("prod_1", 1, 29.99))
+    }
+}
+```
+
+> [!TIP]
+> For most cases, making your UI state data classes `@Parcelize` is the simplest approach. It's faster to write than a custom Saver and handles nested Parcelable objects automatically.
+
+---
+
+## 🔄 Primitive State Types — Full Examples
+
+### `mutableIntStateOf` — Counters, indices, scores
+
+```kotlin
+@Composable
+fun QuantitySelector(
+    min: Int = 1,
+    max: Int = 99,
+    onQuantityChange: (Int) -> Unit
+) {
+    var quantity by remember { mutableIntStateOf(min) }
+
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        IconButton(
+            onClick = { if (quantity > min) { quantity--; onQuantityChange(quantity) } },
+            enabled = quantity > min
+        ) {
+            Icon(Icons.Default.Remove, "Decrease")
+        }
+
+        Text(
+            text = quantity.toString(),
+            modifier = Modifier.widthIn(min = 40.dp),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.titleLarge
+        )
+
+        IconButton(
+            onClick = { if (quantity < max) { quantity++; onQuantityChange(quantity) } },
+            enabled = quantity < max
+        ) {
+            Icon(Icons.Default.Add, "Increase")
+        }
+    }
+}
+```
+
+### `mutableFloatStateOf` — Progress, sliders, animations
+
+```kotlin
+@Composable
+fun VolumeControl() {
+    var volume by remember { mutableFloatStateOf(0.7f) }
+
+    Column {
+        Icon(
+            imageVector = when {
+                volume == 0f -> Icons.Default.VolumeOff
+                volume < 0.5f -> Icons.Default.VolumeDown
+                else -> Icons.Default.VolumeUp
+            },
+            contentDescription = "Volume: ${(volume * 100).roundToInt()}%"
+        )
+        Slider(
+            value = volume,
+            onValueChange = { volume = it },
+            valueRange = 0f..1f,
+            steps = 9  // 10% increments
+        )
+        Text("${(volume * 100).roundToInt()}%")
+    }
+}
+```
+
+### `mutableLongStateOf` — Timestamps, stopwatch
+
+```kotlin
+@Composable
+fun Stopwatch() {
+    var startTimeMs by remember { mutableLongStateOf(0L) }
+    var elapsedMs by remember { mutableLongStateOf(0L) }
+    var isRunning by remember { mutableStateOf(false) }
+
+    LaunchedEffect(isRunning) {
+        if (isRunning) {
+            startTimeMs = System.currentTimeMillis() - elapsedMs
+            while (isRunning) {
+                delay(10)   // update every 10ms
+                elapsedMs = System.currentTimeMillis() - startTimeMs
+            }
+        }
+    }
+
+    val minutes = (elapsedMs / 60_000)
+    val seconds = (elapsedMs / 1_000) % 60
+    val centiseconds = (elapsedMs / 10) % 100
+
+    Text(
+        text = "%02d:%02d.%02d".format(minutes, seconds, centiseconds),
+        style = MaterialTheme.typography.displayLarge,
+        fontFamily = FontFamily.Monospace
+    )
+}
+```
+
+---
+
+## 🧩 State for Complex Forms — Data Class Pattern
+
+```kotlin
+data class RegistrationForm(
+    val email: String = "",
+    val password: String = "",
+    val confirmPassword: String = "",
+    val acceptedTerms: Boolean = false
+) {
+    val emailError: String? get() = when {
+        email.isEmpty() -> null   // don't show error on empty
+        !email.contains("@") -> "Invalid email format"
+        else -> null
+    }
+    val passwordError: String? get() = when {
+        password.isEmpty() -> null
+        password.length < 8 -> "Password must be at least 8 characters"
+        else -> null
+    }
+    val confirmError: String? get() = when {
+        confirmPassword.isEmpty() -> null
+        confirmPassword != password -> "Passwords don't match"
+        else -> null
+    }
+    val isValid get() = email.isNotEmpty() && password.isNotEmpty() &&
+                        emailError == null && passwordError == null &&
+                        confirmError == null && acceptedTerms
+}
+
+@Composable
+fun RegistrationScreen(onRegister: (String, String) -> Unit) {
+    // One mutableStateOf for the whole form — clean and atomic updates
+    var form by remember { mutableStateOf(RegistrationForm()) }
+
+    Column(modifier = Modifier.padding(16.dp)) {
+        OutlinedTextField(
+            value = form.email,
+            onValueChange = { form = form.copy(email = it) },  // copy() creates new instance → recomposition
+            label = { Text("Email") },
+            isError = form.emailError != null,
+            supportingText = form.emailError?.let { { Text(it) } }
+        )
+        OutlinedTextField(
+            value = form.password,
+            onValueChange = { form = form.copy(password = it) },
+            label = { Text("Password") },
+            visualTransformation = PasswordVisualTransformation(),
+            isError = form.passwordError != null,
+            supportingText = form.passwordError?.let { { Text(it) } }
+        )
+        OutlinedTextField(
+            value = form.confirmPassword,
+            onValueChange = { form = form.copy(confirmPassword = it) },
+            label = { Text("Confirm Password") },
+            visualTransformation = PasswordVisualTransformation(),
+            isError = form.confirmError != null,
+            supportingText = form.confirmError?.let { { Text(it) } }
+        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Checkbox(
+                checked = form.acceptedTerms,
+                onCheckedChange = { form = form.copy(acceptedTerms = it) }
+            )
+            Text("I accept the Terms and Conditions")
+        }
+        Button(
+            onClick = { onRegister(form.email, form.password) },
+            enabled = form.isValid,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Create Account")
+        }
+    }
+}
+```
+
+---
+
+## 🔗 Connections
+
+- **Foundation**: [[States]] — Snapshot System, Slot Table, `by` delegation basics
+- **Derived state**: [[Derived State Of Computed State]] — when to compute state from other state
+- **Hoisting**: [[State Hoisting Patterns]] — when to move this state up to parent or ViewModel
+- **Coroutines in Compose**: `LaunchedEffect` and `rememberCoroutineScope` are built on the same `remember` machinery
+
+---
+
+## 💬 Interview Master Q&A
+
+**Q: What does `remember(key) { }` do when the key changes?**
+> `remember` stores the value in Compose's Slot Table associated with a call site position. When using `remember(key)`, Compose also stores the key alongside the value. On each recomposition, it compares the current key to the stored key using structural equality. If they differ, Compose invalidates the slot, runs the lambda to compute a new value, and stores both the new value and new key. This is the mechanism for resetting state when a parent-provided identifier changes — like loading a new user's data when `userId` changes.
+
+**Q: What are `@Stable` and `@Immutable` and why do they matter?**
+> These annotations are hints to the Compose compiler about how types behave. `@Immutable` is a strong promise that all public properties will never change after construction — Compose can safely skip recomposing a composable that receives an `@Immutable` parameter if its reference hasn't changed. `@Stable` is a weaker promise: if `a == b` then all public properties of `a` and `b` are also equal, and any mutations will be observable via the Snapshot System. Without these annotations on non-primitive types, Compose assumes the type is unstable and always recomposes, even when unnecessary — which can significantly hurt performance on large lists.
+
+**Q: When would you NOT use `remember`?**
+> I don't use `remember` when the value is derived directly from state or parameters that already cause recomposition, and the computation is cheap. For example, `val fullName = "$firstName $lastName"` doesn't need `remember` — the composable already recomposes when firstName or lastName change, and string concatenation is trivial. `remember` has a real cost: it allocates a slot in the Slot Table and the stored value occupies memory. Reserve it for expensive computations, observable state (`mutableStateOf`), and objects that are costly to create (Regex, Animatable, scroll state).
+
+**Q: How does a custom `Saver` work in `rememberSaveable`?**
+> A `Saver<T, Saveable>` is an object with two functions: `save(T)` which converts your custom type into a Bundle-compatible type (String, Int, Bundle, List, etc.), and `restore(Saveable)` which converts it back. When `rememberSaveable` detects a configuration change or process death, it calls `save()` to serialize your state into the Android Bundle via `onSaveInstanceState`. When the Activity/Fragment is recreated, it calls `restore()` to reconstruct your object from the Bundle. The `mapSaver` and `listSaver` helper functions make this pattern even cleaner for common cases.

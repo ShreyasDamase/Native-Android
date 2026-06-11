@@ -96,3 +96,111 @@ Last updated: 2026-06-11
 - Use `StateFlow` for UI state.
 - Use `SharedFlow` for one-time events.
 - Test coroutine code with `runTest`.
+
+
+---
+
+## 🚀 Mastery Deep Dive (Added 2026)
+
+> [!NOTE]
+> The following deep dive notes were generated to provide mastery-level understanding, complementing the original notes above.
+
+# Kotlin Coroutines — Complete Notes Index
+
+Last updated: 2026-06-11
+
+All coroutine files have been rewritten for deep mastery. Every file follows this structure:
+- 🧠 Mental Model → 🔬 Syntax Anatomy → ⚙️ Under the Hood → ✅ Correct Usage → ❌ Mistakes → 💬 Interview Q&A
+
+---
+
+## Study Order
+
+| Step | Topic | File | Depth |
+|---|---|---|---|
+| 0 | Setup, coroutine meaning, `suspend`, CPS, Continuation, state machine | [[Coroutine 00 Setup Basics Suspend]] | ⭐⭐⭐⭐⭐ |
+| 1 | Builders, dispatchers, Job lifecycle, CoroutineContext map, all scopes | [[Coroutine 01 Builders Dispatchers Scopes]] | ⭐⭐⭐⭐⭐ |
+| 2 | Structured concurrency, cancellation, CancellationException rule, NonCancellable, exception handling | [[Coroutine 02 Structured Concurrency Cancellation Exceptions]] | ⭐⭐⭐⭐⭐ |
+| 3 | Sequential vs parallel, the async trap, awaitAll, Deferred, partial success | [[Coroutine 03 Sequential Parallel Async Patterns]] | ⭐⭐⭐⭐⭐ |
+| 4 | Channels, callbackFlow, channelFlow, actor, trySend vs send | [[Coroutine 04 Channels Producer Consumer]] | ⭐⭐⭐⭐⭐ |
+| 5 | Testing with runTest, Dispatchers.setMain, Turbine, shared state, performance | [[Coroutine 05 Testing Debugging Shared State]] | ⭐⭐⭐⭐⭐ |
+| 6 | Flow basics, cold vs hot, all operators, StateFlow, SharedFlow, stateIn, shareIn | [[../Android Jetpack Flow Study Notes]] | ⭐⭐⭐⭐⭐ |
+| 7 | Collecting Flow safely in Compose, lifecycle state diagram, LaunchedEffect vs collectAsStateWithLifecycle | [[../Flow with Compose]] | ⭐⭐⭐⭐ |
+| 8 | Compose State vs coroutine StateFlow, backing property pattern, .update{} | [[../State vs StateFlow]] | ⭐⭐⭐⭐ |
+
+---
+
+## The 7 Laws You Must Never Forget
+
+1. **`suspend` does NOT mean background thread.** Dispatcher controls the thread.
+2. **`async { }.await()` is sequential.** Separate start from await for true parallelism.
+3. **Always rethrow `CancellationException`.** Never swallow it.
+4. **CPU loops must call `ensureActive()` or `yield()`.** Cancellation is cooperative.
+5. **Never use `runBlocking` in Android UI code.** Use `viewModelScope.launch`.
+6. **Use `viewLifecycleOwner.lifecycleScope` in Fragments, not `lifecycleScope`.**
+7. **`awaitClose {}` is mandatory in `callbackFlow`.** Without it, the flow ends immediately and the callback leaks.
+
+---
+
+## Quick Interview Map
+
+### `suspend` and basics
+- `suspend` = function can pause and resume without blocking thread
+- Kotlin compiler transforms `suspend` into a state machine using CPS
+- `Continuation<T>` is the "bookmark" object created by the compiler
+- `delay()` suspends coroutine; `Thread.sleep()` blocks the thread
+
+### Builders
+- `launch` → `Job` — fire and forget
+- `async` → `Deferred<T>` — for parallel results
+- `withContext` → switches dispatcher sequentially
+- `runBlocking` → blocks thread (only for tests and main())
+
+### Dispatchers
+- `Main` → 1 thread, UI only
+- `IO` → 64+ threads (elastic), for network/database/file
+- `Default` → CPU core count threads, for CPU-heavy work
+
+### Structured concurrency
+- `coroutineScope` → all-or-nothing child failures
+- `supervisorScope` → independent child failures
+- Parent waits for ALL children before completing
+
+### Cancellation
+- Cooperative — must reach a suspension point or `ensureActive()`
+- `CancellationException` must be rethrown — NEVER swallowed
+- `withContext(NonCancellable)` for cleanup in `finally`
+
+### Async Trap (most asked interview question)
+- `async { }.await()` = sequential (chained)
+- Store `Deferred`, THEN call `.await()` = parallel
+
+### Channels and Flow builders
+- `Channel` = hot queue between coroutines
+- `callbackFlow` = wrap callback APIs into Flow (needs `awaitClose`)
+- `channelFlow` = concurrent emissions from multiple coroutines
+
+### Testing
+- `Dispatchers.setMain(testDispatcher)` in `@Before`
+- `Dispatchers.resetMain()` in `@After`
+- `runTest` = virtual time, instant delays
+- `advanceUntilIdle()` = run all pending coroutines
+- `Turbine` = clean Flow assertions (`awaitItem`, `awaitComplete`, `awaitError`)
+
+### Shared state
+- Prefer confining state to one dispatcher (Main for ViewModels)
+- `StateFlow.update {}` is atomic — prefer over `.value =` for concurrent updates
+- `Mutex.withLock {}` for complex atomic operations
+
+---
+
+## Topics That Live in Other Files
+
+| Topic | File |
+|---|---|
+| Flow cold/hot, operators, combine, zip | [[../Android Jetpack Flow Study Notes]] |
+| StateFlow, SharedFlow in detail | [[../Android Jetpack Flow Study Notes]] |
+| `stateIn`, `shareIn` | [[../Android Jetpack Flow Study Notes]] |
+| Collecting Flow in Compose | [[../Flow with Compose]] |
+| Compose State vs StateFlow architecture | [[../State vs StateFlow]] |
+| Compose recomposition and State primitives | [[../States]] |
