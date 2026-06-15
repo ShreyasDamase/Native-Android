@@ -28,14 +28,17 @@
 
 ### Core State
 - [[02 State Management/02.1 Core State/Core State Overview]]
-- [[02 State Management/02.1 Core State/Compose State Fundamentals]]
-- [[02 State Management/02.1 Core State/States]]
-- [[02 State Management/02.1 Core State/Remember Mutable State Of]]
-- [[02 State Management/02.1 Core State/Derived State Of Computed State]]
-- [[02 State Management/02.1 Core State/State Hoisting Patterns]]
-- [[02 State Management/02.1 Core State/State vs StateFlow]]
-- [[02 State Management/02.1 Core State/Flow with Compose]]
-- [[02 State Management/02.1 Core State/Android Jetpack Flow Study Notes]]
+- [[02 State Management/02.1 Core State/state, stateFlow and sharedFlow/State]]
+- [[02 State Management/02.1 Core State/state, stateFlow and sharedFlow/StateFlow]]
+- [[02 State Management/02.1 Core State/state, stateFlow and sharedFlow/SharedFlow]]
+- [[02 State Management/02.1 Core State/state, stateFlow and sharedFlow/Cold Flow]]
+- [[02 State Management/02.1 Core State/state, stateFlow and sharedFlow/LiveData]]
+- [[02 State Management/02.1 Core State/state, stateFlow and sharedFlow/Comparison — State vs Flow vs StateFlow vs LiveData vs SharedFlow]]
+- [[02 State Management/02.1 Core State/state, stateFlow and sharedFlow/Snapshot Collections]]
+- [[02 State Management/02.1 Core State/state, stateFlow and sharedFlow/SavedStateHandle]]
+- [[02 State Management/02.1 Core State/state, stateFlow and sharedFlow/State Stability and Performance]]
+- [[02 State Management/02.1 Core State/state, stateFlow and sharedFlow/KMP State Management]]
+- [[02 State Management/02.1 Core State/state, stateFlow and sharedFlow/Gradle Dependencies Master List]]
 - [[02 State Management/02.1 Core State/Coroutines in Kotlin Complete Notes]]
 
 ### Side Effects

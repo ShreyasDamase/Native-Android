@@ -22,9 +22,9 @@ Last updated: 2026-06-11
 | 3 | Sequential vs parallel composition with `async` | [[Coroutine 03 Sequential Parallel Async Patterns]] | Covered |
 | 4 | Channels and producer-consumer patterns | [[Coroutine 04 Channels Producer Consumer]] | Covered |
 | 5 | Shared mutable state, testing, debugging, performance | [[Coroutine 05 Testing Debugging Shared State]] | Covered |
-| 6 | Flow basics, operators, StateFlow, SharedFlow | [[../Android Jetpack Flow Study Notes]] | Covered |
-| 7 | Collecting Flow safely in Compose | [[../Flow with Compose]] | Covered |
-| 8 | Compose `State` vs coroutine `StateFlow` | [[../State vs StateFlow]] | Covered |
+| 6 | Flow basics, operators, StateFlow, SharedFlow | [[Android Jetpack Flow Study Notes]] | Covered |
+| 7 | Collecting Flow safely in Compose | [[Flow with Compose]] | Covered |
+| 8 | Compose `State` vs coroutine `StateFlow` | [[State vs StateFlow]] | Covered |
 
 ---
 
@@ -73,9 +73,9 @@ Last updated: 2026-06-11
 
 ## What Not To Duplicate Here
 
-- Do not duplicate the full Flow guide here. Use [[../Android Jetpack Flow Study Notes]].
-- Do not duplicate Compose collection details here. Use [[../Flow with Compose]].
-- Do not duplicate State vs StateFlow architecture details here. Use [[../State vs StateFlow]].
+- Do not duplicate the full Flow guide here. Use [[Android Jetpack Flow Study Notes]].
+- Do not duplicate Compose collection details here. Use [[Flow with Compose]].
+- Do not duplicate State vs StateFlow architecture details here. Use [[State vs StateFlow]].
 - This file should stay as an index and interview map.
 
 ---
@@ -124,9 +124,9 @@ All coroutine files have been rewritten for deep mastery. Every file follows thi
 | 3 | Sequential vs parallel, the async trap, awaitAll, Deferred, partial success | [[Coroutine 03 Sequential Parallel Async Patterns]] | ⭐⭐⭐⭐⭐ |
 | 4 | Channels, callbackFlow, channelFlow, actor, trySend vs send | [[Coroutine 04 Channels Producer Consumer]] | ⭐⭐⭐⭐⭐ |
 | 5 | Testing with runTest, Dispatchers.setMain, Turbine, shared state, performance | [[Coroutine 05 Testing Debugging Shared State]] | ⭐⭐⭐⭐⭐ |
-| 6 | Flow basics, cold vs hot, all operators, StateFlow, SharedFlow, stateIn, shareIn | [[../Android Jetpack Flow Study Notes]] | ⭐⭐⭐⭐⭐ |
-| 7 | Collecting Flow safely in Compose, lifecycle state diagram, LaunchedEffect vs collectAsStateWithLifecycle | [[../Flow with Compose]] | ⭐⭐⭐⭐ |
-| 8 | Compose State vs coroutine StateFlow, backing property pattern, .update{} | [[../State vs StateFlow]] | ⭐⭐⭐⭐ |
+| 6 | Flow basics, cold vs hot, all operators, StateFlow, SharedFlow, stateIn, shareIn | [[Android Jetpack Flow Study Notes]] | ⭐⭐⭐⭐⭐ |
+| 7 | Collecting Flow safely in Compose, lifecycle state diagram, LaunchedEffect vs collectAsStateWithLifecycle | [[Flow with Compose]] | ⭐⭐⭐⭐ |
+| 8 | Compose State vs coroutine StateFlow, backing property pattern, .update{} | [[State vs StateFlow]] | ⭐⭐⭐⭐ |
 
 ---
 
@@ -198,9 +198,9 @@ All coroutine files have been rewritten for deep mastery. Every file follows thi
 
 | Topic | File |
 |---|---|
-| Flow cold/hot, operators, combine, zip | [[../Android Jetpack Flow Study Notes]] |
-| StateFlow, SharedFlow in detail | [[../Android Jetpack Flow Study Notes]] |
-| `stateIn`, `shareIn` | [[../Android Jetpack Flow Study Notes]] |
-| Collecting Flow in Compose | [[../Flow with Compose]] |
-| Compose State vs StateFlow architecture | [[../State vs StateFlow]] |
-| Compose recomposition and State primitives | [[../States]] |
+| Flow cold/hot, operators, combine, zip | [[Android Jetpack Flow Study Notes]] |
+| StateFlow, SharedFlow in detail | [[Android Jetpack Flow Study Notes]] |
+| `stateIn`, `shareIn` | [[Android Jetpack Flow Study Notes]] |
+| Collecting Flow in Compose | [[Flow with Compose]] |
+| Compose State vs StateFlow architecture | [[State vs StateFlow]] |
+| Compose recomposition and State primitives | [[States]] |

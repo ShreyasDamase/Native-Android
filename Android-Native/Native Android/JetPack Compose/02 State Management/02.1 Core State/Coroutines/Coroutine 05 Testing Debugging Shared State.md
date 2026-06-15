@@ -153,8 +153,8 @@ fun loadUsers_updatesState() = runTest {
 
 ### Flow testing belongs here and Flow notes
 
-- For Flow basics and operators, see [[../Android Jetpack Flow Study Notes]].
-- For Compose collection, see [[../Flow with Compose]].
+- For Flow basics and operators, see [[Android Jetpack Flow Study Notes]].
+- For Compose collection, see [[Flow with Compose]].
 - Flow can be tested with `toList()` or Turbine.
 
 ```kotlin
