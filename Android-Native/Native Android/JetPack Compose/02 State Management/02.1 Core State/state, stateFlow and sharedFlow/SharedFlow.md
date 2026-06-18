@@ -5,6 +5,88 @@
 
 ---
 
+## 🔍 Master Lookup Table — Find Any Concept Instantly
+
+> Click any item to jump straight to its full explanation, code example, and gotchas.
+
+### Creating & Exposing SharedFlow
+
+| API / Concept | One-Line Purpose | Jump To |
+|---|---|---|
+| `MutableSharedFlow<T>()` | Create a writable broadcast flow — no initial value required | [[#2. Creating SharedFlow\|§2 Creating SharedFlow]] |
+| `.asSharedFlow()` | Cast to read-only `SharedFlow<T>` — prevents UI from emitting | [[#2. Creating SharedFlow\|§2 Creating SharedFlow]] |
+| Backing property `_events` / `events` | Pattern: private mutable + public read-only | [[#2. Creating SharedFlow\|§2 Creating SharedFlow]] |
+| `sealed class UiEvent` | Type-safe set of one-time events (Navigate, ShowToast, etc.) | [[#2. Creating SharedFlow\|§2 Creating SharedFlow]] |
+
+### Emitting Events
+
+| API / Concept | One-Line Purpose | Jump To |
+|---|---|---|
+| `emit(value)` | Suspend function — safe, waits if buffer is full. Use inside coroutine | [[#3. Emitting Events — emit() vs tryEmit()\|§3 emit() vs tryEmit()]] |
+| `tryEmit(value)` | Non-suspending — returns `false` if buffer full. Use in callbacks | [[#3. Emitting Events — emit() vs tryEmit()\|§3 emit() vs tryEmit()]] |
+| Multiple sequential `emit()` calls | Events fire in order within the same coroutine | [[#6. Real-World Patterns\|§6 Patterns]] |
+
+### Collecting SharedFlow in UI
+
+| API / Concept | One-Line Purpose | Jump To |
+|---|---|---|
+| `LaunchedEffect + repeatOnLifecycle(STARTED)` | **Correct** way to collect events in Compose — lifecycle-safe | [[#4. Collecting SharedFlow in Compose\|§4 Collecting in Compose]] |
+| `LaunchedEffect(Unit)` | ❌ **Wrong** for events — uses composition lifecycle, not Android lifecycle | [[#4. Collecting SharedFlow in Compose\|§4 Collecting in Compose]] |
+| `collectAsStateWithLifecycle()` | ❌ **Wrong** for SharedFlow events — treats one-time event as state | [[#4. Collecting SharedFlow in Compose\|§4 Collecting in Compose]] |
+| `repeatOnLifecycle + collect` | Correct way to collect in XML Fragment/Activity | [[#4. Collecting SharedFlow in Compose\|§4 Collecting in Compose]] |
+
+### Configuration Parameters
+
+| Parameter | One-Line Purpose | Jump To |
+|---|---|---|
+| `replay = 0` (default) | New collectors miss past events — pure event bus | [[#5. SharedFlow Configuration\|§5 Configuration]] |
+| `replay = 1` | New collectors get the last emission — use StateFlow instead if this is needed | [[#5. SharedFlow Configuration\|§5 Configuration]] |
+| `replay = N` | New collectors get last N emissions — log/notification history | [[#5. SharedFlow Configuration\|§5 Configuration]] |
+| `extraBufferCapacity` | How many events can queue up before emitter suspends | [[#5. SharedFlow Configuration\|§5 Configuration]] |
+| `BufferOverflow.SUSPEND` (default) | `emit()` suspends when buffer is full | [[#5. SharedFlow Configuration\|§5 Configuration]] |
+| `BufferOverflow.DROP_OLDEST` | Drop oldest buffered event to make room for new one | [[#5. SharedFlow Configuration\|§5 Configuration]] |
+| `BufferOverflow.DROP_LATEST` | Drop the incoming new event when buffer is full | [[#5. SharedFlow Configuration\|§5 Configuration]] |
+
+### Real-World Event Patterns
+
+| Pattern | One-Line Purpose | Jump To |
+|---|---|---|
+| Delete + Undo Snackbar | Emit event with payload to show undo action | [[#6. Real-World Patterns\|§6 Patterns]] |
+| Form submit → navigate back | Emit success event to trigger navigation | [[#6. Real-World Patterns\|§6 Patterns]] |
+| Multiple sequential events | Dismiss dialog → show loading → hide loading → navigate | [[#6. Real-World Patterns\|§6 Patterns]] |
+| One-Time Events Architecture | ViewModel: StateFlow for state + SharedFlow for events | [[#7. One-Time Events Architecture\|§7 Events Architecture]] |
+
+### The Core Decision
+
+| Question | Answer | Jump To |
+|---|---|---|
+| Should it survive screen rotation and re-show? | ✅ StateFlow | [[#1. StateFlow vs SharedFlow — The Decision\|§1 Decision]] |
+| Should it fire once and never repeat? | ✅ SharedFlow (replay=0) | [[#1. StateFlow vs SharedFlow — The Decision\|§1 Decision]] |
+| Navigation event | ✅ SharedFlow | [[#1. StateFlow vs SharedFlow — The Decision\|§1 Decision]] |
+| Toast / Snackbar (temporary) | ✅ SharedFlow | [[#1. StateFlow vs SharedFlow — The Decision\|§1 Decision]] |
+| Persistent error text in form | ✅ StateFlow (it's display state) | [[#7. One-Time Events Architecture\|§7 Events Architecture]] |
+| Loading indicator | ✅ StateFlow | [[#1. StateFlow vs SharedFlow — The Decision\|§1 Decision]] |
+
+### Comparisons
+
+| Comparison | Jump To |
+|---|---|
+| SharedFlow vs StateFlow | [[#1. StateFlow vs SharedFlow — The Decision\|§1 Decision]] |
+| SharedFlow vs Channel | [[#8. SharedFlow vs Channel\|§8 vs Channel]] |
+| emit() vs tryEmit() | [[#3. Emitting Events — emit() vs tryEmit()\|§3 Emitting]] |
+
+### Common Mistakes (Quick Reference)
+
+| Mistake | Fix | Jump To |
+|---|---|---|
+| `collectAsStateWithLifecycle()` for events | Use `LaunchedEffect + repeatOnLifecycle + collect` | [[#9. Common Mistakes\|§9 Mistakes]] |
+| `emit()` outside a coroutine | Wrap in `viewModelScope.launch { }` | [[#9. Common Mistakes\|§9 Mistakes]] |
+| StateFlow for navigation (re-navigates on rotation) | Use `SharedFlow(replay=0)` | [[#9. Common Mistakes\|§9 Mistakes]] |
+| Exposing `MutableSharedFlow` publicly | Private `_events`, public `events = _events.asSharedFlow()` | [[#9. Common Mistakes\|§9 Mistakes]] |
+| `SharedFlow(replay=1)` when you mean StateFlow | Use `StateFlow` — it's clearer and has an initial value | [[#9. Common Mistakes\|§9 Mistakes]] |
+
+---
+
 ## 🧠 Mental Model — Read This First
 
 **SharedFlow is a loudspeaker.**

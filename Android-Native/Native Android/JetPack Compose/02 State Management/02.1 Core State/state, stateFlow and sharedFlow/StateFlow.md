@@ -5,6 +5,93 @@
 
 ---
 
+## 🔍 Master Lookup Table — Find Any Concept Instantly
+
+> Click any item to jump straight to its full explanation, code example, and gotchas.
+
+### Creating & Exposing StateFlow
+
+| API / Concept | One-Line Purpose | Jump To |
+|---|---|---|
+| `MutableStateFlow(initial)` | Create a writable state holder with an initial value | [[#2. MutableStateFlow vs StateFlow\|§2 MutableStateFlow vs StateFlow]] |
+| `.asStateFlow()` | Cast to read-only `StateFlow<T>` — zero-cost compile-time contract | [[#2. MutableStateFlow vs StateFlow\|§2 MutableStateFlow vs StateFlow]] |
+| Backing property `_x` / `x` | Pattern: private mutable + public read-only | [[#3. ViewModel Integration & Lifecycle\|§3 ViewModel]] |
+| `@HiltViewModel` + `@Inject` | Inject dependencies into ViewModel using Hilt | [[#3. ViewModel Integration & Lifecycle\|§3 ViewModel]] |
+
+### Reading / Collecting StateFlow in UI
+
+| API / Concept                   | One-Line Purpose                                                     | Jump To                                                        |
+| ------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------- |
+| `collectAsStateWithLifecycle()` | Collect StateFlow in Compose, lifecycle-aware (pauses in background) | [[#4. Collecting StateFlow in Compose\|§4 Collecting in Compose]] |
+| `collectAsState()`              | Collect StateFlow in Compose — NOT lifecycle-aware (KMP use only)    | [[#4. Collecting StateFlow in Compose\|§4 Collecting in Compose]] |
+| `by` delegation                 | Unwraps `State<T>` → `T` automatically — no `.value` needed          | [[#4. Collecting StateFlow in Compose\|§4 Collecting in Compose]] |
+| `repeatOnLifecycle(STARTED)`    | Lifecycle-safe collection in XML (Fragment/Activity)                 | [[#4b. Collecting in XML (Fragment/Activity)\|§4b XML Collection]] |
+
+### Writing / Updating State
+
+| API / Concept | One-Line Purpose | Jump To |
+|---|---|---|
+| `_x.value = newValue` | Direct assignment — fine for simple single-threaded updates | [[#6. copy() and update{}\|§6 copy() and update{}]] |
+| `_x.update { it.copy(...) }` | Thread-safe atomic update — preferred in concurrent ViewModels | [[#6. copy() and update{}\|§6 copy() and update{}]] |
+| `data class.copy()` | Create a new immutable state object with only selected fields changed | [[#6. copy() and update{}\|§6 copy() and update{}]] |
+| Immutable `val` fields in UiState | Required so StateFlow can detect changes via equality | [[#5. Immutable UiState Pattern\|§5 Immutable UiState]] |
+
+### UiState Patterns
+
+| Pattern | One-Line Purpose | Jump To |
+|---|---|---|
+| Single `data class` UiState | Group all screen state into one object — atomic, consistent updates | [[#5. Immutable UiState Pattern\|§5 Immutable UiState]] |
+| `sealed interface UiState` | Mutually exclusive states (Loading/Success/Error) — impossible combos prevented by type system | [[#8. Sealed Class UiState (Loading / Success / Error)\|§8 Sealed Class UiState]] |
+| `StateFlow<Boolean>` (loading flag) | Simple boolean flag inside a data class UiState | [[#5. Immutable UiState Pattern\|§5 Immutable UiState]] |
+| `combine()` for derived state | Combine 2+ StateFlows into one derived StateFlow (e.g., form validity) | [[#11. Multiple StateFlows & Form Validation\|§11 Form Validation]] |
+
+### Equality & Emission Behavior
+
+| Behavior | One-Line Explanation | Jump To |
+|---|---|---|
+| Structural equality check `==` | StateFlow suppresses emission if `newValue == oldValue` | [[#7. StateFlow Equality Behavior\|§7 Equality Behavior]] |
+| Data class `==` checks all fields | Changing even one field triggers emission | [[#7. StateFlow Equality Behavior\|§7 Equality Behavior]] |
+| Mutating a field (var) silently fails | Same object reference → `==` true → NO emission | [[#7. StateFlow Equality Behavior\|§7 Equality Behavior]] |
+| Replay = 1 (always) | New collectors immediately get the latest value | [[#14. StateFlow Internals\|§14 Internals]] |
+
+### Cold Flow → StateFlow Conversion
+
+| API / Concept | One-Line Purpose | Jump To |
+|---|---|---|
+| `.stateIn(scope, started, initial)` | Convert a cold `Flow<T>` → `StateFlow<T>` — single shared upstream | [[#9. Converting Flow → StateFlow with stateIn\|§9 stateIn]] |
+| `SharingStarted.WhileSubscribed(5000)` | Standard for Android — starts on first collector, stops 5s after last leaves | [[#9. Converting Flow → StateFlow with stateIn\|§9 stateIn]] |
+| `SharingStarted.Eagerly` | Start immediately on creation, never stop | [[#9. Converting Flow → StateFlow with stateIn\|§9 stateIn]] |
+| `SharingStarted.Lazily` | Start on first collector, never stop | [[#9. Converting Flow → StateFlow with stateIn\|§9 stateIn]] |
+
+### Operators on StateFlow
+
+| Operator | One-Line Purpose | Jump To |
+|---|---|---|
+| `.map { }` | Derive a new StateFlow by transforming each value (needs `.stateIn`) | [[#10. StateFlow Operators\|§10 Operators]] |
+| `combine(f1, f2) { }` | Merge 2+ flows, emit when either changes | [[#10. StateFlow Operators\|§10 Operators]] |
+| `.flatMapLatest { }` | Cancel old inner flow when new value arrives (search use case) | [[#10. StateFlow Operators\|§10 Operators]] |
+| `.distinctUntilChanged()` | Already built into StateFlow — no need to add manually | [[#10. StateFlow Operators\|§10 Operators]] |
+
+### Comparisons
+
+| Comparison | Jump To |
+|---|---|
+| StateFlow vs LiveData | [[#12. StateFlow vs LiveData\|§12 vs LiveData]] |
+| StateFlow vs SharedFlow | [[#13. StateFlow vs SharedFlow\|§13 vs SharedFlow]] |
+| StateFlow vs MutableState (Compose) | [[#16. Interview Q&A\|§16 Interview Q&A]] |
+
+### Common Mistakes (Quick Reference)
+
+| Mistake | Fix | Jump To |
+|---|---|---|
+| Mutating `var` field directly on UiState | Use `val` + `.copy()` + `.update{}` | [[#15. Common Mistakes\|§15 Mistakes]] |
+| Exposing `MutableStateFlow` publicly | Private `_x`, public `x = _x.asStateFlow()` | [[#15. Common Mistakes\|§15 Mistakes]] |
+| `collectAsState()` instead of `collectAsStateWithLifecycle()` | Use `collectAsStateWithLifecycle()` on Android | [[#15. Common Mistakes\|§15 Mistakes]] |
+| StateFlow for one-time events (navigation, toast) | Use `SharedFlow` with `replay=0` | [[#15. Common Mistakes\|§15 Mistakes]] |
+| No initial value | `MutableStateFlow` always requires an initial value | [[#15. Common Mistakes\|§15 Mistakes]] |
+
+---
+
 ## 🧠 Mental Model — Read This First
 
 **StateFlow = a storage box that always has a value inside.**
