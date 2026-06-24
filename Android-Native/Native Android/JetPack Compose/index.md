@@ -219,5 +219,44 @@
 ## 06 Network
 - [[06 Network/Retrofit]]
 
+## 07 Animation
+
+→ [[07 Animation/Index|🎬 Animation Master Index]]
+
+### Foundations
+- [[07 Animation/00 Animation Mindset|🎯 Animation Mindset — How to Think in Animations]]
+- [[07 Animation/01 Animation Glossary|📖 Animation Glossary — Every Term You Must Know]]
+- [[07 Animation/02 Animation Decision Tree|🗺️ Decision Tree — Which API to Use When]]
+
+### High-Level APIs
+- [[07 Animation/03 High Level APIs/01 animate-AsState|animate\*AsState — Animate Any Value]]
+- [[07 Animation/03 High Level APIs/02 AnimatedVisibility|AnimatedVisibility — Show & Hide]]
+- [[07 Animation/03 High Level APIs/03 AnimatedContent|AnimatedContent — Swap Content]]
+
+### Low-Level APIs
+- [[07 Animation/04 Low Level APIs/01 Animatable|Animatable — The Powerhouse]]
+
+### Transitions
+- [[07 Animation/05 Transitions/01 updateTransition|updateTransition — Multi-Property]]
+- [[07 Animation/05 Transitions/02 rememberInfiniteTransition|rememberInfiniteTransition — Loop Forever]]
+
+### AnimationSpec & Easing
+- [[07 Animation/06 AnimationSpec/06 AnimationSpec Comparison|AnimationSpec Complete Reference]]
+- [[07 Animation/07 Easing/02 Built-in Easings|Built-in Easing Functions]]
+
+### Modifier & Canvas
+- [[07 Animation/09 Modifier Animations/01 graphicsLayer|graphicsLayer — Scale, Rotate, Alpha]]
+- [[07 Animation/10 Canvas Animations/04 Analog Clock|🕐 Analog Clock Animation]]
+- [[07 Animation/10 Canvas Animations/05 Digital Clock Effect|🔢 Digital Clock Flip Effect]]
+
+### Recipes
+- [[07 Animation/12 Recipes/01 Shimmer Effect|✨ Shimmer Loading Skeleton]]
+- [[07 Animation/12 Recipes/05 Animated Switch|🔘 Animated Switch / Toggle]]
+
+### Reference
+- [[07 Animation/14 Reference/API Cheat Sheet|📋 API Cheat Sheet]]
+- [[07 Animation/14 Reference/Common Mistakes|❌ Common Mistakes & Fixes]]
+- [[07 Animation/13 Performance/01 Animation Performance|⚡ Animation Performance]]
+
 ---
 - [[Goal]]

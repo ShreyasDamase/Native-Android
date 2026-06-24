@@ -4,137 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "3bd80358e624cebc",
+        "id": "cf2caea9a4054994",
         "type": "tabs",
         "children": [
           {
-            "id": "fb3af0575fed4855",
+            "id": "6afa6abd7f24cc41",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow/Cold Flow.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Cold Flow"
-            }
-          },
-          {
-            "id": "1c36a990ad10533a",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Android-Native/Native Android/Projects/Birthday Counter/Untitled.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Untitled"
-            }
-          },
-          {
-            "id": "34f2cf349274f106",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow/SharedFlow.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "SharedFlow"
-            }
-          },
-          {
-            "id": "d68a4a9589d601c5",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow/Cold Flow.md",
+                "file": "Android-Native/Native Android/JetPack Compose/07 Animation/00 Animation Mindset.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Cold Flow"
-            }
-          },
-          {
-            "id": "9907faea661e508b",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow/Cold Flow.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Cold Flow"
-            }
-          },
-          {
-            "id": "760fda4c7d275709",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow/Cold Flow.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Cold Flow"
-            }
-          },
-          {
-            "id": "d825fe5ec5411b06",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow/Cold Flow.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Cold Flow"
-            }
-          },
-          {
-            "id": "e15a7888bd638eef",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow/Cold Flow.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Cold Flow"
-            }
-          },
-          {
-            "id": "828af95fb1de5ef8",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow/Cold Flow.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Cold Flow"
+              "title": "00 Animation Mindset"
             }
           }
-        ],
-        "currentTab": 8
+        ]
       }
     ],
     "direction": "vertical"
@@ -191,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 532.5027122497559
+    "width": 431.50271224975586
   },
   "right": {
     "id": "c63af25f850b8f88",
@@ -295,55 +182,55 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "828af95fb1de5ef8",
+  "active": "1d05924b57b153dc",
   "lastOpenFiles": [
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow/StateFlow.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow/SharedFlow.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow/Cold Flow.md",
-    "Android-Native/Native Android/Projects/Birthday Counter/System Design/featuresDiagram.excalidraw.md",
-    "Android-Native/Native Android/Projects/Birthday Counter/Untitled.md",
-    "Android-Native/Native Android/Projects/Birthday Counter/System Design",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow/Comparison — State vs Flow vs StateFlow vs LiveData vs SharedFlow.md",
-    "Android-Native/Native Android/Projects/Birthday Counter",
-    "Android-Native/Native Android/Projects/Project list.md",
-    "Android-Native/Native Android/Projects/Complete Knowledge Roadmap — P2P WiFi Communication App.md",
-    "Android-Native/Native Android/Projects/codepet.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow/State Stability and Performance.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow/State.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow/Snapshot Collections.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow/LiveData.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow/KMP State Management.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow/SavedStateHandle.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow/Gradle Dependencies Master List.md",
-    "Android-Native/Native Android/JetPack Compose/01 Fundamentals/01.2 Composable Functions/Composable Lifecycle.md",
-    "Android-Native/Native Android/JetPack Compose/01 Fundamentals/01.1 Architecture/Compose Compiler Runtime.md",
-    "Android-Native/Native Android/JetPack Compose/01 Fundamentals/01.1 Architecture/Android Jetpack Compose Folder Structure Reference.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.2 Side Effects/Derived State Of.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.2 Side Effects/Remember Coroutine Scope.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.2 Side Effects/Produce State.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.2 Side Effects/Disposable Effect.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.2 Side Effects/Launched Effect Disposable Effect.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.2 Side Effects/Remember Updated State.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.2 Side Effects/Side Effect Produce State.md",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/state, stateFlow and sharedFlow",
-    "Android-Native/Native Android/Notification/LocalNotification",
-    "Android-Native/Native Android/Notification",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.1 Core State/Channel 1",
-    "Native Android/JetPack Compose/02 State Management/02.1 Core State",
-    "Native Android/JetPack Compose/02 State Management",
-    "Native Android/JetPack Compose",
-    "Native Android",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.3 Dependency Injection/Pasted image 20260304075342.png",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 6 — 3D and Advanced/04 Project — Icosphere.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 6 — 3D and Advanced/03 Geodesic Polyhedron.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 6 — 3D and Advanced/02 Normals and Lighting.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 6 — 3D and Advanced/01 3D Projection Math.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 6 — 3D and Advanced",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 5 — Matrix Math/04 Project — 3D Cube Projection.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 5 — Matrix Math/03 Composing Transforms.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 5 — Matrix Math/02 Rotation Matrix.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 5 — Matrix Math/01 What is a Matrix.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 5 — Matrix Math",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 4 — Interpolation and Curves/04 Project — Elastic Motion.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 4 — Interpolation and Curves/03 Easing Functions as Math.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 4 — Interpolation and Curves/02 Bezier Curves.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 4 — Interpolation and Curves/01 Linear Interpolation (lerp).md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 4 — Interpolation and Curves",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 3 — Coordinate Transforms/04 Project — Solar System.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 3 — Coordinate Transforms/03 Scale.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 3 — Coordinate Transforms/02 Rotation.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 3 — Coordinate Transforms/01 Translation.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 3 — Coordinate Transforms",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 2 — Vectors/04 Project — Radar Screen.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 2 — Vectors/03 Normalize and Direction.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 2 — Vectors/02 Vector Math (Add, Scale, Dot).md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 2 — Vectors/01 What is a Vector.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 2 — Vectors",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 1 — Trigonometry Core/06 Project — Analog Clock.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 1 — Trigonometry Core/05 Oscillation Patterns.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 1 — Trigonometry Core/04 Polar Coordinates.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 1 — Trigonometry Core/03 Radians vs Degrees.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 1 — Trigonometry Core/02 Sine and Cosine.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 1 — Trigonometry Core/01 Unit Circle.md",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math/Phase 1 — Trigonometry Core",
+    "Android-Native/Native Android/JetPack Compose/08 Graphics Math",
+    "Android-Native/Native Android/JetPack Compose/07 Animation/13 Performance",
+    "Android-Native/Native Android/JetPack Compose/07 Animation/14 Reference",
+    "Android-Native/Native Android/JetPack Compose/07 Animation/10 Canvas Animations",
     "Android-Native/Native Android/Android Basis/MainActivity.canvas",
-    "Android-Native/Native Android/JetPack Compose/02 State Management/02.3 DI/Pasted image 20260304075342.png",
-    "Android-Native/Native Android/JetPack Compose/02-State-Management/02.3-DI/Pasted image 20260304075342.png",
-    "Android-Native/docs/components/assets/datepicker/modaldateinput.png",
-    "Android-Native/docs/components/assets/datepicker/dockeddatepicker-anatomy1.png",
-    "Android-Native/docs/components/assets/bottomsheet/bottomsheet-standard1.png",
-    "Android-Native/docs/components/assets/bottomsheet/bottomsheet-anatomy.png",
-    "Android-Native/docs/components/assets/bottomappbar/bottom-app-bar-hero.png",
-    "Android-Native/docs/components/assets/bottomappbar/bottomappbar-theming.png",
-    "Pasted Image 20260608061340_965.png",
+    "ChatGPT Image Jun 20, 2026, 06_38_54 PM.png",
+    "ChatGPT Image Jun 20, 2026, 06_28_11 PM.png",
+    "ChatGPT Image Jun 20, 2026, 06_42_53 PM.png",
+    "ChatGPT Image Jun 20, 2026, 04_55_46 PM.png",
+    "ChatGPT Image Jun 20, 2026, 04_51_35 PM.png",
+    "ChatGPT Image Jun 20, 2026, 04_48_25 PM.png",
+    "ChatGPT Image Jun 20, 2026, 04_48_08 PM.png",
+    "Pasted Image 20260620164247_315.png",
+    "Screenshot 2026-06-20 at 4.21.30 PM.png",
+    "ChatGPT Image Jun 18, 2026, 02_39_38 PM.png",
     "Untitled.canvas",
     "Untitled 1.canvas",
     "Android-Native/Untitled.canvas"

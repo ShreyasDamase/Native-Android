@@ -603,7 +603,7 @@ app.get('/health', (req, res) => {
 ```kotlin
 // Spring Boot version (what you are learning)
 
-// src/main/kotlin/com/example/deliveryapp/controller/HealthController.kt
+// src/main/kotlin/com/example/deliveryapp/controller/R.kt
 
 package com.example.deliveryapp.controller
 
@@ -619,8 +619,7 @@ import java.time.LocalDateTime
 
 // All methods in this class are under /health path
 // Combined with server.servlet.context-path: /api from yml
-// This becomes GET /api/health
-@RequestMapping("/health")
+he
 class HealthController {
 
     // Handles GET /api/health
